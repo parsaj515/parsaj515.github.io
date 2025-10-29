@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeCracker | Science Olympiad Practice</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --warning: #ff9e00;
+            --gradient: linear-gradient(135deg, #4361ee, #3a0ca3);
+            --gradient-accent: linear-gradient(135deg, #f72585, #b5179e);
+            --shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 15px 30px rgba(0, 0, 0, 0.15);
+            --radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header Styles */
+        header {
+            background: var(--gradient);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .tagline {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        .nav-tabs {
+            display: flex;
+            list-style: none;
+            gap: 0.25rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-tab {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: var(--transition);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            font-size: 0.9rem;
+        }
+
+        .nav-tab:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .nav-tab.active {
+            background: var(--accent);
+            box-shadow: 0 4px 10px rgba(247, 37, 133, 0.3);
+        }
+
+        .nav-tab i {
+            font-size: 1rem;
+        }
+
+        /* Main Content */
+        main {
+            padding: 2rem 0;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Card Styles */
+        .card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
+            flex-shrink: 0;
+        }
+
+        .card h2 {
+            color: var(--secondary);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card p {
+            color: #6c757d;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Cipher Grid */
+        .cipher-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .cipher-card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .cipher-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .cipher-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
+            flex-shrink: 0;
+        }
+
+        .cipher-card h3 {
+            color: var(--secondary);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .cipher-card p {
+            color: #6c757d;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
+            font-size: 0.9rem;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(67, 97, 238, 0.4);
+        }
+
+        .btn-accent {
+            background: var(--gradient-accent);
+            box-shadow: 0 4px 10px rgba(247, 37, 133, 0.3);
+        }
+
+        .btn-accent:hover {
+            box-shadow: 0 6px 15px rgba(247, 37, 133, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #4cc9f0, #4895ef);
+            box-shadow: 0 4px 10px rgba(76, 201, 240, 0.3);
+        }
+
+        /* Inputs */
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        textarea, input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: var(--transition);
+            resize: vertical;
+        }
+
+        textarea:focus, input[type="text"]:focus, input[type="number"]:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+            outline: none;
+        }
+
+        /* Results */
+        .result {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            background: #f8f9fa;
+            border-left: 5px solid var(--primary);
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .result.success {
+            border-left-color: var(--success);
+            background: #e8f7ff;
+        }
+
+        .result.error {
+            border-left-color: var(--accent);
+            background: #ffe8f1;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 992px) {
+            .cipher-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo {
+                flex-direction: column;
+            }
+            
+            .menu-toggle {
+                display: block;
+                position: absolute;
+                top: 1.5rem;
+                right: 1rem;
+            }
+            
+            nav {
+                width: 100%;
+                display: none;
+                border-radius: 12px;
+                margin-top: 1rem;
+            }
+            
+            nav.active {
+                display: block;
+            }
+            
+            .nav-tabs {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .nav-tab {
+                justify-content: center;
+                border-radius: 8px;
+            }
+            
+            .card-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            
+            .cipher-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 0.75rem;
+            }
+            
+            .card {
+                padding: 1rem;
+            }
+            
+            .cipher-card {
+                padding: 1rem;
+            }
+            
+            .card-icon, .cipher-icon {
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+            }
+            
+            .logo-text {
+                font-size: 1.3rem;
+            }
+            
+            .tagline {
+                font-size: 0.8rem;
+            }
+            
+            .btn {
+                padding: 10px 16px;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .logo-text {
+                font-size: 1.1rem;
+            }
+            
+            .card h2 {
+                font-size: 1.3rem;
+            }
+            
+            .cipher-card h3 {
+                font-size: 1.1rem;
+            }
+            
+            .nav-tab {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div>
+                        <h1 class="logo-text">CodeCracker</h1>
+                        <p class="tagline">Master the Art of Codebreaking</p>
+                    </div>
+                </div>
+                
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <nav id="mainNav">
+                    <ul class="nav-tabs">
+                        <li class="nav-tab active" data-tab="home">
+                            <i class="fas fa-home"></i>
+                            <span>Home</span>
+                        </li>
+                        <li class="nav-tab" data-tab="aristocrat">
+                            <i class="fas fa-user-secret"></i>
+                            <span>Aristocrat</span>
+                        </li>
+                        <li class="nav-tab" data-tab="patristocrat">
+                            <i class="fas fa-user-ninja"></i>
+                            <span>Patristocrat</span>
+                        </li>
+                        <li class="nav-tab" data-tab="morse">
+                            <i class="fas fa-wave-square"></i>
+                            <span>Morse Code</span>
+                        </li>
+                        <li class="nav-tab" data-tab="atbash">
+                            <i class="fas fa-exchange-alt"></i>
+                            <span>Atbash</span>
+                        </li>
+                        <li class="nav-tab" data-tab="caesar">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Caesar</span>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Home Tab -->
+        <section id="home" class="tab-content active">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-key"></i>
+                    </div>
+                    <div>
+                        <h2>Welcome to CodeCracker</h2>
+                        <p>Your premier destination for Science Olympiad Codebusters practice</p>
+                    </div>
+                </div>
+                <p>Sharpen your codebreaking skills with our interactive practice platform. Whether you're a beginner or an experienced codebuster, we have exercises to challenge and improve your abilities.</p>
+                <button class="btn btn-accent">
+                    <i class="fas fa-play"></i>
+                    Start Practicing
+                </button>
+            </div>
+
+            <h2 style="color: var(--secondary); margin-bottom: 1.5rem;">Practice Cipher Types</h2>
+            <div class="cipher-grid">
+                <div class="cipher-card">
+                    <div class="cipher-icon">
+                        <i class="fas fa-user-secret"></i>
+                    </div>
+                    <h3>Aristocrat Ciphers</h3>
+                    <p>Monographic substitution ciphers where word spacing and punctuation are preserved. Perfect for beginners!</p>
+                    <button class="btn practice-btn" data-tab="aristocrat">
+                        <i class="fas fa-arrow-right"></i>
+                        Practice Now
+                    </button>
+                </div>
+                
+                <div class="cipher-card">
+                    <div class="cipher-icon">
+                        <i class="fas fa-user-ninja"></i>
+                    </div>
+                    <h3>Patristocrat Ciphers</h3>
+                    <p>Similar to Aristocrats but without word spacing, making them more challenging. Test your skills!</p>
+                    <button class="btn practice-btn" data-tab="patristocrat">
+                        <i class="fas fa-arrow-right"></i>
+                        Practice Now
+                    </button>
+                </div>
+                
+                <div class="cipher-card">
+                    <div class="cipher-icon">
+                        <i class="fas fa-wave-square"></i>
+                    </div>
+                    <h3>Morse Code</h3>
+                    <p>Encode and decode messages using sequences of dots and dashes. A classic communication method.</p>
+                    <button class="btn practice-btn" data-tab="morse">
+                        <i class="fas fa-arrow-right"></i>
+                        Practice Now
+                    </button>
+                </div>
+                
+                <div class="cipher-card">
+                    <div class="cipher-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <h3>Atbash Cipher</h3>
+                    <p>A simple substitution cipher where each letter is reversed (A=Z, B=Y, etc.). Easy to learn!</p>
+                    <button class="btn practice-btn" data-tab="atbash">
+                        <i class="fas fa-arrow-right"></i>
+                        Practice Now
+                    </button>
+                </div>
+                
+                <div class="cipher-card">
+                    <div class="cipher-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Caesar Cipher</h3>
+                    <p>A shift cipher where each letter is shifted a fixed number of positions in the alphabet.</p>
+                    <button class="btn practice-btn" data-tab="caesar">
+                        <i class="fas fa-arrow-right"></i>
+                        Practice Now
+                    </button>
+                </div>
+                
+                <div class="cipher-card">
+                    <div class="cipher-icon">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <h3>Affine Cipher</h3>
+                    <p>A monoalphabetic substitution cipher that uses mathematical functions for encryption.</p>
+                    <button class="btn practice-btn" data-tab="affine">
+                        <i class="fas fa-arrow-right"></i>
+                        Practice Now
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Aristocrat Cipher Tab -->
+        <section id="aristocrat" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-user-secret"></i>
+                    </div>
+                    <div>
+                        <h2>Aristocrat Cipher Practice</h2>
+                        <p>Decode the message below by figuring out the substitution pattern</p>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="aristocrat-cipher">Cipher Text:</label>
+                    <textarea id="aristocrat-cipher" rows="4">ZPV DBO VTF UIJT DJQIFS UP FOE DSZQUFOHFE NFTTBHFT. JU JT B TJNQMF TVCTUJUVUJPO DJQIFS XJUI XPSET QBSUJBMMZ TFSQBSBUFE.</textarea>
+                </div>
+                
+                <div class="input-group">
+                    <label for="aristocrat-solution">Your Solution:</label>
+                    <input type="text" id="aristocrat-solution" placeholder="Enter decrypted text here">
+                </div>
+                
+                <button class="btn btn-success" id="check-aristocrat">
+                    <i class="fas fa-check"></i>
+                    Check Solution
+                </button>
+                
+                <div id="aristocrat-result" class="result"></div>
+            </div>
+        </section>
+
+        <!-- Patristocrat Cipher Tab -->
+        <section id="patristocrat" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-user-ninja"></i>
+                    </div>
+                    <div>
+                        <h2>Patristocrat Cipher Practice</h2>
+                        <p>Decode the message without word spacing to make it more challenging</p>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="patristocrat-cipher">Cipher Text:</label>
+                    <textarea id="patristocrat-cipher" rows="4">UIJTJTBQBUSJTUPDSBUDJQIFSXJUIPVUXPSETQBSUJOHJUJTNPSFEJGGJDVMUUIBOB SJTUPDSBUCFDBVTFZPVDBOOPUVTFXPSETQBSUJOHUPIFMQZPVTPMWFJU</textarea>
+                </div>
+                
+                <div class="input-group">
+                    <label for="patristocrat-solution">Your Solution:</label>
+                    <input type="text" id="patristocrat-solution" placeholder="Enter decrypted text here">
+                </div>
+                
+                <button class="btn btn-success" id="check-patristocrat">
+                    <i class="fas fa-check"></i>
+                    Check Solution
+                </button>
+                
+                <div id="patristocrat-result" class="result"></div>
+            </div>
+        </section>
+
+        <!-- Morse Code Tab -->
+        <section id="morse" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-wave-square"></i>
+                    </div>
+                    <div>
+                        <h2>Morse Code Practice</h2>
+                        <p>Decode the message using Morse code patterns</p>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="morse-cipher">Morse Code:</label>
+                    <textarea id="morse-cipher" rows="4">-- --- .-. ... . / -.-. --- -.. . / .. ... / ..- ... . -.. / ..-. --- .-. / - . .-.. . --. .-. .- .--. .... ...</textarea>
+                </div>
+                
+                <div class="input-group">
+                    <label for="morse-solution">Your Solution:</label>
+                    <input type="text" id="morse-solution" placeholder="Enter decoded text here">
+                </div>
+                
+                <button class="btn btn-success" id="check-morse">
+                    <i class="fas fa-check"></i>
+                    Check Solution
+                </button>
+                
+                <div id="morse-result" class="result"></div>
+            </div>
+        </section>
+
+        <!-- Other cipher tabs would follow similar structure -->
+        <!-- For brevity, I've included only a few examples -->
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-lock"></i>
+                    <span>CodeCracker</span>
+                </div>
+                <div class="footer-links">
+                    <a href="#">About</a>
+                    <a href="#">Resources</a>
+                    <a href="#">Science Olympiad</a>
+                    <a href="#">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const mainNav = document.getElementById('mainNav');
+        
+        menuToggle.addEventListener('click', () => {
+            mainNav.classList.toggle('active');
+            menuToggle.innerHTML = mainNav.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Tab navigation
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and content
+                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding content
+                tab.classList.add('active');
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+                
+                // Close mobile menu after selection
+                if (window.innerWidth <= 768) {
+                    mainNav.classList.remove('active');
+                    menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+            });
+        });
+        
+        // Practice buttons on home page
+        document.querySelectorAll('.practice-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.getAttribute('data-tab');
+                
+                // Remove active class from all tabs and content
+                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Add active class to selected tab and content
+                document.querySelector(`.nav-tab[data-tab="${tabId}"]`).classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+                
+                // Close mobile menu after selection
+                if (window.innerWidth <= 768) {
+                    mainNav.classList.remove('active');
+                    menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+            });
+        });
+        
+        // Aristocrat Check
+        document.getElementById('check-aristocrat').addEventListener('click', () => {
+            const solution = document.getElementById('aristocrat-solution').value.trim().toUpperCase();
+            const resultDiv = document.getElementById('aristocrat-result');
+            
+            if (solution === "YOU CAN USE THIS CIPHER TO ENCODE CRYPTOGRAPHED MESSAGES. IT IS A SIMPLE SUBSTITUTION CIPHER WITH WORDS PARTIALLY SEPARATED.") {
+                resultDiv.textContent = "✅ Correct! Well done! You've successfully decoded the Aristocrat cipher.";
+                resultDiv.className = "result success";
+            } else {
+                resultDiv.textContent = "❌ Not quite. Try again! Look for common words and letter frequency patterns.";
+                resultDiv.className = "result error";
+            }
+            
+            resultDiv.style.display = "block";
+        });
+        
+        // Patristocrat Check
+        document.getElementById('check-patristocrat').addEventListener('click', () => {
+            const solution = document.getElementById('patristocrat-solution').value.trim().toUpperCase();
+            const resultDiv = document.getElementById('patristocrat-result');
+            
+            if (solution === "THIS IS A PATRISTOCRAT CIPHER WITHOUT WORDS PARTING IT IS MORE DIFFICULT THAN ARISTOCRAT BECAUSE YOU CANNOT USE WORDS PARTING TO HELP YOU SOLVE IT") {
+                resultDiv.textContent = "✅ Correct! Excellent work decoding this challenging cipher!";
+                resultDiv.className = "result success";
+            } else {
+                resultDiv.textContent = "❌ Not quite. Try again! Remember there are no spaces between words.";
+                resultDiv.className = "result error";
+            }
+            
+            resultDiv.style.display = "block";
+        });
+        
+        // Morse Check
+        document.getElementById('check-morse').addEventListener('click', () => {
+            const solution = document.getElementById('morse-solution').value.trim().toUpperCase();
+            const resultDiv = document.getElementById('morse-result');
+            
+            if (solution === "MORSE CODE IS USED FOR TELEGRAPHS") {
+                resultDiv.textContent = "✅ Correct! Great job decoding the Morse code!";
+                resultDiv.className = "result success";
+            } else {
+                resultDiv.textContent = "❌ Not quite. Try again! The correct answer is: MORSE CODE IS USED FOR TELEGRAPHS";
+                resultDiv.className = "result error";
+            }
+            
+            resultDiv.style.display = "block";
+        });
+        
+        // Add some visual effects
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add subtle animation to cards on load
+            const cards = document.querySelectorAll('.card, .cipher-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 100 * index);
+            });
+        });
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                mainNav.classList.remove('active');
+                menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        });
+    </script>
+</body>
+</html>
