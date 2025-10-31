@@ -191,9 +191,10 @@
             transition: var(--transition);
             display: flex;
             align-items: center;
-            gap: 12px;
+            justify-content: space-between;
             font-weight: 500;
             border: 1px solid transparent;
+            position: relative;
         }
 
         .file-item:hover {
@@ -207,6 +208,13 @@
             color: var(--accent);
         }
 
+        .file-item-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+        }
+
         .file-item i {
             width: 16px;
             text-align: center;
@@ -214,6 +222,33 @@
         }
 
         .file-item.active i {
+            color: var(--accent);
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 4px;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .file-item:hover .file-actions {
+            opacity: 1;
+        }
+
+        .file-action-btn {
+            background: none;
+            border: none;
+            color: var(--accent-light);
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: var(--transition);
+            font-size: 0.8rem;
+        }
+
+        .file-action-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
             color: var(--accent);
         }
 
@@ -404,6 +439,122 @@
             font-family: 'JetBrains Mono', monospace;
         }
 
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.visible {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--shadow);
+            width: 400px;
+            max-width: 90vw;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--light);
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 4px;
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--light);
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .modal-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(122, 162, 247, 0.1);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .modal-btn-primary {
+            background: var(--accent);
+            color: var(--dark);
+        }
+
+        .modal-btn-primary:hover {
+            background: #6a95f5;
+        }
+
+        .modal-btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .modal-btn-danger:hover {
+            background: #e6677e;
+        }
+
+        .modal-btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+        }
+
+        .modal-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
         /* Scrollbar styling */
         ::-webkit-scrollbar {
             width: 8px;
@@ -461,23 +612,6 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--accent-light);
-        }
-
-        .empty-state i {
-            font-size: 3rem;
-            margin-bottom: 16px;
-            opacity: 0.5;
-        }
-
-        .empty-state p {
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
     </style>
 </head>
 <body>
@@ -507,9 +641,19 @@
                 <div class="sidebar-section">
                     <h2>Project Files</h2>
                     <ul class="file-list" id="fileList">
-                        <li class="file-item active">
-                            <i class="fas fa-file-code"></i>
-                            <span>Main.java</span>
+                        <li class="file-item active" data-filename="Main.java">
+                            <div class="file-item-content">
+                                <i class="fas fa-file-code"></i>
+                                <span class="file-name">Main.java</span>
+                            </div>
+                            <div class="file-actions">
+                                <button class="file-action-btn rename-btn" title="Rename">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="file-action-btn delete-btn" title="Delete">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -518,16 +662,22 @@
                     <h2>Common Imports</h2>
                     <ul class="file-list">
                         <li class="file-item import-item">
-                            <i class="fas fa-file-import"></i>
-                            <span>java.util.*</span>
+                            <div class="file-item-content">
+                                <i class="fas fa-file-import"></i>
+                                <span>java.util.*</span>
+                            </div>
                         </li>
                         <li class="file-item import-item">
-                            <i class="fas fa-file-import"></i>
-                            <span>java.util.Scanner</span>
+                            <div class="file-item-content">
+                                <i class="fas fa-file-import"></i>
+                                <span>java.util.Scanner</span>
+                            </div>
                         </li>
                         <li class="file-item import-item">
-                            <i class="fas fa-file-import"></i>
-                            <span>java.io.*</span>
+                            <div class="file-item-content">
+                                <i class="fas fa-file-import"></i>
+                                <span>java.io.*</span>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -573,6 +723,40 @@
             </div>
         </div>
 
+        <!-- Rename Modal -->
+        <div class="modal" id="renameModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title">Rename File</div>
+                    <button class="modal-close" id="closeRenameModal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="modal-input" id="renameInput" placeholder="Enter new file name...">
+                </div>
+                <div class="modal-actions">
+                    <button class="modal-btn modal-btn-secondary" id="cancelRename">Cancel</button>
+                    <button class="modal-btn modal-btn-primary" id="confirmRename">Rename</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete Modal -->
+        <div class="modal" id="deleteModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title">Delete File</div>
+                    <button class="modal-close" id="closeDeleteModal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete <strong id="deleteFileName">Main.java</strong>? This action cannot be undone.</p>
+                </div>
+                <div class="modal-actions">
+                    <button class="modal-btn modal-btn-secondary" id="cancelDelete">Cancel</button>
+                    <button class="modal-btn modal-btn-danger" id="confirmDelete">Delete</button>
+                </div>
+            </div>
+        </div>
+
         <div class="status-bar">
             <div class="status-item">
                 <div class="status-indicator" id="statusIndicator"></div>
@@ -606,6 +790,10 @@
     }
 }`
         };
+
+        let currentFile = 'Main.java';
+        let fileToRename = null;
+        let fileToDelete = null;
 
         // Initialize Monaco Editor
         require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs' }});
@@ -649,6 +837,11 @@
 
             editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyN, function() {
                 createNewClass();
+            });
+
+            // Listen for content changes to detect class name changes
+            editor.onDidChangeModelContent(function() {
+                detectClassNameChange();
             });
 
             // Add custom snippets for Java
@@ -700,6 +893,50 @@
         const inputPrompt = document.getElementById('inputPrompt');
         const inputField = document.getElementById('inputField');
 
+        // Modal elements
+        const renameModal = document.getElementById('renameModal');
+        const deleteModal = document.getElementById('deleteModal');
+        const renameInput = document.getElementById('renameInput');
+        const deleteFileName = document.getElementById('deleteFileName');
+        const closeRenameModal = document.getElementById('closeRenameModal');
+        const closeDeleteModal = document.getElementById('closeDeleteModal');
+        const cancelRename = document.getElementById('cancelRename');
+        const cancelDelete = document.getElementById('cancelDelete');
+        const confirmRename = document.getElementById('confirmRename');
+        const confirmDelete = document.getElementById('confirmDelete');
+
+        // Detect class name changes in the code
+        function detectClassNameChange() {
+            if (!editor) return;
+            
+            const code = editor.getValue();
+            const classMatch = code.match(/public\s+class\s+(\w+)/);
+            
+            if (classMatch && classMatch[1]) {
+                const className = classMatch[1];
+                const expectedFileName = `${className}.java`;
+                
+                if (currentFile !== expectedFileName && files[currentFile]) {
+                    // Update the file name in the files object and sidebar
+                    files[expectedFileName] = files[currentFile];
+                    delete files[currentFile];
+                    
+                    // Update sidebar
+                    const fileItem = document.querySelector(`[data-filename="${currentFile}"]`);
+                    if (fileItem) {
+                        fileItem.setAttribute('data-filename', expectedFileName);
+                        fileItem.querySelector('.file-name').textContent = expectedFileName;
+                    }
+                    
+                    // Update current file reference
+                    currentFile = expectedFileName;
+                    currentFileName.textContent = expectedFileName;
+                    
+                    outputContent.innerHTML = `<div class="output-line output-success">✓ Updated file name to match class: ${expectedFileName}</div>` + outputContent.innerHTML;
+                }
+            }
+        }
+
         // Format code function (preserves output)
         function formatCode() {
             if (editor) {
@@ -715,49 +952,168 @@
         // Create new class
         function createNewClass() {
             fileCounter++;
-            const className = `Class${fileCounter}.java`;
-            const classContent = `public class Class${fileCounter} {
+            const className = `Class${fileCounter}`;
+            const fileName = `${className}.java`;
+            const classContent = `public class ${className} {
     // Your class implementation here
 }`;
             
-            files[className] = classContent;
+            files[fileName] = classContent;
             
             // Add to file list
             const fileItem = document.createElement('li');
             fileItem.className = 'file-item';
+            fileItem.setAttribute('data-filename', fileName);
             fileItem.innerHTML = `
-                <i class="fas fa-file-code"></i>
-                <span>${className}</span>
+                <div class="file-item-content">
+                    <i class="fas fa-file-code"></i>
+                    <span class="file-name">${fileName}</span>
+                </div>
+                <div class="file-actions">
+                    <button class="file-action-btn rename-btn" title="Rename">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="file-action-btn delete-btn" title="Delete">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
             `;
-            fileItem.addEventListener('click', () => switchFile(className));
+            
+            // Add event listeners for the new file item
+            fileItem.addEventListener('click', (e) => {
+                if (!e.target.closest('.file-actions')) {
+                    switchFile(fileName);
+                }
+            });
+            
+            const renameBtn = fileItem.querySelector('.rename-btn');
+            const deleteBtn = fileItem.querySelector('.delete-btn');
+            
+            renameBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                showRenameModal(fileName);
+            });
+            
+            deleteBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                showDeleteModal(fileName);
+            });
+            
             fileList.appendChild(fileItem);
             
             // Switch to new file
-            switchFile(className);
+            switchFile(fileName);
             
-            outputContent.innerHTML = `<div class="output-line output-success">✓ Created new class: ${className}</div>` + outputContent.innerHTML;
+            outputContent.innerHTML = `<div class="output-line output-success">✓ Created new class: ${fileName}</div>` + outputContent.innerHTML;
         }
 
         // Switch between files
         function switchFile(fileName) {
             // Update active file in sidebar
             document.querySelectorAll('.file-item').forEach(item => item.classList.remove('active'));
-            document.querySelectorAll('.file-item').forEach(item => {
-                if (item.textContent.includes(fileName)) {
-                    item.classList.add('active');
-                }
-            });
+            const targetFile = document.querySelector(`[data-filename="${fileName}"]`);
+            if (targetFile) {
+                targetFile.classList.add('active');
+            }
             
             // Save current file content
-            if (editor) {
-                files[currentFileName.textContent] = editor.getValue();
+            if (editor && files[currentFile] !== undefined) {
+                files[currentFile] = editor.getValue();
             }
             
             // Load new file content
+            currentFile = fileName;
             currentFileName.textContent = fileName;
             if (editor) {
                 editor.setValue(files[fileName] || '');
             }
+        }
+
+        // Show rename modal
+        function showRenameModal(fileName) {
+            fileToRename = fileName;
+            renameInput.value = fileName.replace('.java', '');
+            renameModal.classList.add('visible');
+            renameInput.focus();
+            renameInput.select();
+        }
+
+        // Show delete modal
+        function showDeleteModal(fileName) {
+            fileToDelete = fileName;
+            deleteFileName.textContent = fileName;
+            deleteModal.classList.add('visible');
+        }
+
+        // Rename file
+        function renameFile(oldName, newName) {
+            if (!newName || newName.trim() === '') return;
+            
+            const newFileName = `${newName}.java`;
+            
+            if (files[newFileName]) {
+                outputContent.innerHTML = `<div class="output-line output-error">File ${newFileName} already exists</div>` + outputContent.innerHTML;
+                return;
+            }
+            
+            // Update files object
+            files[newFileName] = files[oldName];
+            delete files[oldName];
+            
+            // Update code content if it contains the old class name
+            const oldClassName = oldName.replace('.java', '');
+            if (files[newFileName].includes(`class ${oldClassName}`)) {
+                files[newFileName] = files[newFileName].replace(
+                    `class ${oldClassName}`, 
+                    `class ${newName}`
+                );
+            }
+            
+            // Update sidebar
+            const fileItem = document.querySelector(`[data-filename="${oldName}"]`);
+            if (fileItem) {
+                fileItem.setAttribute('data-filename', newFileName);
+                fileItem.querySelector('.file-name').textContent = newFileName;
+            }
+            
+            // Update current file if it was the renamed file
+            if (currentFile === oldName) {
+                currentFile = newFileName;
+                currentFileName.textContent = newFileName;
+                if (editor) {
+                    editor.setValue(files[newFileName]);
+                }
+            }
+            
+            renameModal.classList.remove('visible');
+            outputContent.innerHTML = `<div class="output-line output-success">✓ Renamed ${oldName} to ${newFileName}</div>` + outputContent.innerHTML;
+        }
+
+        // Delete file
+        function deleteFile(fileName) {
+            if (Object.keys(files).length <= 1) {
+                outputContent.innerHTML = `<div class="output-line output-error">Cannot delete the last file</div>` + outputContent.innerHTML;
+                return;
+            }
+            
+            delete files[fileName];
+            
+            // Remove from sidebar
+            const fileItem = document.querySelector(`[data-filename="${fileName}"]`);
+            if (fileItem) {
+                fileItem.remove();
+            }
+            
+            // Switch to another file if the deleted file was active
+            if (currentFile === fileName) {
+                const remainingFiles = Object.keys(files);
+                if (remainingFiles.length > 0) {
+                    switchFile(remainingFiles[0]);
+                }
+            }
+            
+            deleteModal.classList.remove('visible');
+            outputContent.innerHTML = `<div class="output-line output-success">✓ Deleted ${fileName}</div>` + outputContent.innerHTML;
         }
 
         // Scanner input simulation
@@ -957,8 +1313,8 @@
         // Save current file
         function saveFile() {
             if (editor) {
-                files[currentFileName.textContent] = editor.getValue();
-                outputContent.innerHTML = `<div class="output-line output-success">✓ Saved ${currentFileName.textContent}</div>` + outputContent.innerHTML;
+                files[currentFile] = editor.getValue();
+                outputContent.innerHTML = `<div class="output-line output-success">✓ Saved ${currentFile}</div>` + outputContent.innerHTML;
             }
         }
 
@@ -969,13 +1325,63 @@
         clearOutputBtn.addEventListener('click', clearOutput);
         saveBtn.addEventListener('click', saveFile);
 
-        // File switching
+        // Modal event listeners
+        closeRenameModal.addEventListener('click', () => renameModal.classList.remove('visible'));
+        closeDeleteModal.addEventListener('click', () => deleteModal.classList.remove('visible'));
+        cancelRename.addEventListener('click', () => renameModal.classList.remove('visible'));
+        cancelDelete.addEventListener('click', () => deleteModal.classList.remove('visible'));
+        
+        confirmRename.addEventListener('click', () => {
+            if (fileToRename) {
+                renameFile(fileToRename, renameInput.value.trim());
+            }
+        });
+        
+        confirmDelete.addEventListener('click', () => {
+            if (fileToDelete) {
+                deleteFile(fileToDelete);
+            }
+        });
+
+        // Handle Enter key in rename modal
+        renameInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                if (fileToRename) {
+                    renameFile(fileToRename, renameInput.value.trim());
+                }
+            }
+        });
+
+        // File switching and action buttons for existing files
         document.querySelectorAll('.file-item').forEach(item => {
             if (!item.classList.contains('import-item')) {
-                item.addEventListener('click', function() {
-                    const fileName = this.querySelector('span').textContent;
-                    switchFile(fileName);
+                // File click handler
+                item.addEventListener('click', function(e) {
+                    if (!e.target.closest('.file-actions')) {
+                        const fileName = this.getAttribute('data-filename');
+                        switchFile(fileName);
+                    }
                 });
+
+                // Rename button handler
+                const renameBtn = item.querySelector('.rename-btn');
+                if (renameBtn) {
+                    renameBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const fileName = item.getAttribute('data-filename');
+                        showRenameModal(fileName);
+                    });
+                }
+
+                // Delete button handler
+                const deleteBtn = item.querySelector('.delete-btn');
+                if (deleteBtn) {
+                    deleteBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const fileName = item.getAttribute('data-filename');
+                        showDeleteModal(fileName);
+                    });
+                }
             }
         });
 
@@ -1001,9 +1407,14 @@
             });
         });
 
-        // Initialize file switching for the default file
-        document.querySelector('.file-item').addEventListener('click', function() {
-            switchFile('Main.java');
+        // Close modals when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === renameModal) {
+                renameModal.classList.remove('visible');
+            }
+            if (e.target === deleteModal) {
+                deleteModal.classList.remove('visible');
+            }
         });
     </script>
 </body>
