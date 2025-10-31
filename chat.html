@@ -197,6 +197,117 @@
   font-size: 0.9rem;
 }
 
+/* FIXED: Steal a Brainrot game button positioning */
+#steal-brainrot-btn {
+  position: fixed;
+  top: 15px;
+  right: 235px; /* FIXED: Changed from 400px to 235px */
+  background-color: #ff5722;
+  border: none;
+  color: white;
+  padding: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  transition: background-color 0.2s ease;
+  z-index: 1000;
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#steal-brainrot-btn:hover {
+  background-color: #e64a19;
+}
+
+/* FIXED: Steal a Brainrot game modal styles */
+#steal-brainrot-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.9);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1012; /* FIXED: Same z-index as game modal */
+  padding: 20px;
+}
+
+#steal-brainrot-container {
+  background: #1a1a1a;
+  border-radius: 20px;
+  padding: 0;
+  max-width: 900px;
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Whitney', sans-serif;
+  overflow: hidden;
+}
+
+#steal-brainrot-header {
+  background: #2d2d2d;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #ff5722;
+}
+
+#steal-brainrot-title {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-family: 'Ginto', 'Whitney', sans-serif;
+}
+
+#steal-brainrot-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#steal-brainrot-close:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+#steal-brainrot-canvas-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+#steal-brainrot-canvas {
+  width: 100%;
+  height: 100%;
+  background: #0a0a0a;
+}
+
+#steal-brainrot-stats {
+  background: #2d2d2d;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  color: white;
+  font-size: 0.9rem;
+}
+
 /* Mention styling */
 .mention {
   background-color: rgba(88, 101, 242, 0.3);
@@ -293,11 +404,11 @@
   display: flex;
 }
 
-/* Admin Panel Styles */
+/* Admin Panel Styles - FIXED: Centered user names in rank bubbles */
 #admin-panel-btn {
   position: fixed;
   top: 15px;
-  right: 345px;
+  right: 180px; /* FIXED: Adjusted position */
   background-color: #d35400;
   border: none;
   color: white;
@@ -403,19 +514,27 @@
 .admin-user-details {
   display: flex;
   flex-direction: column;
+  align-items: flex-start; /* FIXED: Changed to flex-start for proper alignment */
 }
 
 .admin-user-name {
   font-weight: 500;
   font-size: 0.9rem;
+  text-align: center; /* FIXED: Center the user name */
+  width: 100%; /* FIXED: Ensure full width for centering */
 }
 
 .admin-user-rank {
   font-size: 0.7rem;
   font-weight: 600;
-  padding: 2px 6px;
-  border-radius: 4px;
-  margin-top: 2px;
+  padding: 4px 8px; /* FIXED: Increased padding for better appearance */
+  border-radius: 12px; /* FIXED: More rounded corners */
+  margin-top: 4px;
+  text-align: center; /* FIXED: Center the rank text */
+  width: 100%; /* FIXED: Ensure full width for centering */
+  display: flex;
+  justify-content: center; /* FIXED: Center content horizontally */
+  align-items: center; /* FIXED: Center content vertically */
 }
 
 .admin-user-controls {
@@ -499,6 +618,7 @@
 .rank-name {
   font-size: 0.8rem;
   font-weight: 500;
+  text-align: center; /* FIXED: Center rank names */
 }
 
 #admin-login {
@@ -1140,7 +1260,7 @@ background-color: #c53030;
 #profile-picture-btn {
 position: fixed;
 top: 15px;
-right: 180px;
+right: 345px; /* FIXED: Adjusted position */
 background-color: #9f7aea;
 border: none;
 color: white;
@@ -1165,7 +1285,7 @@ background-color: #805ad5;
 #link-share-btn {
 position: fixed;
 top: 15px;
-right: 235px;
+right: 400px; /* FIXED: Adjusted position */
 background-color: #ed8936;
 border: none;
 color: white;
@@ -2405,6 +2525,8 @@ color: white;
 <button id="link-share-btn" title="Share a link"><span class="material-icons">link</span></button>
 <!-- NEW: Game Button -->
 <button id="game-btn" title="Play Grow a Garden"><span class="material-icons">sports_esports</span></button>
+<!-- FIXED: Steal a Brainrot Button -->
+<button id="steal-brainrot-btn" title="Play Steal a Brainrot"><span class="material-icons">casino</span></button>
 <!-- NEW: Admin Panel Button -->
 <button id="admin-panel-btn" title="Admin Panel"><span class="material-icons">admin_panel_settings</span></button>
 
@@ -2548,12 +2670,26 @@ DIRECT MESSAGES
       <button id="game-close"><span class="material-icons">close</span></button>
     </div>
     <div id="game-canvas-container">
-      <canvas id="game-canvas"></canvas>
+      <iframe id="game-frame" src="https://learn-duck.web.app/class/Grow-A-Garden" style="width: 100%; height: 100%; border: none;"></iframe>
     </div>
     <div id="game-stats">
-      <div id="game-score">Score: 0</div>
-      <div id="game-lives">Lives: 3</div>
-      <div id="game-time">Time: 60s</div>
+      <div id="game-score">Playing: Grow a Garden</div>
+    </div>
+  </div>
+</div>
+
+<!-- FIXED: Steal a Brainrot Game Modal -->
+<div id="steal-brainrot-modal">
+  <div id="steal-brainrot-container">
+    <div id="steal-brainrot-header">
+      <div id="steal-brainrot-title">Steal a Brainrot</div>
+      <button id="steal-brainrot-close"><span class="material-icons">close</span></button>
+    </div>
+    <div id="steal-brainrot-canvas-container">
+      <iframe id="steal-brainrot-frame" src="https://learn-duck.web.app/class/Steal-A-Brainrot" style="width: 100%; height: 100%; border: none;"></iframe>
+    </div>
+    <div id="steal-brainrot-stats">
+      <div id="steal-brainrot-score">Playing: Steal a Brainrot</div>
     </div>
   </div>
 </div>
@@ -3413,8 +3549,8 @@ function updateDMList() {
       if (userRank.key !== 'user') {
         const rank = document.createElement('div');
         rank.classList.add('user-rank');
-        rank.textContent = userRank.name;
-        rank.style.color = userRank.color;
+        rank.textContent = rank.name;
+        rank.style.color = rank.color;
         rank.style.fontSize = '0.7rem';
         rank.style.fontWeight = 'bold';
         info.appendChild(rank);
@@ -3569,327 +3705,45 @@ const encryption = new RealEncryption();
 
 // ==================== GAME IMPLEMENTATION ====================
 
-class GrowAGardenGame {
-  constructor(canvas) {
-    this.canvas = canvas;
-    this.ctx = canvas.getContext('2d');
-    this.width = canvas.width = 800;
-    this.height = canvas.height = 600;
-    
-    this.gameState = 'menu'; // menu, playing, gameover
-    this.score = 0;
-    this.lives = 3;
-    this.timeLeft = 60;
-    
-    // Game elements
-    this.player = {
-      x: this.width / 2,
-      y: this.height - 50,
-      width: 40,
-      height: 40,
-      speed: 5,
-      color: '#4CAF50'
-    };
-    
-    this.plants = [];
-    this.gardenBeds = [
-      { x: 100, y: 100, width: 60, height: 60, color: '#8BC34A', hasPlant: false },
-      { x: this.width - 160, y: 100, width: 60, height: 60, color: '#8BC34A', hasPlant: false },
-      { x: this.width / 2 - 30, y: this.height / 2 - 30, width: 60, height: 60, color: '#8BC34A', hasPlant: false }
-    ];
-    
-    this.seeds = [];
-    this.waterDrops = [];
-    
-    this.keys = {};
-    this.lastSpawn = 0;
-    this.seedSpawnRate = 2000; // ms
-    this.waterSpawnRate = 3000; // ms
-    
-    this.setupEventListeners();
-  }
+// Initialize game modals - FIXED: Added Steal a Brainrot modal initialization
+function initializeGameModals() {
+  const gameBtn = document.getElementById('game-btn');
+  const gameModal = document.getElementById('game-modal');
+  const gameClose = document.getElementById('game-close');
 
-  setupEventListeners() {
-    document.addEventListener('keydown', (e) => {
-      this.keys[e.key] = true;
-    });
-    
-    document.addEventListener('keyup', (e) => {
-      this.keys[e.key] = false;
-    });
-    
-    this.canvas.addEventListener('click', (e) => {
-      if (this.gameState === 'menu') {
-        this.startGame();
-      }
-    });
-  }
+  const stealBrainrotBtn = document.getElementById('steal-brainrot-btn');
+  const stealBrainrotModal = document.getElementById('steal-brainrot-modal');
+  const stealBrainrotClose = document.getElementById('steal-brainrot-close');
 
-  startGame() {
-    this.gameState = 'playing';
-    this.score = 0;
-    this.lives = 3;
-    this.timeLeft = 60;
-    this.plants = [];
-    this.seeds = [];
-    this.waterDrops = [];
-    this.gardenBeds.forEach(bed => bed.hasPlant = false);
-    this.player.x = this.width / 2;
-    this.player.y = this.height - 50;
-    
-    this.updateGameStats();
-    this.gameLoop();
-  }
-
-  updateGameStats() {
-    document.getElementById('game-score').textContent = `Score: ${this.score}`;
-    document.getElementById('game-lives').textContent = `Lives: ${this.lives}`;
-    document.getElementById('game-time').textContent = `Time: ${this.timeLeft}s`;
-  }
-
-  spawnSeed() {
-    const now = Date.now();
-    if (now - this.lastSpawn > this.seedSpawnRate) {
-      this.seeds.push({
-        x: Math.random() * (this.width - 20),
-        y: -20,
-        width: 15,
-        height: 15,
-        speed: 2 + Math.random() * 2,
-        color: '#8D6E63',
-        type: 'seed'
-      });
-      this.lastSpawn = now;
-    }
-  }
-
-  spawnWaterDrop() {
-    const now = Date.now();
-    if (now - this.lastSpawn > this.waterSpawnRate) {
-      this.waterDrops.push({
-        x: Math.random() * (this.width - 15),
-        y: -20,
-        width: 12,
-        height: 12,
-        speed: 3 + Math.random() * 2,
-        color: '#2196F3',
-        type: 'water'
-      });
-    }
-  }
-
-  update() {
-    // Move player
-    if (this.keys['ArrowLeft'] || this.keys['a']) {
-      this.player.x = Math.max(0, this.player.x - this.player.speed);
-    }
-    if (this.keys['ArrowRight'] || this.keys['d']) {
-      this.player.x = Math.min(this.width - this.player.width, this.player.x + this.player.speed);
-    }
-    if (this.keys['ArrowUp'] || this.keys['w']) {
-      this.player.y = Math.max(0, this.player.y - this.player.speed);
-    }
-    if (this.keys['ArrowDown'] || this.keys['s']) {
-      this.player.y = Math.min(this.height - this.player.height, this.player.y + this.player.speed);
-    }
-
-    // Update seeds
-    for (let i = this.seeds.length - 1; i >= 0; i--) {
-      const seed = this.seeds[i];
-      seed.y += seed.speed;
-
-      // Check collision with player
-      if (this.checkCollision(this.player, seed)) {
-        this.score += 5;
-        this.seeds.splice(i, 1);
-        continue;
-      }
-
-      // Check collision with empty garden beds
-      for (const bed of this.gardenBeds) {
-        if (!bed.hasPlant && this.checkCollision(seed, bed)) {
-          // Plant the seed
-          this.plants.push({
-            x: bed.x + bed.width/2 - 10,
-            y: bed.y,
-            width: 20,
-            height: 0,
-            maxHeight: 40,
-            growth: 0,
-            color: '#4CAF50',
-            watered: false
-          });
-          bed.hasPlant = true;
-          this.seeds.splice(i, 1);
-          this.score += 10;
-          break;
-        }
-      }
-
-      // Remove if out of bounds
-      if (seed.y > this.height) {
-        this.seeds.splice(i, 1);
-      }
-    }
-
-    // Update water drops
-    for (let i = this.waterDrops.length - 1; i >= 0; i--) {
-      const water = this.waterDrops[i];
-      water.y += water.speed;
-
-      // Check collision with player
-      if (this.checkCollision(this.player, water)) {
-        this.waterDrops.splice(i, 1);
-        continue;
-      }
-
-      // Check collision with plants
-      for (const plant of this.plants) {
-        if (this.checkCollision(water, plant)) {
-          plant.watered = true;
-          this.waterDrops.splice(i, 1);
-          this.score += 5;
-          break;
-        }
-      }
-
-      // Remove if out of bounds
-      if (water.y > this.height) {
-        this.waterDrops.splice(i, 1);
-      }
-    }
-
-    // Update plants
-    for (let i = this.plants.length - 1; i >= 0; i--) {
-      const plant = this.plants[i];
-      
-      if (plant.watered && plant.growth < 1) {
-        plant.growth += 0.02;
-        plant.height = plant.maxHeight * plant.growth;
-        
-        if (plant.growth >= 1) {
-          // Plant fully grown
-          this.score += 20;
-        }
-      }
-    }
-
-    // Update time
-    if (Date.now() - this.lastSpawn > 1000) {
-      this.timeLeft--;
-      this.lastSpawn = Date.now();
-    }
-
-    // Check game over conditions
-    if (this.lives <= 0 || this.timeLeft <= 0) {
-      this.gameState = 'gameover';
-    }
-
-    this.updateGameStats();
-  }
-
-  checkCollision(rect1, rect2) {
-    return rect1.x < rect2.x + rect2.width &&
-           rect1.x + rect1.width > rect2.x &&
-           rect1.y < rect2.y + rect2.height &&
-           rect1.y + rect1.height > rect2.y;
-  }
-
-  draw() {
-    // Clear canvas
-    this.ctx.fillStyle = '#0a0a0a';
-    this.ctx.fillRect(0, 0, this.width, this.height);
-
-    // Draw garden beds
-    for (const bed of this.gardenBeds) {
-      this.ctx.fillStyle = bed.color;
-      this.ctx.fillRect(bed.x, bed.y, bed.width, bed.height);
-      this.ctx.strokeStyle = '#5D4037';
-      this.ctx.lineWidth = 2;
-      this.ctx.strokeRect(bed.x, bed.y, bed.width, bed.height);
-    }
-
-    // Draw plants
-    for (const plant of this.plants) {
-      this.ctx.fillStyle = plant.color;
-      this.ctx.fillRect(plant.x, plant.y + (plant.maxHeight - plant.height), plant.width, plant.height);
-      
-      // Draw flower when fully grown
-      if (plant.growth >= 1) {
-        this.ctx.fillStyle = '#FFEB3B';
-        this.ctx.beginPath();
-        this.ctx.arc(plant.x + plant.width/2, plant.y, 8, 0, Math.PI * 2);
-        this.ctx.fill();
-      }
-    }
-
-    // Draw player (gardener)
-    this.ctx.fillStyle = this.player.color;
-    this.ctx.fillRect(this.player.x, this.player.y, this.player.width, this.player.height);
-
-    // Draw seeds
-    this.ctx.fillStyle = '#8D6E63';
-    for (const seed of this.seeds) {
-      this.ctx.beginPath();
-      this.ctx.arc(seed.x + seed.width/2, seed.y + seed.height/2, seed.width/2, 0, Math.PI * 2);
-      this.ctx.fill();
-    }
-
-    // Draw water drops
-    this.ctx.fillStyle = '#2196F3';
-    for (const water of this.waterDrops) {
-      this.ctx.beginPath();
-      this.ctx.arc(water.x + water.width/2, water.y + water.height/2, water.width/2, 0, Math.PI * 2);
-      this.ctx.fill();
-    }
-
-    // Draw game state
-    if (this.gameState === 'menu') {
-      this.ctx.fillStyle = 'white';
-      this.ctx.font = '30px Arial';
-      this.ctx.textAlign = 'center';
-      this.ctx.fillText('Grow a Garden', this.width/2, this.height/2 - 50);
-      this.ctx.font = '20px Arial';
-      this.ctx.fillText('Click to Start', this.width/2, this.height/2);
-      this.ctx.fillText('Use Arrow Keys or WASD to move', this.width/2, this.height/2 + 40);
-      this.ctx.fillText('Catch seeds and water to grow plants!', this.width/2, this.height/2 + 70);
-    } else if (this.gameState === 'gameover') {
-      this.ctx.fillStyle = 'white';
-      this.ctx.font = '30px Arial';
-      this.ctx.textAlign = 'center';
-      this.ctx.fillText('Game Over', this.width/2, this.height/2 - 50);
-      this.ctx.font = '20px Arial';
-      this.ctx.fillText(`Final Score: ${this.score}`, this.width/2, this.height/2);
-      this.ctx.fillText('Click to Play Again', this.width/2, this.height/2 + 40);
-    }
-  }
-
-  gameLoop() {
-    if (this.gameState === 'playing') {
-      this.spawnSeed();
-      this.spawnWaterDrop();
-      this.update();
-    }
-    
-    this.draw();
-    
-    if (this.gameState !== 'menu') {
-      requestAnimationFrame(() => this.gameLoop());
-    }
-  }
-}
-
-// Initialize game when modal opens
-function initializeGame() {
-  const canvas = document.getElementById('game-canvas');
-  const game = new GrowAGardenGame(canvas);
-  
-  document.getElementById('game-close').addEventListener('click', () => {
-    document.getElementById('game-modal').style.display = 'none';
-    game.gameState = 'menu';
+  // Grow a Garden game
+  gameBtn.addEventListener('click', () => {
+    gameModal.style.display = 'flex';
   });
-  
-  return game;
+
+  gameClose.addEventListener('click', () => {
+    gameModal.style.display = 'none';
+  });
+
+  gameModal.addEventListener('click', (e) => {
+    if (e.target === gameModal) {
+      gameModal.style.display = 'none';
+    }
+  });
+
+  // FIXED: Steal a Brainrot game
+  stealBrainrotBtn.addEventListener('click', () => {
+    stealBrainrotModal.style.display = 'flex';
+  });
+
+  stealBrainrotClose.addEventListener('click', () => {
+    stealBrainrotModal.style.display = 'none';
+  });
+
+  stealBrainrotModal.addEventListener('click', (e) => {
+    if (e.target === stealBrainrotModal) {
+      stealBrainrotModal.style.display = 'none';
+    }
+  });
 }
 
 // ==================== ENHANCED ENCRYPTION FUNCTIONS ====================
@@ -4041,31 +3895,6 @@ async function loadMessages() {
   }
 }
 
-// ==================== GAME MODAL FUNCTIONALITY ====================
-
-// Initialize game modal
-function initializeGameModal() {
-  const gameBtn = document.getElementById('game-btn');
-  const gameModal = document.getElementById('game-modal');
-  let game = null;
-
-  gameBtn.addEventListener('click', () => {
-    gameModal.style.display = 'flex';
-    if (!game) {
-      game = initializeGame();
-    }
-  });
-
-  gameModal.addEventListener('click', (e) => {
-    if (e.target === gameModal) {
-      gameModal.style.display = 'none';
-      if (game) {
-        game.gameState = 'menu';
-      }
-    }
-  });
-}
-
 // ==================== ENHANCED INITIALIZATION ====================
 
 // Enhanced initialization with new features
@@ -4101,8 +3930,8 @@ async function initApp() {
     // Initialize text formatting
     initializeTextFormatting();
 
-    // Initialize game modal
-    initializeGameModal();
+    // Initialize game modals
+    initializeGameModals();
 
     // Initialize admin panel
     initializeAdminPanel();
@@ -7405,8 +7234,8 @@ async function initApp() {
     // Initialize text formatting
     initializeTextFormatting();
 
-    // Initialize game modal
-    initializeGameModal();
+    // Initialize game modals
+    initializeGameModals();
 
     // Initialize admin panel
     initializeAdminPanel();
