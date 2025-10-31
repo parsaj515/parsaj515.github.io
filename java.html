@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Java Practice IDE</title>
+    <title>Java IDE - Complete Java Development Environment</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/editor/editor.main.min.css">
     <style>
         :root {
             --primary: #1a1b26;
@@ -313,7 +312,18 @@
             flex: 1;
             width: 100%;
             border: none;
-            font-family: 'JetBrains Mono', monospace !important;
+            background: var(--code-bg);
+            color: var(--light);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            padding: 20px;
+            resize: none;
+            outline: none;
+            tab-size: 4;
+            white-space: pre;
+            overflow-wrap: normal;
+            overflow-x: auto;
         }
 
         .output-container {
@@ -636,6 +646,65 @@
             background: var(--danger);
             color: white;
         }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+                padding: 10px;
+                gap: 10px;
+            }
+
+            .sidebar {
+                width: 100%;
+                max-height: 200px;
+            }
+
+            .editor-container {
+                min-height: 400px;
+            }
+
+            .output-container {
+                height: 200px;
+            }
+
+            header {
+                padding: 0 16px;
+            }
+
+            .btn {
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
+
+            .logo h1 {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .controls {
+                gap: 8px;
+            }
+
+            .btn {
+                padding: 6px 10px;
+                font-size: 0.7rem;
+            }
+
+            .logo h1 {
+                font-size: 1rem;
+            }
+
+            .editor-header, .output-header {
+                padding: 12px 16px;
+            }
+
+            #editor {
+                padding: 16px;
+                font-size: 13px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -703,6 +772,18 @@
                                 <span>java.io.*</span>
                             </div>
                         </li>
+                        <li class="file-item import-item">
+                            <div class="file-item-content">
+                                <i class="fas fa-file-import"></i>
+                                <span>java.math.*</span>
+                            </div>
+                        </li>
+                        <li class="file-item import-item">
+                            <div class="file-item-content">
+                                <i class="fas fa-file-import"></i>
+                                <span>java.time.*</span>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -720,7 +801,23 @@
                             </button>
                         </div>
                     </div>
-                    <div id="editor"></div>
+                    <textarea id="editor" spellcheck="false">public class Main {
+    public static void main(String[] args) {
+        // Your code here
+        System.out.println("Hello, Java!");
+        
+        // Try the sysout shortcut: type 'sysout' and press Tab
+        // Try formatting with Ctrl+S
+        
+        // Example with Scanner
+        /*
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter your name: ");
+        String name = scanner.nextLine();
+        System.out.println("Hello, " + name + "!");
+        */
+    }
+}</textarea>
                 </div>
 
                 <div class="input-container" id="inputContainer">
@@ -742,6 +839,7 @@
                     </div>
                     <div class="output-content" id="outputContent">
                         <div class="output-line code-comment">// Program output will appear here</div>
+                        <div class="output-line code-comment">// All your work is automatically saved!</div>
                     </div>
                 </div>
             </div>
@@ -787,7 +885,7 @@
         <div class="status-bar">
             <div class="status-item">
                 <div class="status-indicator" id="statusIndicator"></div>
-                <span id="statusText">Ready</span>
+                <span id="statusText">Ready - Auto-save enabled</span>
             </div>
             <div class="status-item">
                 <span>Java</span>
@@ -803,109 +901,94 @@
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.min.js"></script>
     <script>
-        // Store for input handling
-        let inputResolver = null;
-        let currentInputPrompt = "";
-        let fileCounter = 1;
-        let files = {
-            'Main.java': `public class Main {
+        // Auto-save functionality - Save everything to localStorage
+        const STORAGE_KEY = 'java_ide_data';
+        
+        // Initialize data structure
+        let ideData = {
+            files: {
+                'Main.java': `public class Main {
     public static void main(String[] args) {
         // Your code here
         System.out.println("Hello, Java!");
+        
+        // Try the sysout shortcut: type 'sysout' and press Tab
+        // Try formatting with Ctrl+S
+        
+        // Example with Scanner
+        /*
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter your name: ");
+        String name = scanner.nextLine();
+        System.out.println("Hello, " + name + "!");
+        */
     }
 }`
+            },
+            currentFile: 'Main.java',
+            fileCounter: 1,
+            output: '// Program output will appear here\n// All your work is automatically saved!'
         };
 
-        let currentFile = 'Main.java';
+        // Load saved data
+        function loadSavedData() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    ideData = { ...ideData, ...parsed };
+                    return true;
+                } catch (e) {
+                    console.error('Error loading saved data:', e);
+                }
+            }
+            return false;
+        }
+
+        // Save all data
+        function saveAllData() {
+            try {
+                // Update current file content
+                if (editor) {
+                    ideData.files[ideData.currentFile] = editor.value;
+                }
+                
+                // Save output
+                ideData.output = outputContent.innerHTML;
+                
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(ideData));
+                return true;
+            } catch (e) {
+                console.error('Error saving data:', e);
+                return false;
+            }
+        }
+
+        // Auto-save every 2 seconds
+        function startAutoSave() {
+            setInterval(() => {
+                if (saveAllData()) {
+                    // Show subtle save indicator
+                    const status = document.getElementById('statusText');
+                    const originalText = status.textContent.replace(' ✓ Saved', '');
+                    status.textContent = originalText + ' ✓ Saved';
+                    
+                    setTimeout(() => {
+                        status.textContent = originalText;
+                    }, 1000);
+                }
+            }, 2000);
+        }
+
+        // Store for input handling
+        let inputResolver = null;
+        let currentInputPrompt = "";
         let fileToRename = null;
         let fileToDelete = null;
 
-        // Initialize Monaco Editor
-        require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs' }});
-        
-        let editor;
-        require(['vs/editor/editor.main'], function() {
-            editor = monaco.editor.create(document.getElementById('editor'), {
-                value: files['Main.java'],
-                language: 'java',
-                theme: 'vs-dark',
-                fontSize: 14,
-                fontFamily: 'JetBrains Mono, monospace',
-                lineNumbers: 'on',
-                roundedSelection: true,
-                scrollBeyondLastLine: false,
-                readOnly: false,
-                cursorStyle: 'line',
-                automaticLayout: true,
-                minimap: { enabled: false },
-                formatOnType: true,
-                formatOnPaste: true,
-                suggestOnTriggerCharacters: true,
-                wordBasedSuggestions: true,
-                snippetSuggestions: 'bottom',
-                renderLineHighlight: 'all',
-                scrollbar: {
-                    vertical: 'visible',
-                    horizontal: 'visible',
-                    useShadows: false
-                }
-            });
-
-            // Add keyboard shortcuts
-            editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, function() {
-                runJavaCode();
-            });
-
-            editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, function() {
-                formatCode();
-            });
-
-            editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyN, function() {
-                createNewClass();
-            });
-
-            // Listen for content changes to detect class name changes
-            editor.onDidChangeModelContent(function() {
-                detectClassNameChange();
-            });
-
-            // Add custom snippets for Java
-            monaco.languages.registerCompletionItemProvider('java', {
-                provideCompletionItems: function(model, position) {
-                    const suggestions = [
-                        {
-                            label: 'sysout',
-                            kind: monaco.languages.CompletionItemKind.Snippet,
-                            insertText: 'System.out.println(${1:"${2:text}"});',
-                            insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-                            detail: 'System.out.println()',
-                            documentation: 'Prints a line to the console'
-                        },
-                        {
-                            label: 'main',
-                            kind: monaco.languages.CompletionItemKind.Snippet,
-                            insertText: 'public static void main(String[] args) {\n\t${1:// code}\n}',
-                            insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-                            detail: 'main method',
-                            documentation: 'Main method entry point'
-                        },
-                        {
-                            label: 'fori',
-                            kind: monaco.languages.CompletionItemKind.Snippet,
-                            insertText: 'for (int ${1:i} = 0; $1 < ${2:length}; $1++) {\n\t${3:// code}\n}',
-                            insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-                            detail: 'for loop',
-                            documentation: 'Standard for loop'
-                        }
-                    ];
-                    return { suggestions: suggestions };
-                }
-            });
-        });
-
         // DOM elements
+        const editor = document.getElementById('editor');
         const runBtn = document.getElementById('runBtn');
         const formatBtn = document.getElementById('formatBtn');
         const newClassBtn = document.getElementById('newClassBtn');
@@ -933,6 +1016,76 @@
         const confirmRename = document.getElementById('confirmRename');
         const confirmDelete = document.getElementById('confirmDelete');
 
+        // Initialize the IDE
+        function initializeIDE() {
+            // Load saved data
+            const hasSavedData = loadSavedData();
+            
+            // Setup file list
+            renderFileList();
+            
+            // Load current file
+            switchFile(ideData.currentFile);
+            
+            // Load output
+            outputContent.innerHTML = ideData.output;
+            
+            // Setup auto-save
+            startAutoSave();
+            
+            if (hasSavedData) {
+                showToast('Previous work loaded successfully!');
+            }
+        }
+
+        // Render file list from data
+        function renderFileList() {
+            fileList.innerHTML = '';
+            
+            Object.keys(ideData.files).forEach(fileName => {
+                const isActive = fileName === ideData.currentFile;
+                const fileItem = document.createElement('li');
+                fileItem.className = `file-item ${isActive ? 'active' : ''}`;
+                fileItem.setAttribute('data-filename', fileName);
+                fileItem.innerHTML = `
+                    <div class="file-item-content">
+                        <i class="fas fa-file-code"></i>
+                        <span class="file-name">${fileName}</span>
+                    </div>
+                    <div class="file-actions">
+                        <button class="file-action-btn rename-btn" title="Rename">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="file-action-btn delete-btn" title="Delete">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                
+                // Add event listeners
+                fileItem.addEventListener('click', (e) => {
+                    if (!e.target.closest('.file-actions')) {
+                        switchFile(fileName);
+                    }
+                });
+                
+                const renameBtn = fileItem.querySelector('.rename-btn');
+                const deleteBtn = fileItem.querySelector('.delete-btn');
+                
+                renameBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    showRenameModal(fileName);
+                });
+                
+                deleteBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    showDeleteModal(fileName);
+                });
+                
+                fileList.appendChild(fileItem);
+            });
+        }
+
         // Show toast notification
         function showToast(message, isError = false) {
             toast.textContent = message;
@@ -946,9 +1099,6 @@
 
         // Advanced Java code formatter
         function formatJavaCode(code) {
-            // Store the original output
-            const originalOutput = outputContent.innerHTML;
-            
             try {
                 // Format imports
                 code = formatImports(code);
@@ -968,25 +1118,19 @@
                 // Clean up extra whitespace
                 code = cleanUpWhitespace(code);
                 
-                showToast('Code formatted successfully!');
                 return code;
             } catch (error) {
-                showToast('Formatting failed: ' + error.message, true);
-                return code; // Return original code if formatting fails
+                throw new Error('Formatting failed: ' + error.message);
             }
         }
 
         function formatImports(code) {
-            // Extract and sort imports
             const importRegex = /import\s+[\w.*]+;/g;
             const imports = code.match(importRegex) || [];
             const otherCode = code.replace(importRegex, '').trim();
             
             if (imports.length > 0) {
-                // Sort imports alphabetically
                 imports.sort();
-                
-                // Combine imports with the rest of the code
                 return imports.join('\n') + '\n\n' + otherCode;
             }
             
@@ -994,14 +1138,12 @@
         }
 
         function formatClassDeclaration(code) {
-            // Format class declaration to have proper spacing
             return code.replace(/(public|private|protected)?\s*(class)\s+(\w+)/g, '$1 $2 $3')
                       .replace(/\s+/g, ' ')
                       .trim();
         }
 
         function formatMethods(code) {
-            // Format method declarations
             return code.replace(/(public|private|protected|static)\s+(\w+)\s+(\w+)\s*\(([^)]*)\)\s*\{/g, '$1 $2 $3($4) {');
         }
 
@@ -1012,11 +1154,8 @@
             // Add spaces after commas
             code = code.replace(/,(\S)/g, ', $1');
             
-            // Add spaces after semicolons (except in for loops)
+            // Add spaces after semicolons
             code = code.replace(/;(?!\s*[\)])/g, '; ');
-            
-            // Format System.out statements
-            code = code.replace(/System\.out\.(print|println|printf)\s*\(/g, 'System.out.$1(');
             
             return code;
         }
@@ -1030,13 +1169,11 @@
             for (let line of lines) {
                 let trimmedLine = line.trim();
                 
-                // Skip empty lines but preserve them
                 if (trimmedLine === '') {
                     formattedLines.push('');
                     continue;
                 }
                 
-                // Handle multi-line comments
                 if (trimmedLine.includes('/*')) {
                     inMultiLineComment = true;
                 }
@@ -1044,19 +1181,16 @@
                     inMultiLineComment = false;
                 }
                 
-                // Decrease indent for closing braces
                 if (trimmedLine.includes('}') && !inMultiLineComment) {
                     indentLevel = Math.max(0, indentLevel - 1);
                 }
                 
-                // Add the line with proper indentation
                 if (trimmedLine) {
                     formattedLines.push('    '.repeat(indentLevel) + trimmedLine);
                 } else {
                     formattedLines.push('');
                 }
                 
-                // Increase indent for opening braces
                 if (trimmedLine.includes('{') && !inMultiLineComment) {
                     indentLevel++;
                 }
@@ -1066,23 +1200,27 @@
         }
 
         function cleanUpWhitespace(code) {
-            // Remove multiple consecutive empty lines
             return code.replace(/\n\s*\n\s*\n/g, '\n\n');
         }
 
-        // Format code function (preserves output)
+        // Format code function
         function formatCode() {
             if (editor) {
                 const currentOutput = outputContent.innerHTML;
-                const originalCode = editor.getValue();
-                const formattedCode = formatJavaCode(originalCode);
+                const originalCode = editor.value;
                 
-                // Only update if the code actually changed
-                if (formattedCode !== originalCode) {
-                    editor.setValue(formattedCode);
-                    outputContent.innerHTML = '<div class="output-line output-success">✓ Code formatted successfully</div>' + currentOutput;
-                } else {
-                    outputContent.innerHTML = '<div class="output-line output-info">✓ Code is already properly formatted</div>' + currentOutput;
+                try {
+                    const formattedCode = formatJavaCode(originalCode);
+                    
+                    if (formattedCode !== originalCode) {
+                        editor.value = formattedCode;
+                        outputContent.innerHTML = '<div class="output-line output-success">✓ Code formatted successfully</div>' + currentOutput;
+                        saveAllData();
+                    } else {
+                        outputContent.innerHTML = '<div class="output-line output-info">✓ Code is already properly formatted</div>' + currentOutput;
+                    }
+                } catch (error) {
+                    outputContent.innerHTML = `<div class="output-line output-error">${error.message}</div>` + currentOutput;
                 }
             }
         }
@@ -1091,112 +1229,65 @@
         function detectClassNameChange() {
             if (!editor) return;
             
-            const code = editor.getValue();
+            const code = editor.value;
             const classMatch = code.match(/public\s+class\s+(\w+)/);
             
             if (classMatch && classMatch[1]) {
                 const className = classMatch[1];
                 const expectedFileName = `${className}.java`;
                 
-                if (currentFile !== expectedFileName && files[currentFile]) {
-                    // Update the file name in the files object and sidebar
-                    files[expectedFileName] = files[currentFile];
-                    delete files[currentFile];
-                    
-                    // Update sidebar
-                    const fileItem = document.querySelector(`[data-filename="${currentFile}"]`);
-                    if (fileItem) {
-                        fileItem.setAttribute('data-filename', expectedFileName);
-                        fileItem.querySelector('.file-name').textContent = expectedFileName;
-                    }
+                if (ideData.currentFile !== expectedFileName && ideData.files[ideData.currentFile]) {
+                    // Update the file name
+                    ideData.files[expectedFileName] = ideData.files[ideData.currentFile];
+                    delete ideData.files[ideData.currentFile];
                     
                     // Update current file reference
-                    currentFile = expectedFileName;
+                    ideData.currentFile = expectedFileName;
                     currentFileName.textContent = expectedFileName;
                     
+                    // Re-render file list
+                    renderFileList();
+                    
                     outputContent.innerHTML = `<div class="output-line output-success">✓ Updated file name to match class: ${expectedFileName}</div>` + outputContent.innerHTML;
+                    saveAllData();
                 }
             }
         }
 
         // Create new class
         function createNewClass() {
-            fileCounter++;
-            const className = `Class${fileCounter}`;
+            ideData.fileCounter++;
+            const className = `Class${ideData.fileCounter}`;
             const fileName = `${className}.java`;
             const classContent = `public class ${className} {
     // Your class implementation here
 }`;
             
-            files[fileName] = classContent;
-            
-            // Add to file list
-            const fileItem = document.createElement('li');
-            fileItem.className = 'file-item';
-            fileItem.setAttribute('data-filename', fileName);
-            fileItem.innerHTML = `
-                <div class="file-item-content">
-                    <i class="fas fa-file-code"></i>
-                    <span class="file-name">${fileName}</span>
-                </div>
-                <div class="file-actions">
-                    <button class="file-action-btn rename-btn" title="Rename">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="file-action-btn delete-btn" title="Delete">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            `;
-            
-            // Add event listeners for the new file item
-            fileItem.addEventListener('click', (e) => {
-                if (!e.target.closest('.file-actions')) {
-                    switchFile(fileName);
-                }
-            });
-            
-            const renameBtn = fileItem.querySelector('.rename-btn');
-            const deleteBtn = fileItem.querySelector('.delete-btn');
-            
-            renameBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                showRenameModal(fileName);
-            });
-            
-            deleteBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                showDeleteModal(fileName);
-            });
-            
-            fileList.appendChild(fileItem);
-            
-            // Switch to new file
+            ideData.files[fileName] = classContent;
+            renderFileList();
             switchFile(fileName);
             
             outputContent.innerHTML = `<div class="output-line output-success">✓ Created new class: ${fileName}</div>` + outputContent.innerHTML;
+            saveAllData();
         }
 
         // Switch between files
         function switchFile(fileName) {
-            // Update active file in sidebar
-            document.querySelectorAll('.file-item').forEach(item => item.classList.remove('active'));
-            const targetFile = document.querySelector(`[data-filename="${fileName}"]`);
-            if (targetFile) {
-                targetFile.classList.add('active');
-            }
-            
             // Save current file content
-            if (editor && files[currentFile] !== undefined) {
-                files[currentFile] = editor.getValue();
+            if (editor && ideData.files[ideData.currentFile] !== undefined) {
+                ideData.files[ideData.currentFile] = editor.value;
             }
             
             // Load new file content
-            currentFile = fileName;
+            ideData.currentFile = fileName;
             currentFileName.textContent = fileName;
             if (editor) {
-                editor.setValue(files[fileName] || '');
+                editor.value = ideData.files[fileName] || '';
             }
+            
+            // Update active file in sidebar
+            renderFileList();
+            saveAllData();
         }
 
         // Show rename modal
@@ -1221,69 +1312,65 @@
             
             const newFileName = `${newName}.java`;
             
-            if (files[newFileName]) {
+            if (ideData.files[newFileName]) {
                 showToast(`File ${newFileName} already exists`, true);
                 return;
             }
             
             // Update files object
-            files[newFileName] = files[oldName];
-            delete files[oldName];
+            ideData.files[newFileName] = ideData.files[oldName];
+            delete ideData.files[oldName];
             
             // Update code content if it contains the old class name
             const oldClassName = oldName.replace('.java', '');
-            if (files[newFileName].includes(`class ${oldClassName}`)) {
-                files[newFileName] = files[newFileName].replace(
+            if (ideData.files[newFileName].includes(`class ${oldClassName}`)) {
+                ideData.files[newFileName] = ideData.files[newFileName].replace(
                     `class ${oldClassName}`, 
                     `class ${newName}`
                 );
             }
             
-            // Update sidebar
-            const fileItem = document.querySelector(`[data-filename="${oldName}"]`);
-            if (fileItem) {
-                fileItem.setAttribute('data-filename', newFileName);
-                fileItem.querySelector('.file-name').textContent = newFileName;
-            }
-            
             // Update current file if it was the renamed file
-            if (currentFile === oldName) {
-                currentFile = newFileName;
+            if (ideData.currentFile === oldName) {
+                ideData.currentFile = newFileName;
                 currentFileName.textContent = newFileName;
                 if (editor) {
-                    editor.setValue(files[newFileName]);
+                    editor.value = ideData.files[newFileName];
                 }
             }
             
             renameModal.classList.remove('visible');
+            renderFileList();
             showToast(`Renamed ${oldName} to ${newFileName}`);
+            saveAllData();
         }
 
-        // Delete file
+        // Delete file - FIXED TO WORK PROPERLY
         function deleteFile(fileName) {
-            if (Object.keys(files).length <= 1) {
+            if (Object.keys(ideData.files).length <= 1) {
                 showToast('Cannot delete the last file', true);
                 return;
             }
             
-            delete files[fileName];
+            // Store the file content before deletion
+            const deletedContent = ideData.files[fileName];
             
-            // Remove from sidebar
-            const fileItem = document.querySelector(`[data-filename="${fileName}"]`);
-            if (fileItem) {
-                fileItem.remove();
-            }
+            // Delete the file
+            delete ideData.files[fileName];
             
-            // Switch to another file if the deleted file was active
-            if (currentFile === fileName) {
-                const remainingFiles = Object.keys(files);
+            // If we're deleting the current file, switch to another one
+            if (ideData.currentFile === fileName) {
+                const remainingFiles = Object.keys(ideData.files);
                 if (remainingFiles.length > 0) {
+                    // Switch to the first available file
                     switchFile(remainingFiles[0]);
                 }
             }
             
             deleteModal.classList.remove('visible');
+            renderFileList();
             showToast(`Deleted ${fileName}`);
+            saveAllData();
         }
 
         // Scanner input simulation
@@ -1306,35 +1393,33 @@
                 inputResolver = null;
                 inputContainer.classList.remove('visible');
                 outputContent.innerHTML += `<div class="output-line output-info">→ ${value}</div>`;
+                saveAllData();
             }
         });
 
         // Enhanced Java execution with Scanner support
         async function runJavaCode() {
-            const code = editor.getValue();
+            const code = editor.value;
             
             // Update status
             statusIndicator.className = 'status-indicator running';
             statusText.textContent = 'Running...';
             
             try {
-                // Enhanced Java execution simulation with Scanner support
                 await executeJavaWithScanner(code);
-                
                 outputContent.innerHTML += '<div class="output-line output-success">✓ Execution completed successfully</div>';
             } catch (error) {
                 outputContent.innerHTML += `<div class="output-line output-error">Error: ${error.message}</div>`;
                 outputContent.innerHTML += '<div class="output-line output-error">✗ Execution failed</div>';
             } finally {
-                // Update status
                 statusIndicator.className = 'status-indicator';
-                statusText.textContent = 'Ready';
+                statusText.textContent = 'Ready - Auto-save enabled';
+                saveAllData();
             }
         }
 
         // Enhanced Java execution with Scanner simulation
         async function executeJavaWithScanner(code) {
-            // Mock Scanner implementation
             const mockScanner = {
                 nextLine: async function() {
                     return await waitForInput("Enter text: ");
@@ -1351,12 +1436,9 @@
                     const input = await waitForInput("Enter word: ");
                     return input.split(' ')[0];
                 },
-                close: function() {
-                    // Do nothing
-                }
+                close: function() {}
             };
 
-            // Create execution context
             const context = {
                 System: {
                     out: {
@@ -1389,7 +1471,6 @@
                 }
             };
 
-            // Extract and execute main method
             const mainMatch = code.match(/public static void main\s*\(\s*String\s*\[\]\s*args\s*\)\s*\{([\s\S]*?)\}/);
             if (!mainMatch) {
                 throw new Error('No main method found');
@@ -1397,30 +1478,24 @@
 
             let mainContent = mainMatch[1];
             
-            // Handle imports
             if (code.includes('import java.util.Scanner;')) {
                 context.Scanner = function() { return mockScanner; };
             }
 
-            // Execute println statements and handle Scanner
             const lines = mainContent.split('\n');
             
             for (let i = 0; i < lines.length; i++) {
                 let line = lines[i].trim();
                 
-                // Skip empty lines and comments
                 if (!line || line.startsWith('//')) continue;
                 
-                // Handle System.out.println
                 if (line.includes('System.out.println')) {
                     const contentMatch = line.match(/System\.out\.println\((.*)\);/);
                     if (contentMatch) {
                         let content = contentMatch[1];
-                        // Evaluate expressions
                         if (content.includes('+')) {
                             const parts = content.split('+').map(part => {
                                 let trimmed = part.trim().replace(/"/g, '');
-                                // Handle variable evaluation
                                 if (!trimmed.startsWith('"') && !trimmed.endsWith('"')) {
                                     return eval(trimmed);
                                 }
@@ -1432,7 +1507,6 @@
                         }
                     }
                 }
-                // Handle System.out.print
                 else if (line.includes('System.out.print')) {
                     const contentMatch = line.match(/System\.out\.print\((.*)\);/);
                     if (contentMatch) {
@@ -1440,12 +1514,6 @@
                         context.System.out.print(content.replace(/"/g, ''));
                     }
                 }
-                // Handle variable declarations with Scanner
-                else if (line.includes('Scanner') && line.includes('new Scanner')) {
-                    // Scanner initialization - already handled by context
-                    continue;
-                }
-                // Handle scanner.nextLine()
                 else if (line.includes('.nextLine()')) {
                     const varMatch = line.match(/(\w+)\s*=\s*(\w+)\.nextLine\(\)/);
                     if (varMatch) {
@@ -1453,7 +1521,6 @@
                         context[varMatch[1]] = value;
                     }
                 }
-                // Handle scanner.nextInt()
                 else if (line.includes('.nextInt()')) {
                     const varMatch = line.match(/(\w+)\s*=\s*(\w+)\.nextInt\(\)/);
                     if (varMatch) {
@@ -1461,7 +1528,6 @@
                         context[varMatch[1]] = value;
                     }
                 }
-                // Handle other scanner methods
                 else if (line.includes('.next') && line.includes('()')) {
                     const varMatch = line.match(/(\w+)\s*=\s*(\w+)\.(\w+)\(\)/);
                     if (varMatch) {
@@ -1478,13 +1544,13 @@
         // Clear output function
         function clearOutput() {
             outputContent.innerHTML = '<div class="output-line code-comment">// Output cleared</div>';
+            saveAllData();
         }
 
-        // Save current file
+        // Manual save
         function saveFile() {
-            if (editor) {
-                files[currentFile] = editor.getValue();
-                showToast(`Saved ${currentFile}`);
+            if (saveAllData()) {
+                showToast(`Saved ${ideData.currentFile}`);
             }
         }
 
@@ -1494,6 +1560,57 @@
         newClassBtn.addEventListener('click', createNewClass);
         clearOutputBtn.addEventListener('click', clearOutput);
         saveBtn.addEventListener('click', saveFile);
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key) {
+                    case 's':
+                        e.preventDefault();
+                        formatCode();
+                        break;
+                    case 'Enter':
+                        e.preventDefault();
+                        runJavaCode();
+                        break;
+                    case 'n':
+                        e.preventDefault();
+                        createNewClass();
+                        break;
+                }
+            }
+        });
+
+        // Editor event listeners
+        editor.addEventListener('keydown', function(e) {
+            // sysout + Tab shortcut
+            if (e.key === 'Tab') {
+                const start = editor.selectionStart;
+                const end = editor.selectionEnd;
+                const textBeforeCursor = editor.value.substring(0, start);
+                const lines = textBeforeCursor.split('\n');
+                const currentLine = lines[lines.length - 1].trim();
+                
+                if (currentLine === 'sysout') {
+                    e.preventDefault();
+                    const currentLineFull = lines[lines.length - 1];
+                    const indentation = currentLineFull.substring(0, currentLineFull.indexOf('sysout'));
+                    
+                    const linesBefore = textBeforeCursor.split('\n');
+                    linesBefore[linesBefore.length - 1] = indentation + 'System.out.println("");';
+                    const textAfterCursor = editor.value.substring(end);
+                    editor.value = linesBefore.join('\n') + textAfterCursor;
+                    
+                    const newCursorPos = start - 'sysout'.length + 'System.out.println("'.length;
+                    editor.setSelectionRange(newCursorPos, newCursorPos);
+                    saveAllData();
+                    return;
+                }
+            }
+            
+            // Auto-detect class name changes
+            setTimeout(detectClassNameChange, 100);
+        });
 
         // Modal event listeners
         closeRenameModal.addEventListener('click', () => renameModal.classList.remove('visible'));
@@ -1522,45 +1639,12 @@
             }
         });
 
-        // File switching and action buttons for existing files
-        document.querySelectorAll('.file-item').forEach(item => {
-            if (!item.classList.contains('import-item')) {
-                // File click handler
-                item.addEventListener('click', function(e) {
-                    if (!e.target.closest('.file-actions')) {
-                        const fileName = this.getAttribute('data-filename');
-                        switchFile(fileName);
-                    }
-                });
-
-                // Rename button handler
-                const renameBtn = item.querySelector('.rename-btn');
-                if (renameBtn) {
-                    renameBtn.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        const fileName = item.getAttribute('data-filename');
-                        showRenameModal(fileName);
-                    });
-                }
-
-                // Delete button handler
-                const deleteBtn = item.querySelector('.delete-btn');
-                if (deleteBtn) {
-                    deleteBtn.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        const fileName = item.getAttribute('data-filename');
-                        showDeleteModal(fileName);
-                    });
-                }
-            }
-        });
-
         // Import handling
         document.querySelectorAll('.import-item').forEach(item => {
             item.addEventListener('click', function() {
                 const importText = this.querySelector('span').textContent;
                 if (editor) {
-                    const currentCode = editor.getValue();
+                    const currentCode = editor.value;
                     if (!currentCode.includes(importText)) {
                         let newCode = currentCode;
                         if (importText === 'java.util.*' || importText === 'java.util.Scanner') {
@@ -1572,6 +1656,7 @@
                         }
                         editor.setValue(newCode);
                         showToast(`Added import: ${importText}`);
+                        saveAllData();
                     }
                 }
             });
@@ -1587,11 +1672,8 @@
             }
         });
 
-        // Test the formatter with some unformatted code
-        setTimeout(() => {
-            const testUnformattedCode = `public class Test{public static void main(String[] args){int x=5;int y=10;System.out.println("Sum: "+(x+y));for(int i=0;i<5;i++){System.out.println(i);}}}`;
-            console.log('Formatter test:', formatJavaCode(testUnformattedCode));
-        }, 1000);
+        // Initialize the IDE when page loads
+        document.addEventListener('DOMContentLoaded', initializeIDE);
     </script>
 </body>
 </html>
