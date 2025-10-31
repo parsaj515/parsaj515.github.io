@@ -612,6 +612,30 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--success);
+            color: var(--dark);
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            box-shadow: var(--shadow);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1001;
+        }
+
+        .toast.visible {
+            transform: translateX(0);
+        }
+
+        .toast.error {
+            background: var(--danger);
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -757,6 +781,9 @@
             </div>
         </div>
 
+        <!-- Toast Notifications -->
+        <div class="toast" id="toast"></div>
+
         <div class="status-bar">
             <div class="status-item">
                 <div class="status-indicator" id="statusIndicator"></div>
@@ -892,6 +919,7 @@
         const inputContainer = document.getElementById('inputContainer');
         const inputPrompt = document.getElementById('inputPrompt');
         const inputField = document.getElementById('inputField');
+        const toast = document.getElementById('toast');
 
         // Modal elements
         const renameModal = document.getElementById('renameModal');
@@ -904,6 +932,160 @@
         const cancelDelete = document.getElementById('cancelDelete');
         const confirmRename = document.getElementById('confirmRename');
         const confirmDelete = document.getElementById('confirmDelete');
+
+        // Show toast notification
+        function showToast(message, isError = false) {
+            toast.textContent = message;
+            toast.className = 'toast' + (isError ? ' error' : '');
+            toast.classList.add('visible');
+            
+            setTimeout(() => {
+                toast.classList.remove('visible');
+            }, 3000);
+        }
+
+        // Advanced Java code formatter
+        function formatJavaCode(code) {
+            // Store the original output
+            const originalOutput = outputContent.innerHTML;
+            
+            try {
+                // Format imports
+                code = formatImports(code);
+                
+                // Format class declaration
+                code = formatClassDeclaration(code);
+                
+                // Format methods
+                code = formatMethods(code);
+                
+                // Format statements
+                code = formatStatements(code);
+                
+                // Format braces and indentation
+                code = formatBracesAndIndentation(code);
+                
+                // Clean up extra whitespace
+                code = cleanUpWhitespace(code);
+                
+                showToast('Code formatted successfully!');
+                return code;
+            } catch (error) {
+                showToast('Formatting failed: ' + error.message, true);
+                return code; // Return original code if formatting fails
+            }
+        }
+
+        function formatImports(code) {
+            // Extract and sort imports
+            const importRegex = /import\s+[\w.*]+;/g;
+            const imports = code.match(importRegex) || [];
+            const otherCode = code.replace(importRegex, '').trim();
+            
+            if (imports.length > 0) {
+                // Sort imports alphabetically
+                imports.sort();
+                
+                // Combine imports with the rest of the code
+                return imports.join('\n') + '\n\n' + otherCode;
+            }
+            
+            return code;
+        }
+
+        function formatClassDeclaration(code) {
+            // Format class declaration to have proper spacing
+            return code.replace(/(public|private|protected)?\s*(class)\s+(\w+)/g, '$1 $2 $3')
+                      .replace(/\s+/g, ' ')
+                      .trim();
+        }
+
+        function formatMethods(code) {
+            // Format method declarations
+            return code.replace(/(public|private|protected|static)\s+(\w+)\s+(\w+)\s*\(([^)]*)\)\s*\{/g, '$1 $2 $3($4) {');
+        }
+
+        function formatStatements(code) {
+            // Add spaces around operators
+            code = code.replace(/([^\s])([=+\-*/%])([^\s])/g, '$1 $2 $3');
+            
+            // Add spaces after commas
+            code = code.replace(/,(\S)/g, ', $1');
+            
+            // Add spaces after semicolons (except in for loops)
+            code = code.replace(/;(?!\s*[\)])/g, '; ');
+            
+            // Format System.out statements
+            code = code.replace(/System\.out\.(print|println|printf)\s*\(/g, 'System.out.$1(');
+            
+            return code;
+        }
+
+        function formatBracesAndIndentation(code) {
+            let lines = code.split('\n');
+            let indentLevel = 0;
+            let formattedLines = [];
+            let inMultiLineComment = false;
+            
+            for (let line of lines) {
+                let trimmedLine = line.trim();
+                
+                // Skip empty lines but preserve them
+                if (trimmedLine === '') {
+                    formattedLines.push('');
+                    continue;
+                }
+                
+                // Handle multi-line comments
+                if (trimmedLine.includes('/*')) {
+                    inMultiLineComment = true;
+                }
+                if (trimmedLine.includes('*/')) {
+                    inMultiLineComment = false;
+                }
+                
+                // Decrease indent for closing braces
+                if (trimmedLine.includes('}') && !inMultiLineComment) {
+                    indentLevel = Math.max(0, indentLevel - 1);
+                }
+                
+                // Add the line with proper indentation
+                if (trimmedLine) {
+                    formattedLines.push('    '.repeat(indentLevel) + trimmedLine);
+                } else {
+                    formattedLines.push('');
+                }
+                
+                // Increase indent for opening braces
+                if (trimmedLine.includes('{') && !inMultiLineComment) {
+                    indentLevel++;
+                }
+            }
+            
+            return formattedLines.join('\n');
+        }
+
+        function cleanUpWhitespace(code) {
+            // Remove multiple consecutive empty lines
+            return code.replace(/\n\s*\n\s*\n/g, '\n\n');
+        }
+
+        // Format code function (preserves output)
+        function formatCode() {
+            if (editor) {
+                const currentOutput = outputContent.innerHTML;
+                const originalCode = editor.getValue();
+                const formattedCode = formatJavaCode(originalCode);
+                
+                // Only update if the code actually changed
+                if (formattedCode !== originalCode) {
+                    editor.setValue(formattedCode);
+                    outputContent.innerHTML = '<div class="output-line output-success">✓ Code formatted successfully</div>' + currentOutput;
+                } else {
+                    outputContent.innerHTML = '<div class="output-line output-info">✓ Code is already properly formatted</div>' + currentOutput;
+                }
+            }
+        }
 
         // Detect class name changes in the code
         function detectClassNameChange() {
@@ -934,18 +1116,6 @@
                     
                     outputContent.innerHTML = `<div class="output-line output-success">✓ Updated file name to match class: ${expectedFileName}</div>` + outputContent.innerHTML;
                 }
-            }
-        }
-
-        // Format code function (preserves output)
-        function formatCode() {
-            if (editor) {
-                const currentOutput = outputContent.innerHTML;
-                editor.getAction('editor.action.formatDocument').run();
-                // Add a small delay to ensure formatting is complete
-                setTimeout(() => {
-                    outputContent.innerHTML = '<div class="output-line output-success">✓ Code formatted successfully</div>' + currentOutput;
-                }, 100);
             }
         }
 
@@ -1052,7 +1222,7 @@
             const newFileName = `${newName}.java`;
             
             if (files[newFileName]) {
-                outputContent.innerHTML = `<div class="output-line output-error">File ${newFileName} already exists</div>` + outputContent.innerHTML;
+                showToast(`File ${newFileName} already exists`, true);
                 return;
             }
             
@@ -1086,13 +1256,13 @@
             }
             
             renameModal.classList.remove('visible');
-            outputContent.innerHTML = `<div class="output-line output-success">✓ Renamed ${oldName} to ${newFileName}</div>` + outputContent.innerHTML;
+            showToast(`Renamed ${oldName} to ${newFileName}`);
         }
 
         // Delete file
         function deleteFile(fileName) {
             if (Object.keys(files).length <= 1) {
-                outputContent.innerHTML = `<div class="output-line output-error">Cannot delete the last file</div>` + outputContent.innerHTML;
+                showToast('Cannot delete the last file', true);
                 return;
             }
             
@@ -1113,7 +1283,7 @@
             }
             
             deleteModal.classList.remove('visible');
-            outputContent.innerHTML = `<div class="output-line output-success">✓ Deleted ${fileName}</div>` + outputContent.innerHTML;
+            showToast(`Deleted ${fileName}`);
         }
 
         // Scanner input simulation
@@ -1314,7 +1484,7 @@
         function saveFile() {
             if (editor) {
                 files[currentFile] = editor.getValue();
-                outputContent.innerHTML = `<div class="output-line output-success">✓ Saved ${currentFile}</div>` + outputContent.innerHTML;
+                showToast(`Saved ${currentFile}`);
             }
         }
 
@@ -1401,7 +1571,7 @@
                             newCode = `import ${importText};\n\n${newCode}`;
                         }
                         editor.setValue(newCode);
-                        outputContent.innerHTML = `<div class="output-line output-success">✓ Added import: ${importText}</div>` + outputContent.innerHTML;
+                        showToast(`Added import: ${importText}`);
                     }
                 }
             });
@@ -1416,6 +1586,12 @@
                 deleteModal.classList.remove('visible');
             }
         });
+
+        // Test the formatter with some unformatted code
+        setTimeout(() => {
+            const testUnformattedCode = `public class Test{public static void main(String[] args){int x=5;int y=10;System.out.println("Sum: "+(x+y));for(int i=0;i<5;i++){System.out.println(i);}}}`;
+            console.log('Formatter test:', formatJavaCode(testUnformattedCode));
+        }, 1000);
     </script>
 </body>
 </html>
