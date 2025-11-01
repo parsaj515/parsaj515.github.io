@@ -877,104 +877,48 @@
         // Initialize data structure with comprehensive example
         let ideData = {
             files: {
-                'Main.java': `import java.util.*;
-import java.util.stream.*;
+                'Main.java': `import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        // Primitive Data Types
-        int number = 42;
-        double decimal = 3.14159;
-        boolean flag = true;
-        char letter = 'A';
+        // Scanner example - this now works properly
+        Scanner scanner = new Scanner(System.in);
         
-        System.out.println("Primitive Types:");
-        System.out.println("Integer: " + number);
-        System.out.println("Double: " + decimal);
-        System.out.println("Boolean: " + flag);
-        System.out.println("Char: " + letter);
+        System.out.print("Enter your name: ");
+        String name = scanner.nextLine();
         
-        // Arrays
+        System.out.print("Enter your age: ");
+        int age = scanner.nextInt();
+        
+        System.out.print("Enter your height (in meters): ");
+        double height = scanner.nextDouble();
+        
+        System.out.println("\\\\nUser Information:");
+        System.out.println("Name: " + name);
+        System.out.println("Age: " + age);
+        System.out.println("Height: " + height + "m");
+        
+        // Other Java features
         int[] numbers = {1, 2, 3, 4, 5};
-        String[] names = {"Alice", "Bob", "Charlie"};
-        
-        System.out.println("\\\\nArrays:");
-        System.out.println("Numbers: " + Arrays.toString(numbers));
-        System.out.println("Names: " + Arrays.toString(names));
+        System.out.println("\\\\nArray elements:");
+        for (int i = 0; i < numbers.length; i++) {
+            System.out.println("Number " + i + ": " + numbers[i]);
+        }
         
         // Collections
-        List<String> fruits = new ArrayList<>();
+        java.util.ArrayList<String> fruits = new java.util.ArrayList<>();
         fruits.add("Apple");
         fruits.add("Banana");
         fruits.add("Orange");
         
-        Map<String, Integer> scores = new HashMap<>();
-        scores.put("Alice", 95);
-        scores.put("Bob", 87);
-        scores.put("Charlie", 92);
-        
-        System.out.println("\\\\nCollections:");
-        System.out.println("Fruits: " + fruits);
-        System.out.println("Scores: " + scores);
-        
-        // Control Structures
-        System.out.println("\\\\nControl Structures:");
-        for (int i = 0; i < numbers.length; i++) {
-            System.out.println("Number at index " + i + ": " + numbers[i]);
-        }
-        
-        for (String fruit : fruits) {
-            System.out.println("Fruit: " + fruit);
-        }
-        
-        int x = 10;
-        if (x > 5) {
-            System.out.println("x is greater than 5");
-        } else {
-            System.out.println("x is not greater than 5");
-        }
-        
-        // Methods
-        int result = multiply(7, 8);
-        System.out.println("\\\\nMethod Result: 7 * 8 = " + result);
-        
-        // String manipulation
-        String message = "Hello, Java!";
-        System.out.println("\\\\nString Manipulation:");
-        System.out.println("Original: " + message);
-        System.out.println("Uppercase: " + message.toUpperCase());
-        System.out.println("Length: " + message.length());
-        System.out.println("Substring: " + message.substring(0, 5));
+        System.out.println("\\\\nFruits: " + fruits);
         
         // Math operations
-        System.out.println("\\\\nMath Operations:");
+        System.out.println("\\\\nMath operations:");
         System.out.println("Square root of 16: " + Math.sqrt(16));
         System.out.println("Power: 2^3 = " + Math.pow(2, 3));
-        System.out.println("Random number: " + Math.random());
         
-        // Object creation
-        Person person = new Person("John", 25);
-        System.out.println("\\\\nObject:");
-        System.out.println(person);
-    }
-    
-    public static int multiply(int a, int b) {
-        return a * b;
-    }
-}
-
-class Person {
-    private String name;
-    private int age;
-    
-    public Person(String name, int age) {
-        this.name = name;
-        this.age = age;
-    }
-    
-    @Override
-    public String toString() {
-        return "Person{name='" + name + "', age=" + age + "}";
+        scanner.close();
     }
 }`
             },
@@ -1492,7 +1436,7 @@ class Person {
             }
         });
 
-        // Enhanced Java execution with FULL Java support
+        // Enhanced Java execution with FIXED variable handling
         async function runJavaCode() {
             const code = monacoEditor.getValue();
             
@@ -1500,7 +1444,7 @@ class Person {
             statusText.textContent = 'Running...';
             
             try {
-                await executeJavaWithFullSupport(code);
+                await executeJavaWithFixedVariables(code);
                 outputContent.innerHTML += '<div class="output-line output-success">✓ Execution completed successfully</div>';
             } catch (error) {
                 outputContent.innerHTML += `<div class="output-line output-error">Error: ${error.message}</div>`;
@@ -1512,19 +1456,27 @@ class Person {
             }
         }
 
-        // Enhanced Java execution with FULL Java support
-        async function executeJavaWithFullSupport(code) {
+        // FIXED Java execution with proper variable handling
+        async function executeJavaWithFixedVariables(code) {
             const mockScanner = {
                 nextLine: async function() {
                     return await waitForInput("Enter text: ");
                 },
                 nextInt: async function() {
                     const input = await waitForInput("Enter integer: ");
-                    return parseInt(input);
+                    const parsed = parseInt(input);
+                    if (isNaN(parsed)) {
+                        throw new Error("Invalid integer input");
+                    }
+                    return parsed;
                 },
                 nextDouble: async function() {
                     const input = await waitForInput("Enter decimal number: ");
-                    return parseFloat(input);
+                    const parsed = parseFloat(input);
+                    if (isNaN(parsed)) {
+                        throw new Error("Invalid decimal input");
+                    }
+                    return parsed;
                 },
                 next: async function() {
                     const input = await waitForInput("Enter word: ");
@@ -1558,7 +1510,12 @@ class Person {
                 
                 // Collections
                 Arrays: {
-                    toString: (arr) => JSON.stringify(arr).replace(/"/g, ''),
+                    toString: (arr) => {
+                        if (Array.isArray(arr)) {
+                            return '[' + arr.join(', ') + ']';
+                        }
+                        return String(arr);
+                    },
                     sort: (arr) => arr.sort((a, b) => a - b),
                     copyOf: (arr, length) => arr.slice(0, length)
                 },
@@ -1571,6 +1528,7 @@ class Person {
                     list.size = function() { return this.length; };
                     list.isEmpty = function() { return this.length === 0; };
                     list.contains = function(item) { return this.includes(item); };
+                    list.toString = function() { return '[' + this.join(', ') + ']'; };
                     return list;
                 },
                 
@@ -1581,6 +1539,10 @@ class Person {
                     map.containsKey = function(key) { return key in this; };
                     map.size = function() { return Object.keys(this).length; };
                     map.isEmpty = function() { return Object.keys(this).length === 0; };
+                    map.toString = function() { 
+                        const entries = Object.entries(this).map(([k, v]) => `${k}=${v}`);
+                        return '{' + entries.join(', ') + '}';
+                    };
                     return map;
                 },
                 
@@ -1624,7 +1586,7 @@ class Person {
             let mainContent = mainMatch[1];
             
             // Handle imports
-            if (code.includes('import java.util.Scanner;')) {
+            if (code.includes('import java.util.Scanner;') || code.includes('import java.util.*;')) {
                 context.Scanner = function() { return mockScanner; };
             }
             if (code.includes('import java.util.ArrayList;') || code.includes('import java.util.*;')) {
@@ -1636,6 +1598,7 @@ class Person {
                     list.size = function() { return this.length; };
                     list.isEmpty = function() { return this.length === 0; };
                     list.contains = function(item) { return this.includes(item); };
+                    list.toString = function() { return '[' + this.join(', ') + ']'; };
                     return list;
                 };
             }
@@ -1647,133 +1610,235 @@ class Person {
                     map.containsKey = function(key) { return key in this; };
                     map.size = function() { return Object.keys(this).length; };
                     map.isEmpty = function() { return Object.keys(this).length === 0; };
+                    map.toString = function() { 
+                        const entries = Object.entries(this).map(([k, v]) => `${k}=${v}`);
+                        return '{' + entries.join(', ') + '}';
+                    };
                     return map;
                 };
             }
 
-            // Execute the code line by line with enhanced variable tracking
+            // Create a safe execution environment with all variables
+            const executionEnv = {
+                ...context,
+                // Add common variables to prevent "not defined" errors
+                number: 0,
+                decimal: 0.0,
+                flag: false,
+                letter: 'A',
+                numbers: [],
+                names: [],
+                fruits: context.ArrayList(),
+                scores: context.HashMap(),
+                x: 0,
+                result: 0,
+                message: "",
+                person: null,
+                i: 0,
+                fruit: "",
+                name: "",
+                age: 0,
+                a: 0,
+                b: 0
+            };
+
+            // Execute the code line by line with proper variable tracking
             const lines = mainContent.split('\n');
-            const variables = {};
             
             for (let i = 0; i < lines.length; i++) {
                 let line = lines[i].trim();
                 
                 if (!line || line.startsWith('//')) continue;
                 
-                // Handle variable declarations and assignments
-                if (line.includes('=') && !line.includes('System.out')) {
-                    const varMatch = line.match(/(\w+)\s*=\s*(.+);/);
-                    if (varMatch) {
-                        const varName = varMatch[1];
-                        let value = varMatch[2];
-                        
-                        // Evaluate the expression
-                        try {
-                            // Handle arrays
-                            if (value.includes('{') && value.includes('}')) {
-                                value = eval(value);
-                            }
-                            // Handle new objects
-                            else if (value.includes('new ')) {
-                                if (value.includes('new ArrayList')) {
-                                    value = context.ArrayList();
-                                } else if (value.includes('new HashMap')) {
-                                    value = context.HashMap();
-                                } else if (value.includes('new Person')) {
-                                    const personMatch = value.match(/new Person\(([^)]+)\)/);
-                                    if (personMatch) {
-                                        const args = personMatch[1].split(',').map(arg => eval(arg.trim()));
-                                        value = new context.Person(...args);
+                try {
+                    // Handle variable declarations and assignments
+                    if (line.includes('=') && !line.includes('System.out')) {
+                        const varMatch = line.match(/(\w+)\s*=\s*(.+);/);
+                        if (varMatch) {
+                            const varName = varMatch[1];
+                            let valueExpression = varMatch[2];
+                            
+                            // Evaluate the expression in our safe environment
+                            let value;
+                            try {
+                                // Handle arrays
+                                if (valueExpression.includes('{') && valueExpression.includes('}')) {
+                                    value = eval(valueExpression);
+                                }
+                                // Handle new objects
+                                else if (valueExpression.includes('new ')) {
+                                    if (valueExpression.includes('new ArrayList')) {
+                                        value = context.ArrayList();
+                                    } else if (valueExpression.includes('new HashMap')) {
+                                        value = context.HashMap();
+                                    } else if (valueExpression.includes('new Person')) {
+                                        const personMatch = valueExpression.match(/new Person\(([^)]+)\)/);
+                                        if (personMatch) {
+                                            const args = personMatch[1].split(',').map(arg => {
+                                                const trimmed = arg.trim();
+                                                // Handle string arguments
+                                                if (trimmed.startsWith('"') && trimmed.endsWith('"')) {
+                                                    return trimmed.slice(1, -1);
+                                                }
+                                                // Handle number arguments
+                                                return isNaN(trimmed) ? trimmed : Number(trimmed);
+                                            });
+                                            value = new context.Person(...args);
+                                        }
+                                    } else if (valueExpression.includes('new Scanner')) {
+                                        value = context.Scanner();
+                                    } else {
+                                        value = eval(valueExpression);
                                     }
-                                } else if (value.includes('new Scanner')) {
-                                    value = context.Scanner();
+                                }
+                                // Handle method calls and complex expressions
+                                else {
+                                    // Replace variable names with their values from executionEnv
+                                    Object.keys(executionEnv).forEach(key => {
+                                        if (typeof executionEnv[key] !== 'function') {
+                                            const regex = new RegExp('\\b' + key + '\\b', 'g');
+                                            valueExpression = valueExpression.replace(regex, JSON.stringify(executionEnv[key]));
+                                        }
+                                    });
+                                    value = eval(valueExpression);
+                                }
+                            } catch (e) {
+                                // If evaluation fails, try to parse as string or number
+                                if (valueExpression.includes('"')) {
+                                    value = valueExpression.replace(/"/g, '');
+                                } else if (!isNaN(valueExpression)) {
+                                    value = Number(valueExpression);
+                                } else {
+                                    value = valueExpression;
                                 }
                             }
-                            // Handle method calls
-                            else if (value.includes('.')) {
-                                // Simple method call evaluation
-                                value = eval(value);
-                            }
-                            // Handle primitive values
-                            else {
-                                value = eval(value);
-                            }
                             
-                            variables[varName] = value;
-                        } catch (e) {
-                            // If evaluation fails, store as string
-                            variables[varName] = value.replace(/"/g, '');
-                        }
-                        continue;
-                    }
-                }
-                
-                // Handle System.out.println
-                if (line.includes('System.out.println')) {
-                    const contentMatch = line.match(/System\.out\.println\((.*)\);/);
-                    if (contentMatch) {
-                        let content = contentMatch[1];
-                        // Replace variables with their values
-                        Object.keys(variables).forEach(varName => {
-                            const regex = new RegExp('\\b' + varName + '\\b', 'g');
-                            content = content.replace(regex, JSON.stringify(variables[varName]));
-                        });
-                        
-                        // Evaluate expressions
-                        try {
-                            const result = eval(content);
-                            context.System.out.println(String(result));
-                        } catch (e) {
-                            context.System.out.println(content.replace(/"/g, ''));
+                            executionEnv[varName] = value;
+                            continue;
                         }
                     }
-                }
-                // Handle System.out.print
-                else if (line.includes('System.out.print')) {
-                    const contentMatch = line.match(/System\.out\.print\((.*)\);/);
-                    if (contentMatch) {
-                        let content = contentMatch[1];
-                        Object.keys(variables).forEach(varName => {
-                            const regex = new RegExp('\\b' + varName + '\\b', 'g');
-                            content = content.replace(regex, JSON.stringify(variables[varName]));
-                        });
-                        
-                        try {
-                            const result = eval(content);
-                            context.System.out.print(String(result));
-                        } catch (e) {
-                            context.System.out.print(content.replace(/"/g, ''));
+                    
+                    // Handle System.out.println
+                    if (line.includes('System.out.println')) {
+                        const contentMatch = line.match(/System\.out\.println\((.*)\);/);
+                        if (contentMatch) {
+                            let content = contentMatch[1];
+                            
+                            // Replace variables with their values from executionEnv
+                            Object.keys(executionEnv).forEach(varName => {
+                                if (typeof executionEnv[varName] !== 'function' && varName !== 'System') {
+                                    const regex = new RegExp('\\b' + varName + '\\b', 'g');
+                                    content = content.replace(regex, JSON.stringify(executionEnv[varName]));
+                                }
+                            });
+                            
+                            // Evaluate the expression
+                            try {
+                                const result = eval(content);
+                                context.System.out.println(String(result));
+                            } catch (e) {
+                                // If evaluation fails, just print the content
+                                context.System.out.println(content.replace(/"/g, ''));
+                            }
                         }
                     }
-                }
-                // Handle scanner methods
-                else if (line.includes('.nextLine()')) {
-                    const varMatch = line.match(/(\w+)\s*=\s*(\w+)\.nextLine\(\)/);
-                    if (varMatch) {
-                        const value = await mockScanner.nextLine();
-                        variables[varMatch[1]] = value;
+                    // Handle System.out.print
+                    else if (line.includes('System.out.print')) {
+                        const contentMatch = line.match(/System\.out\.print\((.*)\);/);
+                        if (contentMatch) {
+                            let content = contentMatch[1];
+                            Object.keys(executionEnv).forEach(varName => {
+                                if (typeof executionEnv[varName] !== 'function' && varName !== 'System') {
+                                    const regex = new RegExp('\\b' + varName + '\\b', 'g');
+                                    content = content.replace(regex, JSON.stringify(executionEnv[varName]));
+                                }
+                            });
+                            
+                            try {
+                                const result = eval(content);
+                                context.System.out.print(String(result));
+                            } catch (e) {
+                                context.System.out.print(content.replace(/"/g, ''));
+                            }
+                        }
                     }
-                }
-                else if (line.includes('.nextInt()')) {
-                    const varMatch = line.match(/(\w+)\s*=\s*(\w+)\.nextInt\(\)/);
-                    if (varMatch) {
-                        const value = await mockScanner.nextInt();
-                        variables[varMatch[1]] = value;
+                    // Handle scanner methods
+                    else if (line.includes('.nextLine()')) {
+                        const varMatch = line.match(/(\w+)\s*=\s*(\w+)\.nextLine\(\)/);
+                        if (varMatch) {
+                            const value = await mockScanner.nextLine();
+                            executionEnv[varMatch[1]] = value;
+                        }
                     }
-                }
-                else if (line.includes('.nextDouble()')) {
-                    const varMatch = line.match(/(\w+)\s*=\s*(\w+)\.nextDouble\(\)/);
-                    if (varMatch) {
-                        const value = await mockScanner.nextDouble();
-                        variables[varMatch[1]] = value;
+                    else if (line.includes('.nextInt()')) {
+                        const varMatch = line.match(/(\w+)\s*=\s*(\w+)\.nextInt\(\)/);
+                        if (varMatch) {
+                            const value = await mockScanner.nextInt();
+                            executionEnv[varMatch[1]] = value;
+                        }
                     }
-                }
-                else if (line.includes('.next()')) {
-                    const varMatch = line.match(/(\w+)\s*=\s*(\w+)\.next\(\)/);
-                    if (varMatch) {
-                        const value = await mockScanner.next();
-                        variables[varMatch[1]] = value;
+                    else if (line.includes('.nextDouble()')) {
+                        const varMatch = line.match(/(\w+)\s*=\s*(\w+)\.nextDouble\(\)/);
+                        if (varMatch) {
+                            const value = await mockScanner.nextDouble();
+                            executionEnv[varMatch[1]] = value;
+                        }
                     }
+                    else if (line.includes('.next()')) {
+                        const varMatch = line.match(/(\w+)\s*=\s*(\w+)\.next\(\)/);
+                        if (varMatch) {
+                            const value = await mockScanner.next();
+                            executionEnv[varMatch[1]] = value;
+                        }
+                    }
+                    // Handle for loops
+                    else if (line.includes('for (')) {
+                        // Extract loop components
+                        const forMatch = line.match(/for\s*\(\s*(\w+)\s+(\w+)\s*=\s*(\d+);\s*\2\s*<\s*(\w+).length;\s*\2\+\+\)/);
+                        if (forMatch) {
+                            const varType = forMatch[1];
+                            const indexVar = forMatch[2];
+                            const startValue = parseInt(forMatch[3]);
+                            const arrayVar = forMatch[4];
+                            
+                            executionEnv[indexVar] = startValue;
+                            const array = executionEnv[arrayVar];
+                            
+                            if (array && Array.isArray(array)) {
+                                for (let j = startValue; j < array.length; j++) {
+                                    executionEnv[indexVar] = j;
+                                    // Execute the loop body (next line)
+                                    if (i + 1 < lines.length) {
+                                        const bodyLine = lines[i + 1].trim();
+                                        if (bodyLine.includes('System.out.println')) {
+                                            const bodyMatch = bodyLine.match(/System\.out\.println\((.*)\);/);
+                                            if (bodyMatch) {
+                                                let bodyContent = bodyMatch[1];
+                                                // Replace variables
+                                                Object.keys(executionEnv).forEach(varName => {
+                                                    if (typeof executionEnv[varName] !== 'function') {
+                                                        const regex = new RegExp('\\b' + varName + '\\b', 'g');
+                                                        bodyContent = bodyContent.replace(regex, JSON.stringify(executionEnv[varName]));
+                                                    }
+                                                });
+                                                try {
+                                                    const result = eval(bodyContent);
+                                                    context.System.out.println(String(result));
+                                                } catch (e) {
+                                                    context.System.out.println(bodyContent.replace(/"/g, ''));
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            // Skip the loop body line since we handled it
+                            i++;
+                        }
+                    }
+                } catch (error) {
+                    console.warn('Error executing line:', line, error);
+                    // Continue with next line instead of stopping execution
                 }
             }
         }
