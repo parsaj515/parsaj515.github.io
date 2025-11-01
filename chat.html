@@ -250,6 +250,7 @@
   flex-direction: column;
   font-family: 'Whitney', sans-serif;
   overflow: hidden;
+  transition: all 0.3s ease;
 }
 
 #steal-brainrot-header {
@@ -281,10 +282,36 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-left: 8px;
 }
 
 #steal-brainrot-close:hover {
   background: rgba(255,255,255,0.1);
+}
+
+#steal-brainrot-fullscreen {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+}
+
+#steal-brainrot-fullscreen:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
 }
 
 #steal-brainrot-canvas-container {
@@ -306,6 +333,23 @@
   justify-content: space-between;
   color: white;
   font-size: 0.9rem;
+}
+
+/* Fullscreen styles */
+#steal-brainrot-container.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  max-width: none;
+  max-height: none;
+  border-radius: 0;
+  z-index: 1014;
+}
+
+#steal-brainrot-container.fullscreen #steal-brainrot-canvas-container {
+  height: calc(100vh - 120px);
 }
 
 /* Mention styling */
@@ -2683,7 +2727,10 @@ DIRECT MESSAGES
   <div id="steal-brainrot-container">
     <div id="steal-brainrot-header">
       <div id="steal-brainrot-title">Steal a Brainrot</div>
-      <button id="steal-brainrot-close"><span class="material-icons">close</span></button>
+      <div class="header-controls">
+        <button id="steal-brainrot-fullscreen" title="Toggle Fullscreen"><span class="material-icons">fullscreen</span></button>
+        <button id="steal-brainrot-close"><span class="material-icons">close</span></button>
+      </div>
     </div>
     <div id="steal-brainrot-canvas-container">
       <iframe id="steal-brainrot-frame" src="https://learn-duck.web.app/class/Steal-A-Brainrot" style="width: 130%; height: 130%; border: none;"></iframe>
@@ -3714,6 +3761,8 @@ function initializeGameModals() {
   const stealBrainrotBtn = document.getElementById('steal-brainrot-btn');
   const stealBrainrotModal = document.getElementById('steal-brainrot-modal');
   const stealBrainrotClose = document.getElementById('steal-brainrot-close');
+  const stealBrainrotFullscreen = document.getElementById('steal-brainrot-fullscreen');
+  const stealBrainrotContainer = document.getElementById('steal-brainrot-container');
 
   // Grow a Garden game
   gameBtn.addEventListener('click', () => {
@@ -3737,11 +3786,45 @@ function initializeGameModals() {
 
   stealBrainrotClose.addEventListener('click', () => {
     stealBrainrotModal.style.display = 'none';
+    // Exit fullscreen when closing
+    if (stealBrainrotContainer.classList.contains('fullscreen')) {
+      stealBrainrotContainer.classList.remove('fullscreen');
+      stealBrainrotFullscreen.innerHTML = '<span class="material-icons">fullscreen</span>';
+      stealBrainrotFullscreen.title = 'Enter Fullscreen';
+    }
   });
 
   stealBrainrotModal.addEventListener('click', (e) => {
     if (e.target === stealBrainrotModal) {
       stealBrainrotModal.style.display = 'none';
+      // Exit fullscreen when closing
+      if (stealBrainrotContainer.classList.contains('fullscreen')) {
+        stealBrainrotContainer.classList.remove('fullscreen');
+        stealBrainrotFullscreen.innerHTML = '<span class="material-icons">fullscreen</span>';
+        stealBrainrotFullscreen.title = 'Enter Fullscreen';
+      }
+    }
+  });
+
+  // Fullscreen functionality
+  stealBrainrotFullscreen.addEventListener('click', () => {
+    stealBrainrotContainer.classList.toggle('fullscreen');
+    
+    if (stealBrainrotContainer.classList.contains('fullscreen')) {
+      stealBrainrotFullscreen.innerHTML = '<span class="material-icons">fullscreen_exit</span>';
+      stealBrainrotFullscreen.title = 'Exit Fullscreen';
+    } else {
+      stealBrainrotFullscreen.innerHTML = '<span class="material-icons">fullscreen</span>';
+      stealBrainrotFullscreen.title = 'Enter Fullscreen';
+    }
+  });
+
+  // Exit fullscreen on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && stealBrainrotContainer.classList.contains('fullscreen')) {
+      stealBrainrotContainer.classList.remove('fullscreen');
+      stealBrainrotFullscreen.innerHTML = '<span class="material-icons">fullscreen</span>';
+      stealBrainrotFullscreen.title = 'Enter Fullscreen';
     }
   });
 }
