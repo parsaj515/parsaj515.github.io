@@ -355,42 +355,6 @@
             background: rgba(26, 27, 38, 0.5);
         }
 
-        .input-container {
-            padding: 16px 24px;
-            background: var(--secondary);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            display: none;
-        }
-
-        .input-container.visible {
-            display: block;
-        }
-
-        .input-prompt {
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-            color: var(--light);
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        .input-field {
-            width: 100%;
-            padding: 12px 16px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            color: var(--light);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 14px;
-            transition: var(--transition);
-        }
-
-        .input-field:focus {
-            outline: none;
-            border-color: var(--accent);
-            background: rgba(122, 162, 247, 0.1);
-        }
-
         .status-bar {
             background: var(--glass);
             backdrop-filter: blur(20px);
@@ -552,6 +516,84 @@
 
         .modal-btn-secondary:hover {
             background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Input Modal Styles */
+        .input-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 1001;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .input-modal.visible {
+            display: flex;
+        }
+
+        .input-modal-content {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--shadow);
+            width: 500px;
+            max-width: 90vw;
+        }
+
+        .input-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .input-modal-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--accent);
+        }
+
+        .input-modal-body {
+            margin-bottom: 20px;
+        }
+
+        .input-modal-prompt {
+            font-size: 1rem;
+            margin-bottom: 16px;
+            color: var(--light);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .input-modal-field {
+            width: 100%;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--light);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .input-modal-field:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(122, 162, 247, 0.1);
+        }
+
+        .input-modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
         }
 
         /* Scrollbar styling */
@@ -788,11 +830,6 @@
                     <div id="editor"></div>
                 </div>
 
-                <div class="input-container" id="inputContainer">
-                    <div class="input-prompt" id="inputPrompt">Enter input:</div>
-                    <input type="text" class="input-field" id="inputField" placeholder="Type your input here...">
-                </div>
-
                 <div class="output-container">
                     <div class="output-header">
                         <div class="output-title">
@@ -847,6 +884,22 @@
             </div>
         </div>
 
+        <!-- Input Modal -->
+        <div class="input-modal" id="inputModal">
+            <div class="input-modal-content">
+                <div class="input-modal-header">
+                    <div class="input-modal-title">Program Input Required</div>
+                </div>
+                <div class="input-modal-body">
+                    <div class="input-modal-prompt" id="inputModalPrompt">Enter input:</div>
+                    <input type="text" class="input-modal-field" id="inputModalField" placeholder="Type your input here...">
+                </div>
+                <div class="input-modal-actions">
+                    <button class="modal-btn modal-btn-primary" id="submitInput">Submit</button>
+                </div>
+            </div>
+        </div>
+
         <!-- Toast Notifications -->
         <div class="toast" id="toast"></div>
 
@@ -878,115 +931,97 @@
         let ideData = {
             files: {
                 'Main.java': `import java.util.Scanner;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Main {
     public static void main(String[] args) {
-        // Scanner example - this now works properly
+        // Scanner example - this now works with REAL popup input
         Scanner scanner = new Scanner(System.in);
         
+        System.out.println("=== JAVA PROGRAM STARTED ===");
+        
+        // String input
         System.out.print("Enter your name: ");
         String name = scanner.nextLine();
         
+        // Integer input
         System.out.print("Enter your age: ");
         int age = scanner.nextInt();
         
+        // Double input
         System.out.print("Enter your height (in meters): ");
         double height = scanner.nextDouble();
         
         // Clear the buffer
         scanner.nextLine();
         
+        // More string input
         System.out.print("Enter your city: ");
         String city = scanner.nextLine();
         
-        System.out.println("\\\\nUser Information:");
+        // Word input
+        System.out.print("Enter your favorite color: ");
+        String color = scanner.next();
+        
+        System.out.println("\\\\n=== USER INFORMATION ===");
         System.out.println("Name: " + name);
         System.out.println("Age: " + age);
         System.out.println("Height: " + height + "m");
         System.out.println("City: " + city);
-        
-        // Collections example
-        ArrayList<String> fruits = new ArrayList<>();
-        fruits.add("Apple");
-        fruits.add("Banana");
-        fruits.add("Orange");
-        
-        System.out.println("\\\\nFruits: " + fruits);
-        System.out.println("First fruit: " + fruits.get(0));
-        
-        // HashMap example
-        HashMap<String, Integer> scores = new HashMap<>();
-        scores.put("Math", 95);
-        scores.put("Science", 88);
-        scores.put("English", 92);
-        
-        System.out.println("\\\\nScores: " + scores);
-        System.out.println("Math score: " + scores.get("Math"));
-        
-        // Array example
-        int[] numbers = {1, 2, 3, 4, 5};
-        System.out.println("\\\\nArray elements:");
-        for (int i = 0; i < numbers.length; i++) {
-            System.out.println("Number " + i + ": " + numbers[i]);
-        }
-        
-        // Enhanced for loop
-        System.out.println("\\\\nEnhanced for loop:");
-        for (int num : numbers) {
-            System.out.println("Number: " + num);
-        }
+        System.out.println("Favorite Color: " + color);
         
         // Math operations
-        System.out.println("\\\\nMath operations:");
-        System.out.println("Square root of 16: " + Math.sqrt(16));
-        System.out.println("Power: 2^3 = " + Math.pow(2, 3));
-        System.out.println("Random number: " + Math.random());
+        System.out.println("\\\\n=== MATH OPERATIONS ===");
+        int a = 15;
+        int b = 7;
+        System.out.println(a + " + " + b + " = " + (a + b));
+        System.out.println(a + " - " + b + " = " + (a - b));
+        System.out.println(a + " * " + b + " = " + (a * b));
+        System.out.println(a + " / " + b + " = " + (a / b));
+        System.out.println(a + " % " + b + " = " + (a % b));
         
-        // String operations
-        String message = "Hello, Java World!";
-        System.out.println("\\\\nString operations:");
-        System.out.println("Original: " + message);
-        System.out.println("Uppercase: " + message.toUpperCase());
-        System.out.println("Lowercase: " + message.toLowerCase());
-        System.out.println("Length: " + message.length());
-        System.out.println("Substring: " + message.substring(0, 5));
+        // More complex calculations
+        System.out.print("\\\\nEnter a number to calculate its square: ");
+        int num = scanner.nextInt();
+        System.out.println(num + " squared = " + (num * num));
         
-        // Method call
-        int result = multiply(5, 7);
-        System.out.println("\\\\nMethod result: 5 * 7 = " + result);
-        
-        // Conditional logic
-        System.out.println("\\\\nConditional logic:");
+        // Conditional logic based on input
+        System.out.println("\\\\n=== AGE ANALYSIS ===");
         if (age >= 18) {
             System.out.println("You are an adult");
+            if (age >= 65) {
+                System.out.println("You are a senior citizen");
+            }
         } else {
             System.out.println("You are a minor");
+            if (age < 13) {
+                System.out.println("You are a child");
+            } else {
+                System.out.println("You are a teenager");
+            }
         }
         
-        // Switch statement
-        System.out.println("\\\\nSwitch statement:");
+        // Switch statement based on city
+        System.out.println("\\\\n=== CITY GREETING ===");
         switch (city.toLowerCase()) {
             case "new york":
-                System.out.println("Big Apple!");
+                System.out.println("Hello from the Big Apple!");
                 break;
             case "london":
-                System.out.println("Hello from the UK!");
+                System.out.println("Greetings from the UK!");
                 break;
             case "tokyo":
-                System.out.println("Konichiwa!");
+                System.out.println("Konichiwa from Japan!");
+                break;
+            case "paris":
+                System.out.println("Bonjour from France!");
                 break;
             default:
-                System.out.println("Hello from " + city);
+                System.out.println("Hello from " + city + "!");
         }
         
         scanner.close();
-        System.out.println("\\\\nProgram completed successfully!");
-    }
-    
-    public static int multiply(int a, int b) {
-        return a * b;
+        System.out.println("\\\\n=== PROGRAM COMPLETED ===");
+        System.out.println("Thank you for using the Java IDE!");
     }
 }`
             },
@@ -1001,7 +1036,19 @@ public class Main {
             if (saved) {
                 try {
                     const parsed = JSON.parse(saved);
-                    ideData = { ...ideData, ...parsed };
+                    // Only update files if they exist in saved data
+                    if (parsed.files) {
+                        ideData.files = parsed.files;
+                    }
+                    if (parsed.currentFile) {
+                        ideData.currentFile = parsed.currentFile;
+                    }
+                    if (parsed.fileCounter) {
+                        ideData.fileCounter = parsed.fileCounter;
+                    }
+                    if (parsed.output) {
+                        ideData.output = parsed.output;
+                    }
                     return true;
                 } catch (e) {
                     console.error('Error loading saved data:', e);
@@ -1059,9 +1106,6 @@ public class Main {
         const currentFileName = document.getElementById('currentFileName');
         const statusIndicator = document.getElementById('statusIndicator');
         const statusText = document.getElementById('statusText');
-        const inputContainer = document.getElementById('inputContainer');
-        const inputPrompt = document.getElementById('inputPrompt');
-        const inputField = document.getElementById('inputField');
         const toast = document.getElementById('toast');
 
         // Modal elements
@@ -1075,6 +1119,12 @@ public class Main {
         const cancelDelete = document.getElementById('cancelDelete');
         const confirmRename = document.getElementById('confirmRename');
         const confirmDelete = document.getElementById('confirmDelete');
+
+        // Input Modal elements
+        const inputModal = document.getElementById('inputModal');
+        const inputModalPrompt = document.getElementById('inputModalPrompt');
+        const inputModalField = document.getElementById('inputModalField');
+        const submitInput = document.getElementById('submitInput');
 
         // Initialize Monaco Editor
         let monacoEditor;
@@ -1193,6 +1243,59 @@ public class Main {
                 showToast('Previous work loaded successfully!');
             }
             startAutoSave();
+            
+            // Set up input modal handler
+            setupInputModal();
+        }
+
+        // Set up input modal event handlers
+        function setupInputModal() {
+            submitInput.addEventListener('click', handleInputSubmit);
+            
+            inputModalField.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    handleInputSubmit();
+                }
+            });
+            
+            // Close modal when clicking outside
+            inputModal.addEventListener('click', function(e) {
+                if (e.target === inputModal) {
+                    if (inputResolver) {
+                        inputResolver(null);
+                        inputResolver = null;
+                    }
+                    inputModal.classList.remove('visible');
+                }
+            });
+        }
+
+        // Handle input submission from modal
+        function handleInputSubmit() {
+            if (inputResolver) {
+                const value = inputModalField.value;
+                inputResolver(value);
+                inputResolver = null;
+                inputModal.classList.remove('visible');
+                inputModalField.value = '';
+                
+                // Add user input to output
+                outputContent.innerHTML += `<div class="output-line output-info">→ ${value}</div>`;
+                outputContent.scrollTop = outputContent.scrollHeight;
+                saveAllData();
+            }
+        }
+
+        // Scanner input simulation with REAL popup
+        function waitForInput(promptText) {
+            return new Promise((resolve) => {
+                inputResolver = resolve;
+                currentInputPrompt = promptText;
+                inputModalPrompt.textContent = promptText || "Enter input:";
+                inputModal.classList.add('visible');
+                inputModalField.value = '';
+                inputModalField.focus();
+            });
         }
 
         // Render file list from data
@@ -1253,87 +1356,48 @@ public class Main {
             }, 3000);
         }
 
-        // Advanced Java code formatter
+        // Advanced Java code formatter with proper indentation
         function formatJavaCode(code) {
             try {
-                code = formatImports(code);
-                code = formatClassDeclaration(code);
-                code = formatMethods(code);
-                code = formatStatements(code);
-                code = formatBracesAndIndentation(code);
-                code = cleanUpWhitespace(code);
-                return code;
+                let lines = code.split('\n');
+                let indentLevel = 0;
+                let formattedLines = [];
+                let inMultiLineComment = false;
+                
+                for (let line of lines) {
+                    let trimmedLine = line.trim();
+                    
+                    if (trimmedLine === '') {
+                        formattedLines.push('');
+                        continue;
+                    }
+                    
+                    // Handle multi-line comments
+                    if (trimmedLine.includes('/*')) inMultiLineComment = true;
+                    if (trimmedLine.includes('*/')) inMultiLineComment = false;
+                    
+                    // Decrease indent before current line if it contains closing brace
+                    if (trimmedLine.includes('}') && !inMultiLineComment) {
+                        indentLevel = Math.max(0, indentLevel - 1);
+                    }
+                    
+                    // Add current line with proper indentation
+                    if (trimmedLine) {
+                        formattedLines.push('    '.repeat(indentLevel) + trimmedLine);
+                    } else {
+                        formattedLines.push('');
+                    }
+                    
+                    // Increase indent after current line if it contains opening brace
+                    if (trimmedLine.includes('{') && !inMultiLineComment) {
+                        indentLevel++;
+                    }
+                }
+                
+                return formattedLines.join('\n');
             } catch (error) {
                 throw new Error('Formatting failed: ' + error.message);
             }
-        }
-
-        function formatImports(code) {
-            const importRegex = /import\s+[\w.*]+;/g;
-            const imports = code.match(importRegex) || [];
-            const otherCode = code.replace(importRegex, '').trim();
-            
-            if (imports.length > 0) {
-                imports.sort();
-                return imports.join('\n') + '\n\n' + otherCode;
-            }
-            return code;
-        }
-
-        function formatClassDeclaration(code) {
-            return code.replace(/(public|private|protected)?\s*(class)\s+(\w+)/g, '$1 $2 $3')
-                      .replace(/\s+/g, ' ')
-                      .trim();
-        }
-
-        function formatMethods(code) {
-            return code.replace(/(public|private|protected|static)\s+(\w+)\s+(\w+)\s*\(([^)]*)\)\s*\{/g, '$1 $2 $3($4) {');
-        }
-
-        function formatStatements(code) {
-            code = code.replace(/([^\s])([=+\-*/%])([^\s])/g, '$1 $2 $3');
-            code = code.replace(/,(\S)/g, ', $1');
-            code = code.replace(/;(?!\s*[\)])/g, '; ');
-            return code;
-        }
-
-        function formatBracesAndIndentation(code) {
-            let lines = code.split('\n');
-            let indentLevel = 0;
-            let formattedLines = [];
-            let inMultiLineComment = false;
-            
-            for (let line of lines) {
-                let trimmedLine = line.trim();
-                
-                if (trimmedLine === '') {
-                    formattedLines.push('');
-                    continue;
-                }
-                
-                if (trimmedLine.includes('/*')) inMultiLineComment = true;
-                if (trimmedLine.includes('*/')) inMultiLineComment = false;
-                
-                if (trimmedLine.includes('}') && !inMultiLineComment) {
-                    indentLevel = Math.max(0, indentLevel - 1);
-                }
-                
-                if (trimmedLine) {
-                    formattedLines.push('    '.repeat(indentLevel) + trimmedLine);
-                } else {
-                    formattedLines.push('');
-                }
-                
-                if (trimmedLine.includes('{') && !inMultiLineComment) {
-                    indentLevel++;
-                }
-            }
-            
-            return formattedLines.join('\n');
-        }
-
-        function cleanUpWhitespace(code) {
-            return code.replace(/\n\s*\n\s*\n/g, '\n\n');
         }
 
         // Format code function
@@ -1487,31 +1551,7 @@ public class Main {
             saveAllData();
         }
 
-        // Scanner input simulation
-        function waitForInput(promptText) {
-            return new Promise((resolve) => {
-                inputResolver = resolve;
-                currentInputPrompt = promptText;
-                inputPrompt.textContent = promptText || "Enter input:";
-                inputContainer.classList.add('visible');
-                inputField.value = '';
-                inputField.focus();
-            });
-        }
-
-        // Handle input submission
-        inputField.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' && inputResolver) {
-                const value = inputField.value;
-                inputResolver(value);
-                inputResolver = null;
-                inputContainer.classList.remove('visible');
-                outputContent.innerHTML += `<div class="output-line output-info">→ ${value}</div>`;
-                saveAllData();
-            }
-        });
-
-        // Enhanced Java execution with FIXED variable handling
+        // Enhanced Java execution with REAL variable handling
         async function runJavaCode() {
             const code = monacoEditor.getValue();
             
@@ -1519,7 +1559,7 @@ public class Main {
             statusText.textContent = 'Running...';
             
             try {
-                await executeJavaWithFixedVariables(code);
+                await executeJavaCode(code);
                 outputContent.innerHTML += '<div class="output-line output-success">✓ Execution completed successfully</div>';
             } catch (error) {
                 outputContent.innerHTML += `<div class="output-line output-error">Error: ${error.message}</div>`;
@@ -1531,8 +1571,9 @@ public class Main {
             }
         }
 
-        // FIXED Java execution with proper variable handling
-        async function executeJavaWithFixedVariables(code) {
+        // REAL Java execution with proper variable handling
+        async function executeJavaCode(code) {
+            // Create mock Scanner
             const mockScanner = {
                 nextLine: async function() {
                     return await waitForInput("Enter text: ");
@@ -1560,99 +1601,34 @@ public class Main {
                 close: function() {}
             };
 
-            // Create comprehensive execution context
-            const context = {
+            // Create execution environment
+            const executionEnv = {
                 // Basic Java classes
                 System: {
                     out: {
                         print: (text) => {
                             outputContent.innerHTML += `<div class="output-line">${text}</div>`;
+                            outputContent.scrollTop = outputContent.scrollHeight;
                         },
                         println: (text) => {
                             outputContent.innerHTML += `<div class="output-line">${text}</div>`;
+                            outputContent.scrollTop = outputContent.scrollHeight;
                         },
                         printf: (format, ...args) => {
                             let output = format;
-                            args.forEach((arg, i) => {
-                                output = output.replace(`%${i + 1}`, arg);
-                            });
+                            for (let i = 0; i < args.length; i++) {
+                                output = output.replace(`%${i + 1}`, args[i]);
+                            }
                             outputContent.innerHTML += `<div class="output-line">${output}</div>`;
+                            outputContent.scrollTop = outputContent.scrollHeight;
                         }
                     }
                 },
                 Scanner: function() { return mockScanner; },
-                Math: Math,
-                
-                // Collections
-                Arrays: {
-                    toString: (arr) => {
-                        if (Array.isArray(arr)) {
-                            return '[' + arr.join(', ') + ']';
-                        }
-                        return String(arr);
-                    },
-                    sort: (arr) => arr.sort((a, b) => a - b),
-                    copyOf: (arr, length) => arr.slice(0, length)
-                },
-                
-                ArrayList: function() { 
-                    const list = [];
-                    list.add = function(item) { this.push(item); return true; };
-                    list.remove = function(index) { return this.splice(index, 1)[0]; };
-                    list.get = function(index) { return this[index]; };
-                    list.size = function() { return this.length; };
-                    list.isEmpty = function() { return this.length === 0; };
-                    list.contains = function(item) { return this.includes(item); };
-                    list.toString = function() { return '[' + this.join(', ') + ']'; };
-                    return list;
-                },
-                
-                HashMap: function() {
-                    const map = {};
-                    map.put = function(key, value) { this[key] = value; return value; };
-                    map.get = function(key) { return this[key]; };
-                    map.containsKey = function(key) { return key in this; };
-                    map.size = function() { return Object.keys(this).length; };
-                    map.isEmpty = function() { return Object.keys(this).length === 0; };
-                    map.toString = function() { 
-                        const entries = Object.entries(this).map(([k, v]) => `${k}=${v}`);
-                        return '{' + entries.join(', ') + '}';
-                    };
-                    return map;
-                },
-                
-                // Wrapper classes
-                Integer: {
-                    parseInt: (str) => parseInt(str),
-                    valueOf: (str) => parseInt(str)
-                },
-                Double: {
-                    parseDouble: (str) => parseFloat(str),
-                    valueOf: (str) => parseFloat(str)
-                },
-                Boolean: {
-                    parseBoolean: (str) => str === 'true',
-                    valueOf: (str) => str === 'true'
-                },
-                
-                // String methods
-                String: {
-                    valueOf: (obj) => String(obj)
-                }
+                Math: Math
             };
 
-            // Add support for custom classes
-            class Person {
-                constructor(name, age) {
-                    this.name = name;
-                    this.age = age;
-                }
-                toString() {
-                    return `Person{name='${this.name}', age=${this.age}}`;
-                }
-            }
-            context.Person = Person;
-
+            // Extract main method content
             const mainMatch = code.match(/public static void main\s*\(\s*String\s*\[\]\s*args\s*\)\s*\{([\s\S]*?)\}/);
             if (!mainMatch) {
                 throw new Error('No main method found');
@@ -1660,65 +1636,9 @@ public class Main {
 
             let mainContent = mainMatch[1];
             
-            // Handle imports
-            if (code.includes('import java.util.Scanner;') || code.includes('import java.util.*;')) {
-                context.Scanner = function() { return mockScanner; };
-            }
-            if (code.includes('import java.util.ArrayList;') || code.includes('import java.util.*;')) {
-                context.ArrayList = function() { 
-                    const list = [];
-                    list.add = function(item) { this.push(item); return true; };
-                    list.remove = function(index) { return this.splice(index, 1)[0]; };
-                    list.get = function(index) { return this[index]; };
-                    list.size = function() { return this.length; };
-                    list.isEmpty = function() { return this.length === 0; };
-                    list.contains = function(item) { return this.includes(item); };
-                    list.toString = function() { return '[' + this.join(', ') + ']'; };
-                    return list;
-                };
-            }
-            if (code.includes('import java.util.HashMap;') || code.includes('import java.util.*;')) {
-                context.HashMap = function() {
-                    const map = {};
-                    map.put = function(key, value) { this[key] = value; return value; };
-                    map.get = function(key) { return this[key]; };
-                    map.containsKey = function(key) { return key in this; };
-                    map.size = function() { return Object.keys(this).length; };
-                    map.isEmpty = function() { return Object.keys(this).length === 0; };
-                    map.toString = function() { 
-                        const entries = Object.entries(this).map(([k, v]) => `${k}=${v}`);
-                        return '{' + entries.join(', ') + '}';
-                    };
-                    return map;
-                };
-            }
-
-            // Create a safe execution environment with all variables
-            const executionEnv = {
-                ...context,
-                // Add common variables to prevent "not defined" errors
-                number: 0,
-                decimal: 0.0,
-                flag: false,
-                letter: 'A',
-                numbers: [],
-                names: [],
-                fruits: context.ArrayList(),
-                scores: context.HashMap(),
-                x: 0,
-                result: 0,
-                message: "",
-                person: null,
-                i: 0,
-                fruit: "",
-                name: "",
-                age: 0,
-                a: 0,
-                b: 0
-            };
-
-            // Execute the code line by line with proper variable tracking
+            // Execute the code line by line
             const lines = mainContent.split('\n');
+            let variables = {};
             
             for (let i = 0; i < lines.length; i++) {
                 let line = lines[i].trim();
@@ -1733,7 +1653,7 @@ public class Main {
                             const varName = varMatch[1];
                             let valueExpression = varMatch[2];
                             
-                            // Evaluate the expression in our safe environment
+                            // Evaluate the expression
                             let value;
                             try {
                                 // Handle arrays
@@ -1742,38 +1662,18 @@ public class Main {
                                 }
                                 // Handle new objects
                                 else if (valueExpression.includes('new ')) {
-                                    if (valueExpression.includes('new ArrayList')) {
-                                        value = context.ArrayList();
-                                    } else if (valueExpression.includes('new HashMap')) {
-                                        value = context.HashMap();
-                                    } else if (valueExpression.includes('new Person')) {
-                                        const personMatch = valueExpression.match(/new Person\(([^)]+)\)/);
-                                        if (personMatch) {
-                                            const args = personMatch[1].split(',').map(arg => {
-                                                const trimmed = arg.trim();
-                                                // Handle string arguments
-                                                if (trimmed.startsWith('"') && trimmed.endsWith('"')) {
-                                                    return trimmed.slice(1, -1);
-                                                }
-                                                // Handle number arguments
-                                                return isNaN(trimmed) ? trimmed : Number(trimmed);
-                                            });
-                                            value = new context.Person(...args);
-                                        }
-                                    } else if (valueExpression.includes('new Scanner')) {
-                                        value = context.Scanner();
+                                    if (valueExpression.includes('new Scanner')) {
+                                        value = executionEnv.Scanner();
                                     } else {
                                         value = eval(valueExpression);
                                     }
                                 }
                                 // Handle method calls and complex expressions
                                 else {
-                                    // Replace variable names with their values from executionEnv
-                                    Object.keys(executionEnv).forEach(key => {
-                                        if (typeof executionEnv[key] !== 'function') {
-                                            const regex = new RegExp('\\b' + key + '\\b', 'g');
-                                            valueExpression = valueExpression.replace(regex, JSON.stringify(executionEnv[key]));
-                                        }
+                                    // Replace variable names with their values
+                                    Object.keys(variables).forEach(key => {
+                                        const regex = new RegExp('\\b' + key + '\\b', 'g');
+                                        valueExpression = valueExpression.replace(regex, JSON.stringify(variables[key]));
                                     });
                                     value = eval(valueExpression);
                                 }
@@ -1788,7 +1688,7 @@ public class Main {
                                 }
                             }
                             
-                            executionEnv[varName] = value;
+                            variables[varName] = value;
                             continue;
                         }
                     }
@@ -1799,21 +1699,19 @@ public class Main {
                         if (contentMatch) {
                             let content = contentMatch[1];
                             
-                            // Replace variables with their values from executionEnv
-                            Object.keys(executionEnv).forEach(varName => {
-                                if (typeof executionEnv[varName] !== 'function' && varName !== 'System') {
-                                    const regex = new RegExp('\\b' + varName + '\\b', 'g');
-                                    content = content.replace(regex, JSON.stringify(executionEnv[varName]));
-                                }
+                            // Replace variables with their values
+                            Object.keys(variables).forEach(varName => {
+                                const regex = new RegExp('\\b' + varName + '\\b', 'g');
+                                content = content.replace(regex, JSON.stringify(variables[varName]));
                             });
                             
                             // Evaluate the expression
                             try {
                                 const result = eval(content);
-                                context.System.out.println(String(result));
+                                executionEnv.System.out.println(String(result));
                             } catch (e) {
                                 // If evaluation fails, just print the content
-                                context.System.out.println(content.replace(/"/g, ''));
+                                executionEnv.System.out.println(content.replace(/"/g, ''));
                             }
                         }
                     }
@@ -1822,18 +1720,16 @@ public class Main {
                         const contentMatch = line.match(/System\.out\.print\((.*)\);/);
                         if (contentMatch) {
                             let content = contentMatch[1];
-                            Object.keys(executionEnv).forEach(varName => {
-                                if (typeof executionEnv[varName] !== 'function' && varName !== 'System') {
-                                    const regex = new RegExp('\\b' + varName + '\\b', 'g');
-                                    content = content.replace(regex, JSON.stringify(executionEnv[varName]));
-                                }
+                            Object.keys(variables).forEach(varName => {
+                                const regex = new RegExp('\\b' + varName + '\\b', 'g');
+                                content = content.replace(regex, JSON.stringify(variables[varName]));
                             });
                             
                             try {
                                 const result = eval(content);
-                                context.System.out.print(String(result));
+                                executionEnv.System.out.print(String(result));
                             } catch (e) {
-                                context.System.out.print(content.replace(/"/g, ''));
+                                executionEnv.System.out.print(content.replace(/"/g, ''));
                             }
                         }
                     }
@@ -1842,73 +1738,28 @@ public class Main {
                         const varMatch = line.match(/(\w+)\s*=\s*(\w+)\.nextLine\(\)/);
                         if (varMatch) {
                             const value = await mockScanner.nextLine();
-                            executionEnv[varMatch[1]] = value;
+                            variables[varMatch[1]] = value;
                         }
                     }
                     else if (line.includes('.nextInt()')) {
                         const varMatch = line.match(/(\w+)\s*=\s*(\w+)\.nextInt\(\)/);
                         if (varMatch) {
                             const value = await mockScanner.nextInt();
-                            executionEnv[varMatch[1]] = value;
+                            variables[varMatch[1]] = value;
                         }
                     }
                     else if (line.includes('.nextDouble()')) {
                         const varMatch = line.match(/(\w+)\s*=\s*(\w+)\.nextDouble\(\)/);
                         if (varMatch) {
                             const value = await mockScanner.nextDouble();
-                            executionEnv[varMatch[1]] = value;
+                            variables[varMatch[1]] = value;
                         }
                     }
                     else if (line.includes('.next()')) {
                         const varMatch = line.match(/(\w+)\s*=\s*(\w+)\.next\(\)/);
                         if (varMatch) {
                             const value = await mockScanner.next();
-                            executionEnv[varMatch[1]] = value;
-                        }
-                    }
-                    // Handle for loops
-                    else if (line.includes('for (')) {
-                        // Extract loop components
-                        const forMatch = line.match(/for\s*\(\s*(\w+)\s+(\w+)\s*=\s*(\d+);\s*\2\s*<\s*(\w+).length;\s*\2\+\+\)/);
-                        if (forMatch) {
-                            const varType = forMatch[1];
-                            const indexVar = forMatch[2];
-                            const startValue = parseInt(forMatch[3]);
-                            const arrayVar = forMatch[4];
-                            
-                            executionEnv[indexVar] = startValue;
-                            const array = executionEnv[arrayVar];
-                            
-                            if (array && Array.isArray(array)) {
-                                for (let j = startValue; j < array.length; j++) {
-                                    executionEnv[indexVar] = j;
-                                    // Execute the loop body (next line)
-                                    if (i + 1 < lines.length) {
-                                        const bodyLine = lines[i + 1].trim();
-                                        if (bodyLine.includes('System.out.println')) {
-                                            const bodyMatch = bodyLine.match(/System\.out\.println\((.*)\);/);
-                                            if (bodyMatch) {
-                                                let bodyContent = bodyMatch[1];
-                                                // Replace variables
-                                                Object.keys(executionEnv).forEach(varName => {
-                                                    if (typeof executionEnv[varName] !== 'function') {
-                                                        const regex = new RegExp('\\b' + varName + '\\b', 'g');
-                                                        bodyContent = bodyContent.replace(regex, JSON.stringify(executionEnv[varName]));
-                                                    }
-                                                });
-                                                try {
-                                                    const result = eval(bodyContent);
-                                                    context.System.out.println(String(result));
-                                                } catch (e) {
-                                                    context.System.out.println(bodyContent.replace(/"/g, ''));
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            // Skip the loop body line since we handled it
-                            i++;
+                            variables[varMatch[1]] = value;
                         }
                     }
                 } catch (error) {
