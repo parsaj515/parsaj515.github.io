@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Code Editor</title>
+    <!-- Load JetBrains Mono font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+    --bg-primary: #1e1e1e;
+    --bg-secondary: #252526;
+    --bg-tertiary: #2d2d30;
+    --text-primary: #ffffff;
+    --text-secondary: #cccccc;
+    --accent: #007acc;
+    --accent-hover: #1177bb;
+    --border: #3e3e42;
+    --danger: #f14c4c;
+    --success: #4ec9b0;
+}
+
+[data-theme="light"] {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f3f3f3;
+    --bg-tertiary: #e8e8e8;
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --accent: #007acc;
+    --accent-hover: #1177bb;
+    --border: #d4d4d4;
+    --danger: #e51400;
+    --success: #008000;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.3s, color 0.3s;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Smooth overall transitions */
+.app-container,
+.sidebar,
+.header,
+.editor-container,
+.preview-container {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* Header Styles */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border);
+    height: 60px;
+    flex-shrink: 0;
+    animation: fadeDown 0.4s ease;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.logo-icon {
+    width: 24px;
+    height: 24px;
+    color: var(--accent);
+    transition: transform 0.3s;
+}
+
+.logo:hover .logo-icon {
+    transform: rotate(10deg) scale(1.1);
+}
+
+.header-controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 8px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    width: 36px;
+    height: 36px;
+}
+
+.btn:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+}
+
+.btn-danger:hover {
+    background: var(--danger);
+    border-color: var(--danger);
+    transform: translateY(-2px);
+}
+
+.btn-text {
+    width: auto;
+    padding: 8px 12px;
+    gap: 8px;
+}
+
+.btn-icon {
+    width: 18px;
+    height: 18px;
+    transition: transform 0.2s ease;
+}
+
+.btn:hover .btn-icon {
+    transform: scale(1.1);
+}
+
+/* Main Content */
+.main-content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    height: calc(100vh - 60px);
+    animation: fadeUp 0.4s ease;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background-color: var(--bg-secondary);
+    border-right: 1px solid var(--border);
+    padding: 15px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    overflow-y: auto;
+    flex-shrink: 0;
+    animation: slideInLeft 0.5s ease;
+}
+
+.sidebar.collapsed {
+    transform: translateX(-100%);
+    width: 0;
+    padding: 0;
+    opacity: 0;
+}
+
+.sidebar-section {
+    margin-bottom: 25px;
+}
+
+.sidebar-title {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    color: var(--text-secondary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.history-item {
+    padding: 8px 10px;
+    background: var(--bg-tertiary);
+    border-radius: 4px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.25s ease, transform 0.2s ease;
+}
+
+.history-item:hover {
+    background: var(--accent);
+    transform: translateX(3px);
+}
+
+.history-item-time {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.history-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.history-action-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.history-action-btn:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Editor Area */
+.editor-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    min-width: 0;
+}
+
+.editor-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border);
+    height: 50px;
+    flex-shrink: 0;
+    animation: fadeDown 0.4s ease;
+}
+
+.editor-toolbar-left,
+.editor-toolbar-right {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.editor-wrapper {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    min-height: 0;
+}
+
+#editor {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.editor-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 16px;
+    color: var(--text-secondary);
+    background: var(--bg-primary);
+    font-family: 'JetBrains Mono', monospace;
+    opacity: 0;
+    animation: fadeIn 0.6s forwards;
+}
+
+.editor-loading.hidden {
+    display: none;
+}
+
+/* Preview */
+.preview-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid var(--border);
+    min-width: 0;
+    animation: fadeIn 0.5s ease;
+}
+
+.preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border);
+    height: 50px;
+    flex-shrink: 0;
+}
+
+.preview-content {
+    flex: 1;
+    border: none;
+    background: white;
+    min-height: 0;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Popup Manager */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.popup-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.popup {
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    padding: 20px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    transform: scale(0.9);
+    opacity: 0;
+    animation: popupIn 0.3s forwards ease;
+}
+
+.popup-title {
+    font-size: 18px;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.popup-content {
+    margin-bottom: 20px;
+    color: var(--text-secondary);
+}
+
+.popup-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInLeft {
+    from { transform: translateX(-20px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes popupIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <div class="logo">
+                <i data-lucide="code" class="logo-icon"></i>
+                <span>HTML Editor</span>
+            </div>
+            <div class="header-controls">
+                <button class="btn" id="theme-toggle" title="Toggle theme">
+                    <i data-lucide="moon" class="btn-icon" id="theme-icon"></i>
+                </button>
+                <button class="btn" id="sidebar-toggle" title="Toggle sidebar">
+                    <i data-lucide="sidebar" class="btn-icon" id="sidebar-icon"></i>
+                </button>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-title">
+                        <span>History</span>
+                        <button class="btn" id="clear-history" title="Clear history">
+                            <i data-lucide="trash-2" class="btn-icon"></i>
+                        </button>
+                    </div>
+                    <div id="history-list"></div>
+                </div>
+                <div class="sidebar-section">
+                    <div class="sidebar-title">
+                        <span>Tools</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <button class="btn btn-text" id="format-btn">
+                            <i data-lucide="align-left" class="btn-icon"></i>
+                            Format
+                        </button>
+                        <button class="btn btn-text" id="minify-btn">
+                            <i data-lucide="minimize-2" class="btn-icon"></i>
+                            Minify
+                        </button>
+                        <button class="btn btn-text" id="import-btn">
+                            <i data-lucide="download" class="btn-icon"></i>
+                            Import
+                        </button>
+                        <button class="btn btn-text" id="export-btn">
+                            <i data-lucide="upload" class="btn-icon"></i>
+                            Export
+                        </button>
+                    </div>
+                </div>
+            </aside>
+
+            <div class="editor-container">
+                <div class="editor-toolbar">
+                    <div class="editor-toolbar-left">
+                        <button class="btn" id="save-btn" title="Save">
+                            <i data-lucide="save" class="btn-icon"></i>
+                        </button>
+                        <button class="btn" id="preview-btn" title="Preview">
+                            <i data-lucide="eye" class="btn-icon"></i>
+                        </button>
+                        <button class="btn" id="new-tab-btn" title="Open in new tab">
+                            <i data-lucide="external-link" class="btn-icon"></i>
+                        </button>
+                    </div>
+                    <div class="editor-toolbar-right">
+                        <button class="btn" id="fullscreen-btn" title="Fullscreen">
+                            <i data-lucide="maximize" class="btn-icon"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="editor-wrapper">
+                    <div class="editor-loading" id="editor-loading">Loading Monaco Editor...</div>
+                    <div id="editor"></div>
+                </div>
+            </div>
+
+            <div class="preview-container" id="preview-container">
+                <div class="preview-header">
+                    <h3>Preview</h3>
+                    <button class="btn" id="close-preview" title="Close preview">
+                        <i data-lucide="x" class="btn-icon"></i>
+                    </button>
+                </div>
+                <iframe class="preview-content" id="preview-frame"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <div class="popup-overlay" id="popup-overlay">
+        <div class="popup">
+            <h3 class="popup-title" id="popup-title">Confirm Action</h3>
+            <div class="popup-content" id="popup-content">Are you sure you want to proceed?</div>
+            <div class="popup-actions">
+                <button class="btn btn-text" id="popup-cancel">Cancel</button>
+                <button class="btn btn-text btn-danger" id="popup-confirm">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        // App state
+        const state = {
+            editor: null,
+            history: JSON.parse(localStorage.getItem('editor-history')) || [],
+            saveInterval: null,
+            isPreviewVisible: true
+        };
+
+        // Wait for fonts to load before initializing Monaco
+        function waitForFonts() {
+            return new Promise((resolve) => {
+                if (document.fonts && document.fonts.ready) {
+                    document.fonts.ready.then(resolve);
+                } else {
+                    setTimeout(resolve, 1000);
+                }
+            });
+        }
+
+        // Initialize the application
+        async function initApp() {
+            lucide.createIcons();
+            setupEventListeners();
+            await waitForFonts();
+            initMonacoEditor();
+            renderHistory();
+            startAutoSave();
+            updatePreview();
+        }
+
+        // Theme management
+        function detectSystemTheme() {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('editor-theme', theme);
+            updateThemeIcon(theme);
+            
+            if (state.editor) {
+                const monacoTheme = theme === 'dark' ? 'vs-dark' : 'vs';
+                monaco.editor.setTheme(monacoTheme);
+            }
+        }
+
+        function updateThemeIcon(theme) {
+            const themeIcon = document.getElementById('theme-icon');
+            themeIcon.setAttribute('data-lucide', theme === 'dark' ? 'sun' : 'moon');
+            lucide.createIcons();
+        }
+
+        // Monaco Editor initialization
+        function initMonacoEditor() {
+            if (window.require) {
+                loadMonaco();
+                return;
+            }
+
+            const script = document.createElement('script');
+            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.min.js';
+            script.onload = loadMonaco;
+            script.onerror = () => {
+                console.error('Failed to load Monaco Editor');
+                document.getElementById('editor-loading').textContent = 'Failed to load editor. Using fallback.';
+                initFallbackEditor();
+            };
+            document.head.appendChild(script);
+        }
+
+        function loadMonaco() {
+            require.config({ 
+                paths: { 
+                    'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs'
+                }
+            });
+
+            require(['vs/editor/editor.main'], function() {
+                const container = document.getElementById('editor');
+                const loadingElement = document.getElementById('editor-loading');
+                const initialTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'vs-dark' : 'vs';
+                
+                try {
+                    monaco.editor.defineTheme('custom-theme', {
+                        base: initialTheme,
+                        inherit: true,
+                        rules: [],
+                        colors: {}
+                    });
+
+                    state.editor = monaco.editor.create(container, {
+                        value: `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My HTML Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to My HTML Page</h1>
+        <p>This is a sample HTML page. Start editing to create your own content!</p>
+        <p>Try changing the text or styles and see the live preview update.</p>
+    </div>
+</body>
+</html>`,
+                        language: 'html',
+                        theme: 'custom-theme',
+                        fontSize: 14,
+                        fontFamily: "'JetBrains Mono', 'Courier New', monospace",
+                        fontLigatures: true,
+                        automaticLayout: true,
+                        minimap: { enabled: false },
+                        scrollBeyondLastLine: false,
+                        wordWrap: 'on',
+                        lineNumbers: 'on',
+                        folding: true,
+                        lineNumbersMinChars: 3,
+                        renderLineHighlight: 'all',
+                        cursorBlinking: 'smooth',
+                        smoothScrolling: true
+                    });
+
+                    loadingElement.classList.add('hidden');
+                    
+                    state.editor.onDidChangeModelContent(updatePreview);
+                    
+                    window.addEventListener('resize', () => {
+                        if (state.editor) {
+                            state.editor.layout();
+                        }
+                    });
+                    
+                } catch (error) {
+                    console.error('Error initializing Monaco Editor:', error);
+                    loadingElement.textContent = 'Error loading editor. Using fallback.';
+                    initFallbackEditor();
+                }
+            });
+        }
+
+        function initFallbackEditor() {
+            const container = document.getElementById('editor');
+            const loadingElement = document.getElementById('editor-loading');
+            
+            container.innerHTML = `<textarea style="width:100%; height:100%; background:var(--bg-primary); color:var(--text-primary); border:none; padding:20px; font-family:'JetBrains Mono', monospace; font-size:14px; resize:none; outline:none;">${getInitialContent()}</textarea>`;
+            
+            state.editor = {
+                getValue: () => container.querySelector('textarea').value,
+                setValue: (value) => container.querySelector('textarea').value = value,
+                onDidChangeModelContent: (callback) => {
+                    container.querySelector('textarea').addEventListener('input', callback);
+                }
+            };
+            
+            loadingElement.classList.add('hidden');
+            state.editor.onDidChangeModelContent(updatePreview);
+        }
+
+        function getInitialContent() {
+            return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My HTML Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to My HTML Page</h1>
+        <p>This is a sample HTML page. Start editing to create your own content!</p>
+        <p>Try changing the text or styles and see the live preview update.</p>
+    </div>
+</body>
+</html>`;
+        }
+
+        // History management
+        function saveToHistory() {
+            if (!state.editor) return;
+            
+            const content = state.editor.getValue();
+            const timestamp = new Date().toLocaleString();
+            
+            if (state.history.length > 0 && state.history[0].content === content) {
+                return;
+            }
+            
+            state.history.unshift({ content, timestamp });
+            
+            if (state.history.length > 20) {
+                state.history = state.history.slice(0, 20);
+            }
+            
+            localStorage.setItem('editor-history', JSON.stringify(state.history));
+            renderHistory();
+        }
+
+        function renderHistory() {
+            const historyList = document.getElementById('history-list');
+            historyList.innerHTML = '';
+            
+            if (state.history.length === 0) {
+                historyList.innerHTML = '<div style="color: var(--text-secondary); font-style: italic; text-align: center; padding: 10px;">No history yet</div>';
+                return;
+            }
+            
+            state.history.forEach((item, index) => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                historyItem.innerHTML = `
+                    <div>
+                        <div>Snapshot ${state.history.length - index}</div>
+                        <div class="history-item-time">${item.timestamp}</div>
+                    </div>
+                    <div class="history-actions">
+                        <button class="history-action-btn" data-index="${index}" title="Load">
+                            <i data-lucide="rotate-ccw" style="width: 14px; height: 14px;"></i>
+                        </button>
+                        <button class="history-action-btn" data-index="${index}" title="Delete">
+                            <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>
+                        </button>
+                    </div>
+                `;
+                historyList.appendChild(historyItem);
+            });
+            
+            lucide.createIcons();
+            
+            document.querySelectorAll('.history-action-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const index = parseInt(btn.getAttribute('data-index'));
+                    const isLoad = btn.querySelector('[data-lucide="rotate-ccw"]') !== null;
+                    
+                    if (isLoad) {
+                        state.editor.setValue(state.history[index].content);
+                    } else {
+                        showPopup(
+                            'Delete History Item',
+                            'Are you sure you want to delete this history item?',
+                            () => {
+                                state.history.splice(index, 1);
+                                localStorage.setItem('editor-history', JSON.stringify(state.history));
+                                renderHistory();
+                            }
+                        );
+                    }
+                    e.stopPropagation();
+                });
+            });
+        }
+
+        function startAutoSave() {
+            state.saveInterval = setInterval(saveToHistory, 5 * 60 * 1000);
+        }
+
+        // Popup Manager
+        function showPopup(title, content, confirmCallback) {
+            const overlay = document.getElementById('popup-overlay');
+            const popupTitle = document.getElementById('popup-title');
+            const popupContent = document.getElementById('popup-content');
+            const confirmBtn = document.getElementById('popup-confirm');
+            const cancelBtn = document.getElementById('popup-cancel');
+            
+            popupTitle.textContent = title;
+            popupContent.textContent = content;
+            overlay.classList.add('active');
+            
+            const closePopup = () => {
+                overlay.classList.remove('active');
+                confirmBtn.onclick = null;
+                cancelBtn.onclick = null;
+            };
+            
+            confirmBtn.onclick = () => {
+                confirmCallback();
+                closePopup();
+            };
+            
+            cancelBtn.onclick = closePopup;
+        }
+
+        // Code operations
+        function formatCode() {
+            if (!state.editor) return;
+            const content = state.editor.getValue();
+            const formatted = content
+                .replace(/(>)(<)(\/*)/g, '$1\n$2$3')
+                .replace(/(\s*)<([^>]+)>(.*?)<\/\2>/g, '$1<$2>$3</$2>');
+            state.editor.setValue(formatted);
+        }
+
+        function minifyCode() {
+            if (!state.editor) return;
+            const content = state.editor.getValue();
+            const minified = content.replace(/\s+/g, ' ').replace(/>\s+</g, '><').trim();
+            state.editor.setValue(minified);
+        }
+
+        function importFile() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.html,.htm,.txt';
+            input.onchange = e => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.onload = event => {
+                    state.editor.setValue(event.target.result);
+                    saveToHistory();
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        }
+
+        function exportFile() {
+            if (!state.editor) return;
+            const content = state.editor.getValue();
+            const blob = new Blob([content], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'code.html';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Preview functions
+        function updatePreview() {
+            if (!state.editor) return;
+            const content = state.editor.getValue();
+            const iframe = document.getElementById('preview-frame');
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            iframeDoc.open();
+            iframeDoc.write(content);
+            iframeDoc.close();
+        }
+
+        function openInNewTab() {
+            if (!state.editor) return;
+            const content = state.editor.getValue();
+            const newWindow = window.open();
+            newWindow.document.write(content);
+            newWindow.document.close();
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else if (document.exitFullscreen) {
+                document.exitFullscreen();
+            }
+        }
+
+        // Event listeners setup
+        function setupEventListeners() {
+            document.getElementById('theme-toggle').addEventListener('click', () => {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+            });
+            
+            document.getElementById('sidebar-toggle').addEventListener('click', () => {
+                const sidebar = document.getElementById('sidebar');
+                sidebar.classList.toggle('collapsed');
+                const sidebarIcon = document.getElementById('sidebar-icon');
+                const isCollapsed = sidebar.classList.contains('collapsed');
+                sidebarIcon.setAttribute('data-lucide', isCollapsed ? 'sidebar-open' : 'sidebar');
+                lucide.createIcons();
+            });
+
+            document.getElementById('save-btn').addEventListener('click', saveToHistory);
+            document.getElementById('format-btn').addEventListener('click', formatCode);
+            document.getElementById('minify-btn').addEventListener('click', minifyCode);
+            document.getElementById('import-btn').addEventListener('click', importFile);
+            document.getElementById('export-btn').addEventListener('click', exportFile);
+            document.getElementById('preview-btn').addEventListener('click', () => {
+                document.getElementById('preview-container').style.display = 'flex';
+                updatePreview();
+            });
+            document.getElementById('close-preview').addEventListener('click', () => {
+                document.getElementById('preview-container').style.display = 'none';
+            });
+            document.getElementById('new-tab-btn').addEventListener('click', openInNewTab);
+            document.getElementById('fullscreen-btn').addEventListener('click', toggleFullscreen);
+            
+            document.getElementById('clear-history').addEventListener('click', () => {
+                showPopup(
+                    'Clear History',
+                    'Are you sure you want to clear all history? This action cannot be undone.',
+                    () => {
+                        state.history = [];
+                        localStorage.removeItem('editor-history');
+                        renderHistory();
+                    }
+                );
+            });
+
+            document.getElementById('popup-cancel').addEventListener('click', () => {
+                document.getElementById('popup-overlay').classList.remove('active');
+            });
+        }
+
+        // Initialize theme
+        const savedTheme = localStorage.getItem('editor-theme');
+        const systemTheme = detectSystemTheme();
+        setTheme(savedTheme || systemTheme);
+
+        // Start the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
