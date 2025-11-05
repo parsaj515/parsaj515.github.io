@@ -876,6 +876,154 @@
   word-wrap: break-word;
 }
 
+/* NEW: Bike Obby Game Button */
+#bike-obby-btn {
+  position: fixed;
+  top: 15px;
+  right: 400px;
+  background-color: #2196F3;
+  border: none;
+  color: white;
+  padding: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  transition: background-color 0.2s ease;
+  z-index: 1000;
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#bike-obby-btn:hover {
+  background-color: #1976D2;
+}
+
+/* NEW: Bike Obby Game Modal */
+#bike-obby-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.9);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1012;
+  padding: 20px;
+}
+
+#bike-obby-container {
+  background: #1a1a1a;
+  border-radius: 20px;
+  padding: 0;
+  max-width: 900px;
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Whitney', sans-serif;
+  overflow: hidden;
+}
+
+#bike-obby-header {
+  background: #2d2d2d;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #2196F3;
+}
+
+#bike-obby-title {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-family: 'Ginto', 'Whitney', sans-serif;
+}
+
+#bike-obby-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#bike-obby-close:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+#bike-obby-fullscreen {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+}
+
+#bike-obby-fullscreen:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+#bike-obby-canvas-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+#bike-obby-canvas {
+  width: 100%;
+  height: 100%;
+  background: #0a0a0a;
+}
+
+#bike-obby-stats {
+  background: #2d2d2d;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  color: white;
+  font-size: 0.9rem;
+}
+
+/* Fullscreen styles for Bike Obby */
+#bike-obby-container.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  max-width: none;
+  max-height: none;
+  border-radius: 0;
+  z-index: 1014;
+}
+
+#bike-obby-container.fullscreen #bike-obby-canvas-container {
+  height: calc(100vh - 120px);
+}
+
 /* Responsive design for all screen sizes */
 @media (max-width: 1200px) {
   .app-container {
@@ -895,21 +1043,19 @@
 
   .sidebar {
     width: 70px;
+    transition: width 0.3s ease;
   }
 
   .dm-section {
     display: none;
   }
 
+  .sidebar:hover {
+    width: 240px;
+  }
+
   .sidebar:hover .dm-section {
     display: flex;
-    position: absolute;
-    left: 70px;
-    top: 0;
-    bottom: 0;
-    width: 240px;
-    background-color: #2f3136;
-    z-index: 10;
   }
 
   /* Adjust floating buttons for mobile */
@@ -921,7 +1067,8 @@
   #game-btn,
   #steal-brainrot-btn,
   #admin-panel-btn,
-  #adblocker-btn {
+  #adblocker-btn,
+  #bike-obby-btn {
     transform: scale(0.8);
   }
 
@@ -934,6 +1081,7 @@
   #game-btn { right: 280px; }
   #steal-brainrot-btn { right: 325px; }
   #admin-panel-btn { right: 370px; }
+  #bike-obby-btn { right: 415px; }
 
   .message-container {
     max-width: 95%;
@@ -973,7 +1121,8 @@
   #adblocker-btn,
   #game-btn,
   #steal-brainrot-btn,
-  #admin-panel-btn {
+  #admin-panel-btn,
+  #bike-obby-btn {
     position: fixed;
     right: 10px;
     transform: scale(0.7);
@@ -988,6 +1137,7 @@
   #game-btn { top: 315px; }
   #steal-brainrot-btn { top: 365px; }
   #admin-panel-btn { top: 415px; }
+  #bike-obby-btn { top: 465px; }
 }
 
 /* Rest of your existing CSS remains exactly the same */
@@ -1083,6 +1233,15 @@ display: flex;
 justify-content: space-between;
 align-items: center;
 font-family: 'Ginto', 'Whitney', sans-serif;
+}
+
+.dm-header span {
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.dm-header span:hover {
+  color: #dcddde;
 }
 
 .dm-list {
@@ -1198,10 +1357,26 @@ font-weight: 600;
 color: white;
 font-family: 'Whitney', sans-serif;
 cursor: pointer; /* ADDED: Make name clickable */
+position: relative;
+display: flex;
+align-items: center;
+gap: 5px;
 }
 
 .user-name:hover {
 color: #dcddde; /* ADDED: Hover effect */
+}
+
+.user-name::after {
+  content: "edit";
+  font-family: 'Material Icons';
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.user-name:hover::after {
+  opacity: 1;
 }
 
 .user-tag {
@@ -2824,6 +2999,8 @@ color: white;
 <button id="game-btn" title="Play Grow a Garden"><span class="material-icons">sports_esports</span></button>
 <!-- FIXED: Steal a Brainrot Button -->
 <button id="steal-brainrot-btn" title="Play Steal a Brainrot"><span class="material-icons">casino</span></button>
+<!-- NEW: Bike Obby Button -->
+<button id="bike-obby-btn" title="Play Bike Obby"><span class="material-icons">directions_bike</span></button>
 <!-- NEW: Admin Panel Button -->
 <button id="admin-panel-btn" title="Admin Panel"><span class="material-icons">admin_panel_settings</span></button>
 <!-- NEW: Adblocker Toggle Button - MOVED next to link button -->
@@ -3018,6 +3195,28 @@ DIRECT MESSAGES
     </div>
     <div id="steal-brainrot-stats">
       <div id="steal-brainrot-score">Playing: Steal a Brainrot</div>
+    </div>
+  </div>
+</div>
+
+<!-- NEW: Bike Obby Game Modal -->
+<div id="bike-obby-modal">
+  <div id="bike-obby-container">
+    <div id="bike-obby-header">
+      <div id="bike-obby-title">Bike Obby</div>
+      <div class="header-controls">
+        <button id="bike-obby-fullscreen" title="Toggle Fullscreen"><span class="material-icons">fullscreen</span></button>
+        <button id="bike-obby-close"><span class="material-icons">close</span></button>
+      </div>
+    </div>
+    <div id="bike-obby-canvas-container">
+      <div class="ad-blocked-iframe">
+        <!-- UPDATED: Changed to specified URL -->
+        <iframe id="bike-obby-frame" src="https://maddox05.github.io/basic-ruffle-player/html/obby_but_youre_a_bike/index.html" style="width: 100%; height: 100%; border: none;"></iframe>
+      </div>
+    </div>
+    <div id="bike-obby-stats">
+      <div id="bike-obby-score">Playing: Bike Obby</div>
     </div>
   </div>
 </div>
@@ -3314,7 +3513,7 @@ function blockAdsInIframes() {
   ];
   
   // Apply ad blocking to game iframes
-  const gameIframes = document.querySelectorAll('#game-frame, #steal-brainrot-frame');
+  const gameIframes = document.querySelectorAll('#game-frame, #steal-brainrot-frame, #bike-obby-frame');
   
   gameIframes.forEach(iframe => {
     try {
@@ -3405,6 +3604,12 @@ function initializeGameModals() {
   const stealBrainrotFullscreen = document.getElementById('steal-brainrot-fullscreen');
   const stealBrainrotContainer = document.getElementById('steal-brainrot-container');
 
+  const bikeObbyBtn = document.getElementById('bike-obby-btn');
+  const bikeObbyModal = document.getElementById('bike-obby-modal');
+  const bikeObbyClose = document.getElementById('bike-obby-close');
+  const bikeObbyFullscreen = document.getElementById('bike-obby-fullscreen');
+  const bikeObbyContainer = document.getElementById('bike-obby-container');
+
   // Grow a Garden game
   gameBtn.addEventListener('click', () => {
     gameModal.style.display = 'flex';
@@ -3489,7 +3694,49 @@ function initializeGameModals() {
     }
   });
 
-  // Exit fullscreen on Escape key for both games
+  // NEW: Bike Obby game
+  bikeObbyBtn.addEventListener('click', () => {
+    bikeObbyModal.style.display = 'flex';
+    // Apply ad blocking when game loads
+    setTimeout(blockAdsInIframes, 100);
+  });
+
+  bikeObbyClose.addEventListener('click', () => {
+    bikeObbyModal.style.display = 'none';
+    // Exit fullscreen when closing
+    if (bikeObbyContainer.classList.contains('fullscreen')) {
+      bikeObbyContainer.classList.remove('fullscreen');
+      bikeObbyFullscreen.innerHTML = '<span class="material-icons">fullscreen</span>';
+      bikeObbyFullscreen.title = 'Enter Fullscreen';
+    }
+  });
+
+  bikeObbyModal.addEventListener('click', (e) => {
+    if (e.target === bikeObbyModal) {
+      bikeObbyModal.style.display = 'none';
+      // Exit fullscreen when closing
+      if (bikeObbyContainer.classList.contains('fullscreen')) {
+        bikeObbyContainer.classList.remove('fullscreen');
+        bikeObbyFullscreen.innerHTML = '<span class="material-icons">fullscreen</span>';
+        bikeObbyFullscreen.title = 'Enter Fullscreen';
+      }
+    }
+  });
+
+  // Bike Obby fullscreen functionality
+  bikeObbyFullscreen.addEventListener('click', () => {
+    bikeObbyContainer.classList.toggle('fullscreen');
+    
+    if (bikeObbyContainer.classList.contains('fullscreen')) {
+      bikeObbyFullscreen.innerHTML = '<span class="material-icons">fullscreen_exit</span>';
+      bikeObbyFullscreen.title = 'Exit Fullscreen';
+    } else {
+      bikeObbyFullscreen.innerHTML = '<span class="material-icons">fullscreen</span>';
+      bikeObbyFullscreen.title = 'Enter Fullscreen';
+    }
+  });
+
+  // Exit fullscreen on Escape key for all games
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       if (gameContainer.classList.contains('fullscreen')) {
@@ -3501,6 +3748,11 @@ function initializeGameModals() {
         stealBrainrotContainer.classList.remove('fullscreen');
         stealBrainrotFullscreen.innerHTML = '<span class="material-icons">fullscreen</span>';
         stealBrainrotFullscreen.title = 'Enter Fullscreen';
+      }
+      if (bikeObbyContainer.classList.contains('fullscreen')) {
+        bikeObbyContainer.classList.remove('fullscreen');
+        bikeObbyFullscreen.innerHTML = '<span class="material-icons">fullscreen</span>';
+        bikeObbyFullscreen.title = 'Enter Fullscreen';
       }
     }
   });
