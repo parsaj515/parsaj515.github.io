@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+&#32;&#32;  &lt;&#116;itle&gt;&#77;y Prote&#99;ted&#32;&#80;ag&#101;&lt;/&#116;itl&#101;&gt;
+&#32;&#32; &#32;&lt;style&gt;&#10;        body {
+           &#32;f&#111;n&#116;&#45;family: Ari&#97;l, sa&#110;s&#45;ser&#105;f;
+ &#32;          m&#97;x&#45;w&#105;dth&#58; 800px;
+&#32;  &#32;  &#32;   &#32; m&#97;rgin&#58; &#48; &#97;uto;&#10;&#32;   &#32;&#32;    &#32; pad&#100;in&#103;: 20p&#120;;
+&#32;&#32;&#32;  &#32;  &#32;  &#32;b&#97;ckgro&#117;nd: &#35;f&#53;f5f5&#59;&#10;   &#32;    &#125;&#10;       &#32;.c&#111;n&#116;&#97;iner &#123;
+&#32;       &#32;   backgro&#117;nd: w&#104;ite;
+ &#32; &#32;      &#32;&#32;pa&#100;&#100;i&#110;g: &#51;0&#112;x;
+   &#32;  &#32;  &#32;&#32; &#98;&#111;&#114;&#100;e&#114;-&#114;ad&#105;u&#115;: 10px;
+   &#32;   &#32;&#32;   &#98;o&#120;-sha&#100;ow: 0 2&#112;x 10px rgba(&#48;&#44;0,0&#44;&#48;&#46;1);
+  &#32;   &#32;&#32;}
+&#32;&#32; &#32;&#32;&#32;&#32; h1 {&#10;         &#32; &#32;co&#108;o&#114;:&#32;#2c3e50;&#10;     &#32; &#32;}&#10; &#32;  &#32; &#32; .doma&#105;&#110;&#45;&#110;&#111;tice&#32;{
+            &#98;a&#99;kground:&#32;#&#101;7f&#51;ff;&#10;&#32;&#32;         &#32;padding: &#49;&#53;p&#120;;&#10;     &#32;      b&#111;rder&#45;r&#97;d&#105;us&#58; 5&#112;x;
+&#32;           bo&#114;d&#101;&#114;-le&#102;t&#58; 4px so&#108;&#105;d #349&#56;&#100;b;
+    &#32;&#32;    &#32;&#32;ma&#114;&#103;&#105;&#110;-bo&#116;to&#109;: &#50;0&#112;x;
+&#32;&#32; &#32;    }
+&#32;   &lt;/st&#121;le&gt;&#10;
+
+    <script>
+        // Domain restriction - only allow parsaj515.github.io and subdomains
+        (function() {
+            const allowedDomain = 'parsaj515.github.io';
+            const currentHost = window.location.hostname;
+            
+            // Check if current domain matches allowed domain or is a subdomain
+            if (currentHost !== allowedDomain && !currentHost.endsWith('.' + allowedDomain)) {
+                // Clear the page and show error message
+                document.documentElement.innerHTML = '<!DOCTYPE html><html><head><title>Access Denied</title><style>body{font-family:Arial,sans-serif;display:flex;justify-content:center;align-items:center;height:100vh;margin:0;background:#f8f9fa;color:#343a40;} .error-container{text-align:center;padding:2rem;border:2px solid #dc3545;border-radius:10px;background:white;max-width:500px;} h1{color:#dc3545;margin-bottom:1rem;} p{margin-bottom:1rem;}</style></head><body><div class="error-container"><h1>Access Restricted</h1><p>This content is only available on <strong>parsaj515.github.io</strong> and its subdomains.</p><p>Current domain: <code>' + currentHost + '</code></p></div></body></html>';
+                
+                // Prevent any further execution
+                throw new Error('Domain not allowed: ' + currentHost);
+            }
+            
+            // Additional security - check referrer for embedded content
+            if (document.referrer && !document.referrer.includes(allowedDomain)) {
+                console.warn('Potential unauthorized embedding detected');
+            }
+        })();
+    </script>
+                
+    <script>
+        // Prevent right-click
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            alert('Right-click is disabled on this page');
+            return false;
+        });
+        
+        // Prevent keyboard shortcuts for DevTools
+        document.addEventListener('keydown', function(e) {
+            // Disable F12
+            if (e.key === 'F12') {
+                e.preventDefault();
+                alert('Developer tools are disabled on this page');
+                return false;
+            }
+            
+            // Disable Ctrl+Shift+I
+            if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+                e.preventDefault();
+                return false;
+            }
+            
+            // Disable Ctrl+Shift+J
+            if (e.ctrlKey && e.shiftKey && e.key === 'J') {
+                e.preventDefault();
+                return false;
+            }
+            
+            // Disable Ctrl+U
+            if (e.ctrlKey && e.key === 'u') {
+                e.preventDefault();
+                return false;
+            }
+        });
+        
+        // Detect DevTools opening
+        let devToolsOpen = false;
+        const threshold = 160;
+        const checkDevTools = setInterval(function() {
+            const width = window.outerWidth - window.innerWidth;
+            const height = window.outerHeight - window.innerHeight;
+            
+            if (width > threshold || height > threshold) {
+                if (!devToolsOpen) {
+                    devToolsOpen = true;
+                    document.body.innerHTML = '<div style="text-align:center;padding:50px;font-family:Arial,sans-serif;"><h1>Developer Tools Detected</h1><p>This page is protected and cannot be inspected.</p></div>';
+                    clearInterval(checkDevTools);
+                }
+            }
+        }, 500);
+    </script>
+                    
+    <script>
+        // CORS protection - block requests from unauthorized domains
+        const allowedOrigins = ['https://parsaj515.github.io'];
+        
+        // Intercept fetch requests
+        const originalFetch = window.fetch;
+        window.fetch = function(...args) {
+            const url = args[0];
+            if (typeof url === 'string' && !allowedOrigins.some(origin => url.startsWith(origin))) {
+                console.warn('Blocked cross-origin request to:', url);
+                return Promise.reject(new Error('Cross-origin requests are not allowed'));
+            }
+            return originalFetch.apply(this, args);
+        };
+        
+        // Intercept XMLHttpRequest
+        const originalOpen = XMLHttpRequest.prototype.open;
+        XMLHttpRequest.prototype.open = function(method, url, ...args) {
+            if (!allowedOrigins.some(origin => url.startsWith(origin))) {
+                console.warn('Blocked cross-origin XMLHttpRequest to:', url);
+                throw new Error('Cross-origin requests are not allowed');
+            }
+            return originalOpen.call(this, method, url, ...args);
+        };
+    </script>
+                    
+    <script>
+        // Prevent page from being embedded in an iframe
+        if (window !== window.top) {
+            window.top.location = window.location;
+        }
+        
+        // Additional protection using X-Frame-Options
+        try {
+            if (window.self !== window.top) {
+                document.body.innerHTML = '<h1 style="text-align:center;padding:50px;">Framing is not allowed</h1>';
+            }
+        } catch (e) {
+            document.body.innerHTML = '<h1 style="text-align:center;padding:50px;">Framing is not allowed</h1>';
+        }
+    </script>
+                    
+</head>
+<body>
+
+    &lt;d&#105;v class=&quot;contai&#110;er&quot;&gt;
+ &#32; &#32; &#32;&#32;&#32;&lt;div&#32;cla&#115;s=&quot;&#100;&#111;main-n&#111;&#116;ice&quot;&gt;&#10;  &#32; &#32;&#32;      &lt;stron&#103;&gt;Domain &#82;&#101;&#115;&#116;ri&#99;&#116;ed:&lt;/&#115;t&#114;ong&gt;&#32;This p&#97;ge &#111;n&#108;y &#119;&#111;&#114;&#107;s&#32;on p&#97;r&#115;aj5&#49;5&#46;g&#105;thub.io
+&#32;&#32;    &#32;&#32;&lt;/div&gt;
+  &#32;    &#32;&lt;h1&gt;&#87;e&#108;&#99;om&#101; to My P&#114;&#111;tec&#116;e&#100;&#32;&#80;&#97;ge&lt;/h1&gt;&#10;      &#32;&#32;&lt;p&gt;Thi&#115; con&#116;en&#116; &#105;&#115;&#32;prote&#99;t&#101;d with&#32;&#100;&#111;ma&#105;n &#114;e&#115;tri&#99;&#116;ion&#32;an&#100; secu&#114;i&#116;&#121;&#32;feature&#115;.&lt;/p&gt;&#10;&#32;      &#32;&lt;p&gt;T&#114;y&#32;acces&#115;ing&#32;&#116;h&#105;s page fr&#111;&#109;&#32;a&#32;di&#102;f&#101;r&#101;n&#116;&#32;&#100;om&#97;in t&#111; see the re&#115;tr&#105;cti&#111;&#110;&#32;&#105;n a&#99;tio&#110;.&lt;&#47;&#112;&gt;
+   &#32;    &lt;button&#32;onclick=&quot;alert(&#39;H&#101;ll&#111; &#102;&#114;&#111;m &#112;rot&#101;&#99;t&#101;&#100;&#32;pag&#101;!&#39;)&quot;&gt;C&#108;&#105;ck &#77;e&lt;/button&gt;
+&#32;   &lt;/di&#118;&gt;
+&#10;
+</body>
+</html>
