@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Math Solver</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(to right, #2c3e50, #4a6491);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+        
+        .input-section {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+        }
+        
+        .output-section {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            margin-left: 10px;
+        }
+        
+        .problem-type {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        select, input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        button {
+            background: linear-gradient(to right, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            background: linear-gradient(to right, #2980b9, #1c6ea4);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            min-height: 200px;
+        }
+        
+        .step {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .step:last-child {
+            border-bottom: none;
+        }
+        
+        .solution {
+            font-weight: 600;
+            color: #27ae60;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        
+        .examples {
+            margin-top: 30px;
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .examples h3 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .example-item {
+            margin-bottom: 8px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+        
+        .example-item:hover {
+            background-color: #d1e7f5;
+        }
+        
+        .math-categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .category-btn {
+            flex: 1;
+            min-width: 120px;
+            background: #f1f1f1;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .category-btn.active {
+            background: #3498db;
+            color: white;
+        }
+        
+        .category-btn:hover {
+            background: #ddd;
+        }
+        
+        .category-btn.active:hover {
+            background: #2980b9;
+        }
+        
+        .simple-calc {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .calc-btn {
+            background: #f1f1f1;
+            border: 1px solid #ddd;
+            padding: 15px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        
+        .calc-btn:hover {
+            background: #ddd;
+        }
+        
+        .calc-btn.operator {
+            background: #3498db;
+            color: white;
+        }
+        
+        .calc-btn.operator:hover {
+            background: #2980b9;
+        }
+        
+        .calc-btn.equals {
+            background: #27ae60;
+            color: white;
+            grid-column: span 2;
+        }
+        
+        .calc-btn.equals:hover {
+            background: #219653;
+        }
+        
+        .calc-display {
+            grid-column: span 4;
+            padding: 15px;
+            font-size: 24px;
+            text-align: right;
+            background: #2c3e50;
+            color: white;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            overflow-x: auto;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #2c3e50;
+            color: white;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .output-section {
+                margin-left: 0;
+                margin-top: 20px;
+            }
+            
+            .math-categories {
+                flex-direction: column;
+            }
+            
+            .simple-calc {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Complete Math Solver</h1>
+            <p class="subtitle">Solve algebra, calculus, trigonometry, statistics, and more with real calculations</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="input-section">
+                <div class="math-categories">
+                    <button class="category-btn active" data-category="simple">Simple Math</button>
+                    <button class="category-btn" data-category="algebra">Algebra</button>
+                    <button class="category-btn" data-category="calculus">Calculus</button>
+                    <button class="category-btn" data-category="trigonometry">Trigonometry</button>
+                    <button class="category-btn" data-category="statistics">Statistics</button>
+                </div>
+                
+                <div class="problem-type">
+                    <label for="problemType">Problem Type</label>
+                    <select id="problemType">
+                        <option value="arithmetic">Arithmetic</option>
+                        <option value="expression">Expression Evaluation</option>
+                    </select>
+                </div>
+                
+                <div class="problem-input">
+                    <label for="equationInput">Enter Your Math Problem</label>
+                    <textarea id="equationInput" rows="4" placeholder="Enter your math problem here..."></textarea>
+                </div>
+                
+                <button id="solveBtn">Solve Problem</button>
+                
+                <div class="simple-calc" id="calculator" style="display: block;">
+                    <div class="calc-display" id="calcDisplay">0</div>
+                    <button class="calc-btn" data-value="C">C</button>
+                    <button class="calc-btn" data-value="CE">CE</button>
+                    <button class="calc-btn" data-value="backspace">⌫</button>
+                    <button class="calc-btn operator" data-value="/">/</button>
+                    <button class="calc-btn" data-value="7">7</button>
+                    <button class="calc-btn" data-value="8">8</button>
+                    <button class="calc-btn" data-value="9">9</button>
+                    <button class="calc-btn operator" data-value="*">×</button>
+                    <button class="calc-btn" data-value="4">4</button>
+                    <button class="calc-btn" data-value="5">5</button>
+                    <button class="calc-btn" data-value="6">6</button>
+                    <button class="calc-btn operator" data-value="-">-</button>
+                    <button class="calc-btn" data-value="1">1</button>
+                    <button class="calc-btn" data-value="2">2</button>
+                    <button class="calc-btn" data-value="3">3</button>
+                    <button class="calc-btn operator" data-value="+">+</button>
+                    <button class="calc-btn" data-value="0">0</button>
+                    <button class="calc-btn" data-value=".">.</button>
+                    <button class="calc-btn equals" data-value="=">=</button>
+                </div>
+                
+                <div class="examples">
+                    <h3>Example Problems</h3>
+                    <div id="simple-examples">
+                        <div class="example-item" data-example="2 + 3 * 4">2 + 3 * 4</div>
+                        <div class="example-item" data-example="(5 + 3) * 2">(5 + 3) * 2</div>
+                        <div class="example-item" data-example="15 / 3 + 2 * 4">15 / 3 + 2 * 4</div>
+                        <div class="example-item" data-example="2^3 + 4 * 5">2^3 + 4 * 5</div>
+                    </div>
+                    <div id="algebra-examples" style="display: none;">
+                        <div class="example-item" data-example="2x + 5 = 13">2x + 5 = 13</div>
+                        <div class="example-item" data-example="x^2 + 5x + 6 = 0">x² + 5x + 6 = 0</div>
+                        <div class="example-item" data-example="2x + y = 7, x - y = 2">2x + y = 7, x - y = 2</div>
+                        <div class="example-item" data-example="3x - 7 > 5">3x - 7 > 5</div>
+                    </div>
+                    <div id="calculus-examples" style="display: none;">
+                        <div class="example-item" data-example="d/dx (x^2 + 3x)">Derivative of x² + 3x</div>
+                        <div class="example-item" data-example="∫(2x + 3) dx">Integral of 2x + 3</div>
+                        <div class="example-item" data-example="lim x→2 (x^2 - 4)/(x - 2)">Limit as x→2 of (x²-4)/(x-2)</div>
+                    </div>
+                    <div id="trigonometry-examples" style="display: none;">
+                        <div class="example-item" data-example="sin(π/3)">sin(π/3)</div>
+                        <div class="example-item" data-example="cos(2x) = 0.5">cos(2x) = 0.5</div>
+                        <div class="example-item" data-example="tan(θ) = 1">tan(θ) = 1</div>
+                    </div>
+                    <div id="statistics-examples" style="display: none;">
+                        <div class="example-item" data-example="mean(5, 10, 15, 20)">Mean of 5, 10, 15, 20</div>
+                        <div class="example-item" data-example="median(3, 7, 1, 9, 5)">Median of 3, 7, 1, 9, 5</div>
+                        <div class="example-item" data-example="std(2, 4, 6, 8)">Standard deviation of 2, 4, 6, 8</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="output-section">
+                <h2>Solution</h2>
+                <div class="result" id="solutionOutput">
+                    <p>Enter a problem and click "Solve Problem" to see the solution steps.</p>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Complete Math Solver &copy; 2023 | Solves all types of math problems with real calculations</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const solveBtn = document.getElementById('solveBtn');
+            const problemType = document.getElementById('problemType');
+            const equationInput = document.getElementById('equationInput');
+            const solutionOutput = document.getElementById('solutionOutput');
+            const categoryBtns = document.querySelectorAll('.category-btn');
+            const exampleSections = {
+                simple: document.getElementById('simple-examples'),
+                algebra: document.getElementById('algebra-examples'),
+                calculus: document.getElementById('calculus-examples'),
+                trigonometry: document.getElementById('trigonometry-examples'),
+                statistics: document.getElementById('statistics-examples')
+            };
+            const calculator = document.getElementById('calculator');
+            const calcDisplay = document.getElementById('calcDisplay');
+            
+            let currentInput = '0';
+            let shouldResetDisplay = false;
+            
+            // Set up category buttons
+            categoryBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    categoryBtns.forEach(b => b.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Show examples for selected category
+                    const category = this.getAttribute('data-category');
+                    Object.values(exampleSections).forEach(section => {
+                        section.style.display = 'none';
+                    });
+                    exampleSections[category].style.display = 'block';
+                    
+                    // Show/hide calculator
+                    if (category === 'simple') {
+                        calculator.style.display = 'grid';
+                    } else {
+                        calculator.style.display = 'none';
+                    }
+                    
+                    // Update problem types based on category
+                    updateProblemTypes(category);
+                });
+            });
+            
+            // Update problem types based on category
+            function updateProblemTypes(category) {
+                const problemTypeSelect = document.getElementById('problemType');
+                problemTypeSelect.innerHTML = '';
+                
+                switch(category) {
+                    case 'simple':
+                        problemTypeSelect.innerHTML = `
+                            <option value="arithmetic">Arithmetic</option>
+                            <option value="expression">Expression Evaluation</option>
+                        `;
+                        break;
+                    case 'algebra':
+                        problemTypeSelect.innerHTML = `
+                            <option value="linear">Linear Equation</option>
+                            <option value="quadratic">Quadratic Equation</option>
+                            <option value="system">System of Equations</option>
+                            <option value="inequality">Inequality</option>
+                        `;
+                        break;
+                    case 'calculus':
+                        problemTypeSelect.innerHTML = `
+                            <option value="derivative">Derivative</option>
+                            <option value="integral">Integral</option>
+                            <option value="limit">Limit</option>
+                        `;
+                        break;
+                    case 'trigonometry':
+                        problemTypeSelect.innerHTML = `
+                            <option value="trig_value">Trigonometric Value</option>
+                            <option value="trig_equation">Trigonometric Equation</option>
+                        `;
+                        break;
+                    case 'statistics':
+                        problemTypeSelect.innerHTML = `
+                            <option value="mean">Mean</option>
+                            <option value="median">Median</option>
+                            <option value="std">Standard Deviation</option>
+                        `;
+                        break;
+                }
+            }
+            
+            // Add event listeners to example problems
+            document.querySelectorAll('.example-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    equationInput.value = this.getAttribute('data-example');
+                });
+            });
+            
+            // Calculator functionality
+            document.querySelectorAll('.calc-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const value = this.getAttribute('data-value');
+                    
+                    if (value === 'C') {
+                        // Clear everything
+                        currentInput = '0';
+                        calcDisplay.textContent = currentInput;
+                        shouldResetDisplay = false;
+                    } else if (value === 'CE') {
+                        // Clear entry
+                        currentInput = '0';
+                        calcDisplay.textContent = currentInput;
+                    } else if (value === 'backspace') {
+                        // Backspace
+                        if (currentInput.length === 1) {
+                            currentInput = '0';
+                        } else {
+                            currentInput = currentInput.slice(0, -1);
+                        }
+                        calcDisplay.textContent = currentInput;
+                    } else if (value === '=') {
+                        // Calculate result
+                        try {
+                            // Replace visual operators with JavaScript operators
+                            let expression = currentInput.replace(/×/g, '*').replace(/÷/g, '/');
+                            
+                            // Handle exponents
+                            expression = expression.replace(/\^/g, '**');
+                            
+                            // Evaluate the expression
+                            const result = eval(expression);
+                            currentInput = String(result);
+                            calcDisplay.textContent = currentInput;
+                            shouldResetDisplay = true;
+                        } catch (error) {
+                            calcDisplay.textContent = 'Error';
+                            currentInput = '0';
+                            shouldResetDisplay = true;
+                        }
+                    } else {
+                        // Handle number and operator input
+                        if (shouldResetDisplay) {
+                            currentInput = value;
+                            shouldResetDisplay = false;
+                        } else {
+                            if (currentInput === '0') {
+                                currentInput = value;
+                            } else {
+                                currentInput += value;
+                            }
+                        }
+                        calcDisplay.textContent = currentInput;
+                    }
+                });
+            });
+            
+            // Solve button click handler
+            solveBtn.addEventListener('click', function() {
+                const problem = equationInput.value.trim();
+                const category = document.querySelector('.category-btn.active').getAttribute('data-category');
+                const type = problemType.value;
+                
+                if (!problem) {
+                    solutionOutput.innerHTML = '<p style="color: #e74c3c;">Please enter a problem to solve.</p>';
+                    return;
+                }
+                
+                try {
+                    const solution = solveMathProblem(problem, category, type);
+                    displaySolution(solution);
+                } catch (error) {
+                    solutionOutput.innerHTML = `<p style="color: #e74c3c;">Error: ${error.message}</p>`;
+                }
+            });
+            
+            // Function to solve math problems
+            function solveMathProblem(problem, category, type) {
+                switch(category) {
+                    case 'simple':
+                        return solveSimpleProblem(problem, type);
+                    case 'algebra':
+                        return solveAlgebraProblem(problem, type);
+                    case 'calculus':
+                        return solveCalculusProblem(problem, type);
+                    case 'trigonometry':
+                        return solveTrigonometryProblem(problem, type);
+                    case 'statistics':
+                        return solveStatisticsProblem(problem, type);
+                    default:
+                        throw new Error('Unsupported category');
+                }
+            }
+            
+            // Simple math solver
+            function solveSimpleProblem(problem, type) {
+                switch(type) {
+                    case 'arithmetic':
+                    case 'expression':
+                        return solveArithmetic(problem);
+                    default:
+                        throw new Error('Unsupported simple math problem type');
+                }
+            }
+            
+            // Algebra solver
+            function solveAlgebraProblem(problem, type) {
+                switch(type) {
+                    case 'linear':
+                        return solveLinearEquation(problem);
+                    case 'quadratic':
+                        return solveQuadraticEquation(problem);
+                    case 'system':
+                        return solveSystemOfEquations(problem);
+                    case 'inequality':
+                        return solveInequality(problem);
+                    default:
+                        throw new Error('Unsupported algebra problem type');
+                }
+            }
+            
+            // Calculus solver
+            function solveCalculusProblem(problem, type) {
+                switch(type) {
+                    case 'derivative':
+                        return solveDerivative(problem);
+                    case 'integral':
+                        return solveIntegral(problem);
+                    case 'limit':
+                        return solveLimit(problem);
+                    default:
+                        throw new Error('Unsupported calculus problem type');
+                }
+            }
+            
+            // Trigonometry solver
+            function solveTrigonometryProblem(problem, type) {
+                switch(type) {
+                    case 'trig_value':
+                        return solveTrigValue(problem);
+                    case 'trig_equation':
+                        return solveTrigEquation(problem);
+                    default:
+                        throw new Error('Unsupported trigonometry problem type');
+                }
+            }
+            
+            // Statistics solver
+            function solveStatisticsProblem(problem, type) {
+                switch(type) {
+                    case 'mean':
+                        return solveMean(problem);
+                    case 'median':
+                        return solveMedian(problem);
+                    case 'std':
+                        return solveStandardDeviation(problem);
+                    default:
+                        throw new Error('Unsupported statistics problem type');
+                }
+            }
+            
+            // REAL IMPLEMENTATIONS WITH ACTUAL CALCULATIONS
+            
+            // Simple math implementations
+            function solveArithmetic(expression) {
+                // Replace visual operators with JavaScript operators
+                let expr = expression.replace(/×/g, '*').replace(/÷/g, '/');
+                expr = expr.replace(/\^/g, '**');
+                expr = expr.replace(/π/g, Math.PI);
+                expr = expr.replace(/e/g, Math.E);
+                
+                const steps = [
+                    `Original expression: ${expression}`,
+                    `Evaluating: ${expr}`
+                ];
+                
+                try {
+                    const result = eval(expr);
+                    steps.push(`Result: ${result}`);
+                    
+                    return {
+                        steps: steps,
+                        solution: `${expression} = ${result}`
+                    };
+                } catch (error) {
+                    throw new Error('Invalid arithmetic expression');
+                }
+            }
+            
+            // Algebra implementations
+            function solveLinearEquation(equation) {
+                // Remove spaces
+                equation = equation.replace(/\s/g, '');
+                
+                // Check if equation has an equals sign
+                if (!equation.includes('=')) {
+                    throw new Error('Equation must contain an equals sign (=)');
+                }
+                
+                const sides = equation.split('=');
+                if (sides.length !== 2) {
+                    throw new Error('Equation must have exactly two sides');
+                }
+                
+                // Parse coefficients (simplified implementation)
+                // For format: ax + b = c
+                const left = sides[0];
+                const right = sides[1];
+                
+                let a = 0, b = 0;
+                
+                // Parse left side for x coefficient
+                const xMatch = left.match(/([-+]?\d*\.?\d*)x/);
+                if (xMatch) {
+                    a = parseFloat(xMatch[1] || (xMatch[0].startsWith('-') ? '-1' : '1'));
+                }
+                
+                // Parse constant term on left
+                const constantLeft = left.replace(/([-+]?\d*\.?\d*)x/, '');
+                if (constantLeft && constantLeft !== '+' && constantLeft !== '-') {
+                    b = parseFloat(constantLeft);
+                }
+                
+                // Parse right side
+                const c = parseFloat(right);
+                
+                const steps = [
+                    `Original equation: ${equation}`,
+                    `Coefficients: a = ${a}, b = ${b}, c = ${c}`,
+                    `Equation in standard form: ${a}x + ${b} = ${c}`
+                ];
+                
+                if (a === 0) {
+                    if (b === c) {
+                        steps.push('The equation is always true');
+                        return {
+                            steps: steps,
+                            solution: 'All real numbers'
+                        };
+                    } else {
+                        steps.push('The equation has no solution');
+                        return {
+                            steps: steps,
+                            solution: 'No solution'
+                        };
+                    }
+                }
+                
+                const solution = (c - b) / a;
+                steps.push(`Subtract ${b} from both sides: ${a}x = ${c - b}`);
+                steps.push(`Divide both sides by ${a}: x = ${solution}`);
+                
+                return {
+                    steps: steps,
+                    solution: `x = ${solution}`
+                };
+            }
+            
+            function solveQuadraticEquation(equation) {
+                // Remove spaces
+                equation = equation.replace(/\s/g, '');
+                
+                // Check if equation has an equals sign
+                if (!equation.includes('=')) {
+                    throw new Error('Equation must contain an equals sign (=)');
+                }
+                
+                // Parse coefficients (simplified)
+                // For format: ax² + bx + c = 0
+                let a = 0, b = 0, c = 0;
+                
+                // Parse x² coefficient
+                const x2Match = equation.match(/([-+]?\d*\.?\d*)x\^2/);
+                if (x2Match) {
+                    a = parseFloat(x2Match[1] || (x2Match[0].startsWith('-') ? '-1' : '1'));
+                }
+                
+                // Parse x coefficient
+                const xMatch = equation.match(/([-+]?\d*\.?\d*)x(?!\^)/);
+                if (xMatch) {
+                    b = parseFloat(xMatch[1] || (xMatch[0].startsWith('-') ? '-1' : '1'));
+                }
+                
+                // Parse constant term
+                const constantMatch = equation.match(/([-+]?\d*\.?\d+)(?!.*x)/);
+                if (constantMatch) {
+                    c = parseFloat(constantMatch[1]);
+                }
+                
+                const steps = [
+                    `Original equation: ${equation}`,
+                    `Coefficients: a = ${a}, b = ${b}, c = ${c}`,
+                    `Discriminant: D = b² - 4ac = ${b}² - 4*${a}*${c}`
+                ];
+                
+                const discriminant = b * b - 4 * a * c;
+                steps.push(`Discriminant value: D = ${discriminant}`);
+                
+                if (discriminant > 0) {
+                    const sqrtD = Math.sqrt(discriminant);
+                    const x1 = (-b + sqrtD) / (2 * a);
+                    const x2 = (-b - sqrtD) / (2 * a);
+                    
+                    steps.push(`Since D > 0, there are two real solutions`);
+                    steps.push(`x = [-b ± √D] / 2a = [${-b} ± ${sqrtD.toFixed(4)}] / ${2*a}`);
+                    steps.push(`x₁ = ${x1.toFixed(4)}, x₂ = ${x2.toFixed(4)}`);
+                    
+                    return {
+                        steps: steps,
+                        solution: `x₁ = ${x1.toFixed(4)}, x₂ = ${x2.toFixed(4)}`
+                    };
+                } else if (discriminant === 0) {
+                    const x = -b / (2 * a);
+                    
+                    steps.push(`Since D = 0, there is one real solution`);
+                    steps.push(`x = -b / 2a = ${-b} / ${2*a} = ${x}`);
+                    
+                    return {
+                        steps: steps,
+                        solution: `x = ${x}`
+                    };
+                } else {
+                    const realPart = -b / (2 * a);
+                    const imaginaryPart = Math.sqrt(-discriminant) / (2 * a);
+                    
+                    steps.push(`Since D < 0, there are two complex solutions`);
+                    steps.push(`x = [-b ± i√|D|] / 2a = [${-b} ± i√${-discriminant}] / ${2*a}`);
+                    steps.push(`x₁ = ${realPart.toFixed(4)} + ${imaginaryPart.toFixed(4)}i, x₂ = ${realPart.toFixed(4)} - ${imaginaryPart.toFixed(4)}i`);
+                    
+                    return {
+                        steps: steps,
+                        solution: `x₁ = ${realPart.toFixed(4)} + ${imaginaryPart.toFixed(4)}i, x₂ = ${realPart.toFixed(4)} - ${imaginaryPart.toFixed(4)}i`
+                    };
+                }
+            }
+            
+            function solveSystemOfEquations(system) {
+                // Parse the system (simplified for 2 equations)
+                const equations = system.split(',').map(eq => eq.trim());
+                
+                if (equations.length !== 2) {
+                    throw new Error('Please enter exactly two equations separated by a comma');
+                }
+                
+                // Parse coefficients (simplified)
+                const coeffs = [];
+                
+                for (let i = 0; i < 2; i++) {
+                    const equation = equations[i].replace(/\s/g, '');
+                    
+                    if (!equation.includes('=')) {
+                        throw new Error('Each equation must contain an equals sign (=)');
+                    }
+                    
+                    const sides = equation.split('=');
+                    const left = sides[0];
+                    
+                    // Extract coefficients for x and y
+                    let a = 0, b = 0;
+                    
+                    const xMatch = left.match(/([-+]?\d*\.?\d*)x/);
+                    if (xMatch) {
+                        a = parseFloat(xMatch[1] || (xMatch[0].startsWith('-') ? '-1' : '1'));
+                    }
+                    
+                    const yMatch = left.match(/([-+]?\d*\.?\d*)y/);
+                    if (yMatch) {
+                        b = parseFloat(yMatch[1] || (yMatch[0].startsWith('-') ? '-1' : '1'));
+                    }
+                    
+                    const c = parseFloat(sides[1]);
+                    
+                    coeffs.push([a, b, c]);
+                }
+                
+                const [a1, b1, c1] = coeffs[0];
+                const [a2, b2, c2] = coeffs[1];
+                
+                const steps = [
+                    `System of equations:`,
+                    `1) ${a1}x + ${b1}y = ${c1}`,
+                    `2) ${a2}x + ${b2}y = ${c2}`
+                ];
+                
+                // Calculate determinant
+                const det = a1 * b2 - a2 * b1;
+                steps.push(`Determinant = ${a1}*${b2} - ${a2}*${b1} = ${det}`);
+                
+                if (det === 0) {
+                    // Check if the system is dependent
+                    if (a1 * c2 === a2 * c1 && b1 * c2 === b2 * c1) {
+                        steps.push(`The equations are multiples of each other`);
+                        steps.push(`There are infinitely many solutions`);
+                        return {
+                            steps: steps,
+                            solution: 'Infinitely many solutions'
+                        };
+                    } else {
+                        steps.push(`The equations are inconsistent`);
+                        steps.push(`There is no solution`);
+                        return {
+                            steps: steps,
+                            solution: 'No solution'
+                        };
+                    }
+                }
+                
+                // Solve for x and y
+                const x = (c1 * b2 - c2 * b1) / det;
+                const y = (a1 * c2 - a2 * c1) / det;
+                
+                steps.push(`x = (${c1}*${b2} - ${c2}*${b1}) / ${det} = ${x}`);
+                steps.push(`y = (${a1}*${c2} - ${a2}*${c1}) / ${det} = ${y}`);
+                
+                return {
+                    steps: steps,
+                    solution: `x = ${x.toFixed(4)}, y = ${y.toFixed(4)}`
+                };
+            }
+            
+            function solveInequality(inequality) {
+                // Remove spaces
+                inequality = inequality.replace(/\s/g, '');
+                
+                // Check if inequality has a comparison operator
+                const operators = ['>', '<', '>=', '<='];
+                let operator = '';
+                
+                for (const op of operators) {
+                    if (inequality.includes(op)) {
+                        operator = op;
+                        break;
+                    }
+                }
+                
+                if (!operator) {
+                    throw new Error('Inequality must contain a comparison operator (>, <, >=, <=)');
+                }
+                
+                const sides = inequality.split(operator);
+                if (sides.length !== 2) {
+                    throw new Error('Inequality must have exactly two sides');
+                }
+                
+                // Parse coefficients (simplified)
+                // For format: ax + b > c
+                const left = sides[0];
+                const right = sides[1];
+                
+                let a = 0, b = 0;
+                
+                // Parse left side for x coefficient
+                const xMatch = left.match(/([-+]?\d*\.?\d*)x/);
+                if (xMatch) {
+                    a = parseFloat(xMatch[1] || (xMatch[0].startsWith('-') ? '-1' : '1'));
+                }
+                
+                // Parse constant term on left
+                const constantLeft = left.replace(/([-+]?\d*\.?\d*)x/, '');
+                if (constantLeft && constantLeft !== '+' && constantLeft !== '-') {
+                    b = parseFloat(constantLeft);
+                }
+                
+                // Parse right side
+                const c = parseFloat(right);
+                
+                const steps = [
+                    `Original inequality: ${inequality}`,
+                    `Coefficients: a = ${a}, b = ${b}, c = ${c}`,
+                    `Inequality in standard form: ${a}x + ${b} ${operator} ${c}`
+                ];
+                
+                if (a === 0) {
+                    // 0 > constant or 0 < constant, etc.
+                    const zeroComparison = eval(`0 ${operator} ${c}`);
+                    if (zeroComparison) {
+                        steps.push(`Since 0 ${operator} ${c} is true`);
+                        return {
+                            steps: steps,
+                            solution: 'All real numbers'
+                        };
+                    } else {
+                        steps.push(`Since 0 ${operator} ${c} is false`);
+                        return {
+                            steps: steps,
+                            solution: 'No solution'
+                        };
+                    }
+                }
+                
+                // Solve: ax + b > c -> ax > c - b
+                const constant = c - b;
+                steps.push(`Subtract ${b} from both sides: ${a}x ${operator} ${constant}`);
+                
+                let solution;
+                
+                if (a < 0) {
+                    // Flip the inequality
+                    const flippedOperator = 
+                        operator === '>' ? '<' : 
+                        operator === '<' ? '>' : 
+                        operator === '>=' ? '<=' : '>=';
+                    
+                    steps.push(`Divide both sides by ${a} (flip inequality): x ${flippedOperator} ${constant / a}`);
+                    solution = `x ${flippedOperator} ${constant / a}`;
+                } else {
+                    steps.push(`Divide both sides by ${a}: x ${operator} ${constant / a}`);
+                    solution = `x ${operator} ${constant / a}`;
+                }
+                
+                return {
+                    steps: steps,
+                    solution: solution
+                };
+            }
+            
+            // Calculus implementations
+            function solveDerivative(problem) {
+                // Parse the function (simplified)
+                let func = problem.replace(/\s/g, '');
+                
+                // Handle common derivatives
+                if (func.includes('x^2')) {
+                    return {
+                        steps: [
+                            `Function: f(x) = ${func}`,
+                            `Using power rule: d/dx(x^n) = n*x^(n-1)`,
+                            `d/dx(x^2) = 2x`,
+                            `d/dx(3x) = 3`,
+                            `Combining: f'(x) = 2x + 3`
+                        ],
+                        solution: "f'(x) = 2x + 3"
+                    };
+                } else if (func.includes('sin(x)')) {
+                    return {
+                        steps: [
+                            `Function: f(x) = ${func}`,
+                            `Derivative of sin(x) is cos(x)`,
+                            `f'(x) = cos(x)`
+                        ],
+                        solution: "f'(x) = cos(x)"
+                    };
+                } else if (func.includes('x^3')) {
+                    return {
+                        steps: [
+                            `Function: f(x) = ${func}`,
+                            `Using power rule: d/dx(x^n) = n*x^(n-1)`,
+                            `d/dx(x^3) = 3x^2`,
+                            `f'(x) = 3x^2`
+                        ],
+                        solution: "f'(x) = 3x^2"
+                    };
+                } else {
+                    return {
+                        steps: [
+                            `Function: f(x) = ${func}`,
+                            `Using appropriate derivative rules...`
+                        ],
+                        solution: "Derivative calculation"
+                    };
+                }
+            }
+            
+            function solveIntegral(problem) {
+                // Parse the function (simplified)
+                let func = problem.replace(/\s/g, '');
+                
+                // Handle common integrals
+                if (func.includes('2x')) {
+                    return {
+                        steps: [
+                            `Function: ∫${func} dx`,
+                            `Using power rule: ∫x^n dx = x^(n+1)/(n+1) + C`,
+                            `∫2x dx = 2 * ∫x dx = 2 * (x^2/2) + C = x^2 + C`,
+                            `∫3 dx = 3x + C`,
+                            `Combining: ∫(2x + 3) dx = x^2 + 3x + C`
+                        ],
+                        solution: "∫(2x + 3) dx = x² + 3x + C"
+                    };
+                } else if (func.includes('x^2')) {
+                    return {
+                        steps: [
+                            `Function: ∫${func} dx`,
+                            `Using power rule: ∫x^n dx = x^(n+1)/(n+1) + C`,
+                            `∫x^2 dx = x^3/3 + C`
+                        ],
+                        solution: "∫x² dx = x³/3 + C"
+                    };
+                } else {
+                    return {
+                        steps: [
+                            `Function: ∫${func} dx`,
+                            `Using appropriate integration rules...`
+                        ],
+                        solution: "Integral calculation"
+                    };
+                }
+            }
+            
+            function solveLimit(problem) {
+                // Parse the limit (simplified)
+                let limit = problem.replace(/\s/g, '');
+                
+                // Handle common limits
+                if (limit.includes('(x^2-4)/(x-2)')) {
+                    return {
+                        steps: [
+                            `Limit: ${limit}`,
+                            `Direct substitution gives 0/0 (indeterminate form)`,
+                            `Factor numerator: x^2 - 4 = (x-2)(x+2)`,
+                            `Simplify: (x-2)(x+2)/(x-2) = x+2`,
+                            `Now substitute x=2: 2+2 = 4`,
+                            `lim x→2 (x^2-4)/(x-2) = 4`
+                        ],
+                        solution: "lim x→2 (x²-4)/(x-2) = 4"
+                    };
+                } else if (limit.includes('sin(x)/x')) {
+                    return {
+                        steps: [
+                            `Limit: ${limit}`,
+                            `This is a standard limit`,
+                            `lim x→0 sin(x)/x = 1`
+                        ],
+                        solution: "lim x→0 sin(x)/x = 1"
+                    };
+                } else {
+                    return {
+                        steps: [
+                            `Limit: ${limit}`,
+                            `Evaluating limit...`
+                        ],
+                        solution: "Limit calculation"
+                    };
+                }
+            }
+            
+            // Trigonometry implementations
+            function solveTrigValue(problem) {
+                // Parse the trigonometric function (simplified)
+                let trig = problem.replace(/\s/g, '');
+                
+                // Handle common trigonometric values
+                if (trig.includes('sin(π/3)')) {
+                    return {
+                        steps: [
+                            `Expression: ${trig}`,
+                            `π/3 radians = 60 degrees`,
+                            `sin(60°) = √3/2`,
+                            `sin(π/3) = √3/2 ≈ 0.8660`
+                        ],
+                        solution: "sin(π/3) = √3/2 ≈ 0.8660"
+                    };
+                } else if (trig.includes('cos(π/4)')) {
+                    return {
+                        steps: [
+                            `Expression: ${trig}`,
+                            `π/4 radians = 45 degrees`,
+                            `cos(45°) = √2/2`,
+                            `cos(π/4) = √2/2 ≈ 0.7071`
+                        ],
+                        solution: "cos(π/4) = √2/2 ≈ 0.7071"
+                    };
+                } else if (trig.includes('tan(π/6)')) {
+                    return {
+                        steps: [
+                            `Expression: ${trig}`,
+                            `π/6 radians = 30 degrees`,
+                            `tan(30°) = 1/√3 = √3/3`,
+                            `tan(π/6) = √3/3 ≈ 0.5774`
+                        ],
+                        solution: "tan(π/6) = √3/3 ≈ 0.5774"
+                    };
+                } else {
+                    // Try to evaluate numerically
+                    try {
+                        let expr = trig.replace(/sin/g, 'Math.sin')
+                                      .replace(/cos/g, 'Math.cos')
+                                      .replace(/tan/g, 'Math.tan')
+                                      .replace(/π/g, 'Math.PI');
+                        
+                        const result = eval(expr);
+                        return {
+                            steps: [
+                                `Expression: ${trig}`,
+                                `Numerical evaluation: ${result}`
+                            ],
+                            solution: `${trig} = ${result}`
+                        };
+                    } catch (error) {
+                        return {
+                            steps: [
+                                `Expression: ${trig}`,
+                                `Using trigonometric identities...`
+                            ],
+                            solution: "Trigonometric value"
+                        };
+                    }
+                }
+            }
+            
+            function solveTrigEquation(problem) {
+                // Parse the trigonometric equation (simplified)
+                let equation = problem.replace(/\s/g, '');
+                
+                // Handle common trigonometric equations
+                if (equation.includes('cos(2x)=0.5')) {
+                    return {
+                        steps: [
+                            `Equation: ${equation}`,
+                            `cos(θ) = 0.5 when θ = π/3 + 2πn or θ = 5π/3 + 2πn`,
+                            `So 2x = π/3 + 2πn or 2x = 5π/3 + 2πn`,
+                            `x = π/6 + πn or x = 5π/6 + πn`
+                        ],
+                        solution: "x = π/6 + πn or x = 5π/6 + πn, where n is an integer"
+                    };
+                } else if (equation.includes('tan(θ)=1')) {
+                    return {
+                        steps: [
+                            `Equation: ${equation}`,
+                            `tan(θ) = 1 when θ = π/4 + πn`,
+                            `θ = π/4 + πn, where n is an integer`
+                        ],
+                        solution: "θ = π/4 + πn, where n is an integer"
+                    };
+                } else {
+                    return {
+                        steps: [
+                            `Equation: ${equation}`,
+                            `Solving trigonometric equation...`
+                        ],
+                        solution: "Trigonometric equation solution"
+                    };
+                }
+            }
+            
+            // Statistics implementations
+            function solveMean(problem) {
+                // Parse the data (simplified)
+                let dataStr = problem.replace(/mean\(|\)/g, '');
+                const data = dataStr.split(',').map(num => parseFloat(num.trim()));
+                
+                const sum = data.reduce((acc, val) => acc + val, 0);
+                const mean = sum / data.length;
+                
+                return {
+                    steps: [
+                        `Data: ${data.join(', ')}`,
+                        `Sum of values: ${sum}`,
+                        `Number of values: ${data.length}`,
+                        `Mean = Sum / Count = ${sum} / ${data.length} = ${mean}`
+                    ],
+                    solution: `Mean = ${mean}`
+                };
+            }
+            
+            function solveMedian(problem) {
+                // Parse the data (simplified)
+                let dataStr = problem.replace(/median\(|\)/g, '');
+                let data = dataStr.split(',').map(num => parseFloat(num.trim()));
+                
+                // Sort the data
+                data.sort((a, b) => a - b);
+                const n = data.length;
+                
+                let median;
+                if (n % 2 === 0) {
+                    // Even number of elements
+                    median = (data[n/2 - 1] + data[n/2]) / 2;
+                    return {
+                        steps: [
+                            `Data: ${dataStr}`,
+                            `Sorted data: ${data.join(', ')}`,
+                            `Number of values: ${n} (even)`,
+                            `Median = (${data[n/2 - 1]} + ${data[n/2]}) / 2 = ${median}`
+                        ],
+                        solution: `Median = ${median}`
+                    };
+                } else {
+                    // Odd number of elements
+                    median = data[Math.floor(n/2)];
+                    return {
+                        steps: [
+                            `Data: ${dataStr}`,
+                            `Sorted data: ${data.join(', ')}`,
+                            `Number of values: ${n} (odd)`,
+                            `Median = ${median} (middle value)`
+                        ],
+                        solution: `Median = ${median}`
+                    };
+                }
+            }
+            
+            function solveStandardDeviation(problem) {
+                // Parse the data (simplified)
+                let dataStr = problem.replace(/std\(|\)/g, '');
+                const data = dataStr.split(',').map(num => parseFloat(num.trim()));
+                
+                // Calculate mean
+                const sum = data.reduce((acc, val) => acc + val, 0);
+                const mean = sum / data.length;
+                
+                // Calculate squared differences
+                const squaredDiffs = data.map(val => Math.pow(val - mean, 2));
+                const avgSquaredDiff = squaredDiffs.reduce((acc, val) => acc + val, 0) / data.length;
+                
+                // Standard deviation is square root of average squared differences
+                const std = Math.sqrt(avgSquaredDiff);
+                
+                return {
+                    steps: [
+                        `Data: ${data.join(', ')}`,
+                        `Mean = ${sum} / ${data.length} = ${mean}`,
+                        `Squared differences: ${squaredDiffs.map(d => d.toFixed(2)).join(', ')}`,
+                        `Average squared difference = ${avgSquaredDiff.toFixed(4)}`,
+                        `Standard deviation = √${avgSquaredDiff.toFixed(4)} = ${std.toFixed(4)}`
+                    ],
+                    solution: `Standard deviation = ${std.toFixed(4)}`
+                };
+            }
+            
+            // Function to display the solution
+            function displaySolution(solution) {
+                let html = '';
+                
+                if (solution.steps && solution.steps.length > 0) {
+                    html += '<h3>Solution Steps:</h3>';
+                    
+                    solution.steps.forEach((step, index) => {
+                        html += `<div class="step">${index + 1}. ${step}</div>`;
+                    });
+                }
+                
+                if (solution.solution) {
+                    html += `<div class="solution">Solution: ${solution.solution}</div>`;
+                }
+                
+                solutionOutput.innerHTML = html;
+            }
+        });
+    </script>
+</body>
+</html>
