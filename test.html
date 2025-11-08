@@ -4,146 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Protected Page</title>
+    <!-- DOMAIN RESTRICTION - MUST BE FIRST -->
+    <!-- DOMAIN RESTRICTION - PAGE WILL NOT LOAD ON UNAUTHORIZED DOMAINS -->
+<script>
+(function(){
+    var allowedDomain = 'parsaj515.github.io';
+    var currentHost = window.location.hostname;
     
-    <title data-ktpwu="x2wau6d5dud">My Prot&#101;&#99;&#116;e&#100; Pag&#101;</title>
-    <style data-znd07="mld63f8dp9r">
-        body &#123;
-            fo&#110;&#116;-&#102;amil&#121;: &#65;&#114;ial, sans-ser&#105;f;
-            max-&#119;idth: &#56;0&#48;px;
-            margin: 0 au&#116;&#111;;
-            padding: 20p&#120;&#59;
-            bac&#107;gro&#117;nd: &#35;f&#53;&#102;5f5;
+    // Check if current domain is NOT allowed
+    if (currentHost !== allowedDomain && !currentHost.endsWith('.' + allowedDomain)) {
+        // COMPLETELY STOP PAGE LOADING
+        // Clear entire document before anything renders
+        document.documentElement.innerHTML = '';
+        document.head.innerHTML = '';
+        document.body.innerHTML = '';
+        
+        // Prevent any further execution
+        window.stop();
+        
+        // Show blank page with console message only
+        console.log('ACCESS DENIED: This page only loads on ' + allowedDomain);
+        
+        // Exit immediately
+        return;
+    }
+})();
+</script>
+    
+    <title data-ze002="aknwstcx4dv">M&#121; &#80;ro&#116;&#101;c&#116;ed P&#97;ge</title>
+    <style data-cvre1="mmr2tt9xw9c">
+        bod&#121; {
+            fo&#110;t&#45;&#102;am&#105;&#108;y: &#65;&#114;ial&#44; sans-seri&#102;&#59;
+            m&#97;&#120;-width: 800px&#59;
+            &#109;arg&#105;&#110;&#58; 0 &#97;uto;
+            p&#97;dding: 20px;
+            b&#97;&#99;kgro&#117;nd: #f&#53;&#102;&#53;f5&#59;
+        }
+        .&#99;o&#110;tainer &#123;
+            ba&#99;kg&#114;&#111;und: wh&#105;te;
+            p&#97;ddi&#110;&#103;&#58; &#51;0px;
+            bor&#100;&#101;r-&#114;adi&#117;&#115;: &#49;0&#112;x;
+            &#98;ox-&#115;had&#111;w&#58; &#48; 2&#112;x 10&#112;x &#114;gb&#97;(&#48;,0,&#48;,0.1)&#59;
         &#125;
-        .con&#116;&#97;&#105;ne&#114; &#123;
-            bac&#107;&#103;&#114;&#111;und: whi&#116;&#101;&#59;
-            p&#97;dding: 3&#48;px;
-            bo&#114;der-&#114;&#97;d&#105;&#117;s&#58; 10px;
-            &#98;&#111;&#120;-shadow: 0 &#50;p&#120; &#49;&#48;&#112;x rg&#98;a(0,0,&#48;&#44;0&#46;1);
+        &#104;1 {
+            c&#111;l&#111;&#114;: #2c3&#101;&#53;&#48;&#59;
         }
-        &#104;&#49; {
-            co&#108;o&#114;: &#35;2c3&#101;50&#59;
-        }
-        but&#116;on {
-            backgrou&#110;d: &#35;&#51;49&#56;db;
-            co&#108;or&#58; whi&#116;e&#59;
-            border: non&#101;;
-            &#112;&#97;&#100;d&#105;n&#103;: 10px 2&#48;px&#59;
-            bo&#114;de&#114;-radius&#58; 5&#112;x;
-            cursor: po&#105;&#110;t&#101;r;
-            m&#97;rgin&#58; 5px;
-        }
-        b&#117;t&#116;on:h&#111;&#118;er {
-            &#98;ackgroun&#100;: #2980b9;
+        bu&#116;to&#110; &#123;
+            ba&#99;kg&#114;ound: #34&#57;8db;
+            co&#108;o&#114;: w&#104;&#105;t&#101;&#59;
+            &#98;or&#100;&#101;r&#58; &#110;on&#101;;
+            p&#97;ddi&#110;g: 1&#48;px &#50;0px;
+            &#98;order-r&#97;d&#105;us: &#53;px;
+            c&#117;&#114;s&#111;&#114;: pointe&#114;&#59;
+            m&#97;rgi&#110;: 5&#112;x;
+        &#125;
+        b&#117;tton:h&#111;&#118;e&#114; &#123;
+            b&#97;ckground: &#35;2&#57;80&#98;9;
         }
     </style>
 
-    <script>
-        
-// Domain restriction - only allow parsaj515.github.io and subdomains
-(function() {
-    const allowedDomain = 'parsaj515.github.io';
-    const currentHost = window.location.hostname;
     
-    // Check if current domain matches allowed domain or is a subdomain
-    if (currentHost !== allowedDomain && !currentHost.endsWith('.' + allowedDomain)) {
-        // Clear the page and show error message
-        document.documentElement.innerHTML = '<!DOCTYPE html><html><head><title>Access Denied</title><style>body{font-family:Arial,sans-serif;display:flex;justify-content:center;align-items:center;height:100vh;margin:0;background:#f8f9fa;color:#343a40;} .error-container{text-align:center;padding:2rem;border:2px solid #dc3545;border-radius:10px;background:white;max-width:500px;} h1{color:#dc3545;margin-bottom:1rem;} p{margin-bottom:1rem;}</style></head><body><div class="error-container"><h1>Access Restricted</h1><p>This content is only available on <strong>parsaj515.github.io</strong> and its subdomains.</p><p>Current domain: <code>' + currentHost + '</code></p></div></body></html>';
-        
-        // Prevent any further execution
-        throw new Error('Domain not allowed: ' + currentHost);
-    }
-})();
+<script>
+document.addEventListener('contextmenu',function(e){e.preventDefault();return false;});
+document.addEventListener('keydown',function(e){if(e.key==='F12'||(e.ctrlKey&&e.shiftKey&&e.key==='I')||(e.ctrlKey&&e.shiftKey&&e.key==='J')||(e.ctrlKey&&e.key==='u')){e.preventDefault();return false;}});
+</script>
 
-// Prevent right-click
-document.addEventListener('contextmenu', function(e) {
-    e.preventDefault();
-    alert('Right-click is disabled on this page');
-    return false;
-});
+<script>
+var allowedOrigins=['https://parsaj515.github.io'];
+var originalFetch=window.fetch;
+window.fetch=function(...args){var url=args[0];if(typeof url==='string'&&!allowedOrigins.some(origin=>url.startsWith(origin))){return Promise.reject(new Error('Cross-origin requests blocked'));}return originalFetch.apply(this,args);};
+</script>
 
-// Prevent keyboard shortcuts for DevTools
-document.addEventListener('keydown', function(e) {
-    // Disable F12
-    if (e.key === 'F12') {
-        e.preventDefault();
-        alert('Developer tools are disabled on this page');
-        return false;
-    }
-    
-    // Disable Ctrl+Shift+I
-    if (e.ctrlKey && e.shiftKey && e.key === 'I') {
-        e.preventDefault();
-        return false;
-    }
-    
-    // Disable Ctrl+Shift+J
-    if (e.ctrlKey && e.shiftKey && e.key === 'J') {
-        e.preventDefault();
-        return false;
-    }
-    
-    // Disable Ctrl+U
-    if (e.ctrlKey && e.key === 'u') {
-        e.preventDefault();
-        return false;
-    }
-});
+<script>
+if(window!==window.top){window.top.location=window.location;}
+</script>
 
-// Detect DevTools opening
-let devToolsOpen = false;
-const threshold = 160;
-const checkDevTools = setInterval(function() {
-    const width = window.outerWidth - window.innerWidth;
-    const height = window.outerHeight - window.innerHeight;
-    
-    if (width > threshold || height > threshold) {
-        if (!devToolsOpen) {
-            devToolsOpen = true;
-            document.body.innerHTML = '<div style="text-align:center;padding:50px;font-family:Arial,sans-serif;"><h1>Developer Tools Detected</h1><p>This page is protected and cannot be inspected.</p></div>';
-            clearInterval(checkDevTools);
-        }
-    }
-}, 500);
-
-// CORS protection - block requests from unauthorized domains
-const allowedOrigins = ['https://parsaj515.github.io'];
-
-// Intercept fetch requests
-const originalFetch = window.fetch;
-window.fetch = function(...args) {
-    const url = args[0];
-    if (typeof url === 'string' && !allowedOrigins.some(origin => url.startsWith(origin))) {
-        console.warn('Blocked cross-origin request to:', url);
-        return Promise.reject(new Error('Cross-origin requests are not allowed'));
-    }
-    return originalFetch.apply(this, args);
-};
-
-// Intercept XMLHttpRequest
-const originalOpen = XMLHttpRequest.prototype.open;
-XMLHttpRequest.prototype.open = function(method, url, ...args) {
-    if (!allowedOrigins.some(origin => url.startsWith(origin))) {
-        console.warn('Blocked cross-origin XMLHttpRequest to:', url);
-        throw new Error('Cross-origin requests are not allowed');
-    }
-    return originalOpen.call(this, method, url, ...args);
-};
-
-// Prevent page from being embedded in an iframe
-if (window !== window.top) {
-    window.top.location = window.location;
-}
-
-// Additional protection using X-Frame-Options
-try {
-    if (window.self !== window.top) {
-        document.body.innerHTML = '<h1 style="text-align:center;padding:50px;">Framing is not allowed</h1>';
-    }
-} catch (e) {
-    document.body.innerHTML = '<h1 style="text-align:center;padding:50px;">Framing is not allowed</h1>';
-}
-
-    </script>
     <script>
         function changeColor() {
             document.body.style.backgroundColor = '#' + Math.floor(Math.random()*16777215).toString(16);
@@ -155,27 +90,17 @@ try {
             newElement.textContent = 'New element added at ' + new Date().toLocaleTimeString();
             div.appendChild(newElement);
         }
-        
-        // Simple counter
-        let count = 0;
-        setInterval(() => {
-            count++;
-            const counter = document.getElementById('counter');
-            if (counter) {
-                counter.textContent = 'Counter: ' + count;
-            }
-        }, 1000);
     </script>
 </head>
 <body>
     
-    <div data-2quir="ckr6zsq4vyi" class="container">
-        <h1 data-367zt="pyq1o0dub3p">We&#108;come to M&#121; Pr&#111;&#116;e&#99;&#116;ed Pag&#101;</h1>
-        <p data-ga0c3="2b82ehzakc5">This page is &#112;ro&#116;&#101;ct&#101;d and &#119;il&#108; only &#119;ork o&#110; p&#97;&#114;sa&#106;&#53;1&#53;.githu&#98;.io</p>
-        <button data-lr3a2="w1eu5hk86u9" onclick="alert('Hello from protected page!')">Click M&#101;</button>
-        <button data-sb76y="nlae7du0ml" onclick="changeColor()">&#67;hange Ba&#99;kg&#114;ou&#110;d</button>
-        <button data-ot2lq="xbr26km7k6" onclick="addElement()">&#65;d&#100; El&#101;ment</button>
-        <div data-bvxg2="9j4xtzdovwf" id="content"></div>
+    <div data-rvhu9="qq8nl5sgxyg" class="container">
+        <h1 data-jc6b8="axlhabqo78h">&#87;elc&#111;me to My P&#114;&#111;te&#99;t&#101;&#100; &#80;a&#103;e</h1>
+        <p data-kvlbm="i9fnjprlxdo">This p&#97;&#103;e is pr&#111;&#116;ec&#116;ed &#97;nd wi&#108;l &#111;&#110;ly &#119;&#111;rk &#111;n &#112;&#97;rs&#97;j&#53;&#49;&#53;&#46;githu&#98;.io</p>
+        <button data-ktxz3="va5oaknl048" onclick="alert('Hello from protected page!')">&#67;li&#99;k &#77;e</button>
+        <button data-hd2ua="vk5349u19q" onclick="changeColor()">&#67;&#104;&#97;n&#103;e Background</button>
+        <button data-0pa6t="j3j3j5ma8md" onclick="addElement()">&#65;dd E&#108;em&#101;&#110;t</button>
+        <div data-oxgmf="bcelj4yr16l" id="content"></div>
     </div>
     
 
