@@ -4276,4 +4276,69 @@ useKeyBtn.addEventListener('click', () => {
   }
   enterKeyModal.style.display = 'none';
   showSuccess('Encryption key applied!');
+
+    // ==================== AUTO-SCROLL TO BOTTOM ====================
+
+// Auto-scroll to bottom on initial load
+function autoScrollToBottom() {
+    console.log('🔽 Auto-scrolling to bottom...');
+    
+    // Wait a bit for the DOM to be fully rendered
+    setTimeout(() => {
+        const messagesDiv = document.getElementById('messages');
+        if (messagesDiv) {
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            console.log('✅ Scrolled to bottom');
+        }
+    }, 500);
+}
+
+// Also scroll to bottom when new messages are added
+function enhanceScrollToBottom() {
+    const originalScrollToBottom = scrollToBottom;
+    
+    // Override the scrollToBottom function to be more aggressive
+    scrollToBottom = function() {
+        const messagesDiv = document.getElementById('messages');
+        if (messagesDiv) {
+            // Use multiple methods to ensure scrolling works
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            
+            // Additional scroll methods for compatibility
+            setTimeout(() => {
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                messagesDiv.scrollIntoView(false);
+            }, 100);
+            
+            console.log('📜 Scrolling to bottom of messages');
+        }
+    };
+}
+
+// Call auto-scroll on page load
+window.addEventListener('load', () => {
+    autoScrollToBottom();
+    enhanceScrollToBottom();
+});
+
+// Also scroll when messages finish loading
+setTimeout(autoScrollToBottom, 1000);
+setTimeout(autoScrollToBottom, 2000);
+
+// Scroll to bottom when switching servers or DMs
+const originalSwitchServer = switchServer;
+switchServer = function(server) {
+    originalSwitchServer(server);
+    setTimeout(autoScrollToBottom, 300);
+};
+
+// Scroll to bottom when loading DM messages
+const originalLoadDMMessages = loadDMMessages;
+loadDMMessages = async function(targetUserId) {
+    await originalLoadDMMessages(targetUserId);
+    setTimeout(autoScrollToBottom, 300);
+};
+
+console.log('✅ Auto-scroll functionality added');
 });</script>
+
