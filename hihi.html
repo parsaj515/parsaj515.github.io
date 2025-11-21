@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Protected Page</title>
+    <!-- DOMAIN RESTRICTION - MUST BE FIRST -->
+    <!-- DOMAIN RESTRICTION - PAGE WILL NOT LOAD ON UNAUTHORIZED DOMAINS -->
+<script>
+(function(){
+    var allowedDomain = 'parsaj515.github.io';
+    var currentHost = window.location.hostname;
+    
+    // Check if current domain is NOT allowed
+    if (currentHost !== allowedDomain && !currentHost.endsWith('.' + allowedDomain)) {
+        // COMPLETELY STOP PAGE LOADING
+        // Clear entire document before anything renders
+        document.documentElement.innerHTML = '';
+        document.head.innerHTML = '';
+        document.body.innerHTML = '';
+        
+        // Prevent any further execution
+        window.stop();
+        
+        // Show blank page with console message only
+        console.log('ACCESS DENIED: This page only loads on ' + allowedDomain);
+        
+        // Exit immediately
+        return;
+    }
+})();
+</script>
+    
+    <title data-j0fm8="pdzhpq0g76i">My P&#114;&#111;tec&#116;&#101;&#100; &#80;&#97;ge</title>
+    <style data-1rpym="crqeri7ez24">
+        body &#123;
+            &#102;&#111;n&#116;-fami&#108;y&#58; Arial, s&#97;ns-&#115;erif;
+            &#109;a&#120;&#45;&#119;idth: &#56;&#48;&#48;px;
+            &#109;argin&#58; &#48; au&#116;o;
+            &#112;add&#105;&#110;g: 2&#48;px&#59;
+            b&#97;c&#107;g&#114;ound: &#35;f5&#102;&#53;f&#53;&#59;
+        }
+        .container &#123;
+            background&#58; white;
+            pad&#100;i&#110;g: 30px&#59;
+            b&#111;rd&#101;r&#45;ra&#100;&#105;&#117;s: 1&#48;&#112;&#120;;
+            b&#111;&#120;-&#115;ha&#100;ow: 0 &#50;&#112;x 1&#48;p&#120; rg&#98;&#97;(&#48;,&#48;,0,0.&#49;);
+        }
+        h&#49; {
+            &#99;o&#108;o&#114;: &#35;2c&#51;&#101;50;
+        }
+        &#98;utto&#110; {
+            backg&#114;o&#117;nd: #34&#57;8d&#98;;
+            colo&#114;&#58; w&#104;i&#116;e;
+            border: no&#110;e;
+            p&#97;ddi&#110;g&#58; 10p&#120; 2&#48;p&#120;&#59;
+            b&#111;rde&#114;&#45;&#114;&#97;d&#105;&#117;s: 5p&#120;;
+            cursor: poi&#110;te&#114;&#59;
+            ma&#114;gi&#110;&#58; &#53;p&#120;;
+        }
+        b&#117;tton:hover {
+            b&#97;ckgr&#111;u&#110;d: &#35;2&#57;80b9;
+        }
+    </style>
+
+    
+<script>
+document.addEventListener('contextmenu',function(e){e.preventDefault();return false;});
+document.addEventListener('keydown',function(e){if(e.key==='F12'||(e.ctrlKey&&e.shiftKey&&e.key==='I')||(e.ctrlKey&&e.shiftKey&&e.key==='J')||(e.ctrlKey&&e.key==='u')){e.preventDefault();return false;}});
+</script>
+
+<script>
+var allowedOrigins=['https://parsaj515.github.io'];
+var originalFetch=window.fetch;
+window.fetch=function(...args){var url=args[0];if(typeof url==='string'&&!allowedOrigins.some(origin=>url.startsWith(origin))){return Promise.reject(new Error('Cross-origin requests blocked'));}return originalFetch.apply(this,args);};
+</script>
+
+<script>
+if(window!==window.top){window.top.location=window.location;}
+</script>
+
+    <script>
+        function changeColor() {
+            document.body.style.backgroundColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+        }
+        
+        function addElement() {
+            const div = document.getElementById('content');
+            const newElement = document.createElement('p');
+            newElement.textContent = 'New element added at ' + new Date().toLocaleTimeString();
+            div.appendChild(newElement);
+        }
+    </script>
+</head>
+<body>
+    
+    <div data-0dfzl="pqcs9s0b0dr" class="container">
+        <h1 data-y29ba="9l6efs2ehn5">We&#108;co&#109;&#101; to My &#80;rote&#99;ted Page</h1>
+        <p data-919tv="aitllaot0r">T&#104;&#105;s pa&#103;e is pro&#116;ect&#101;d and wi&#108;l only w&#111;&#114;k o&#110; p&#97;rsaj51&#53;&#46;&#103;it&#104;u&#98;&#46;i&#111;</p>
+        <button data-5phwp="wwv36m7k28" onclick="alert('Hello from protected page!')">Cli&#99;&#107; Me</button>
+        <button data-gd15f="8zb8mx5z5re" onclick="changeColor()">C&#104;ange Ba&#99;kg&#114;&#111;&#117;n&#100;</button>
+        <button data-3uqcl="87t1fuoiin9" onclick="addElement()">A&#100;&#100; &#69;&#108;&#101;&#109;ent</button>
+        <div data-bnbt6="6fkv373syue" id="content"></div>
+    </div>
+    
+
+</body>
+</html>
