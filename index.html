@@ -1,1 +1,357 @@
-<script>window.location.href="https://github.com/parsaj515/parsaj515.github.io/";</script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tribute to Garbage Bees - Nature's Janitors</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #FFF8DC 0%, #FFFACD 100%);
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+
+        .honeycomb-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            pointer-events: none;
+            background-image: repeating-linear-gradient(30deg, transparent, transparent 50px, #000 50px, #000 51px),
+                              repeating-linear-gradient(150deg, transparent, transparent 50px, #000 50px, #000 51px);
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            z-index: 1;
+        }
+
+        header {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            border: 4px solid #000;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '🐝';
+            position: absolute;
+            font-size: 100px;
+            opacity: 0.1;
+            top: -20px;
+            right: 50px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        h1 {
+            font-size: 3.5em;
+            color: #000;
+            text-shadow: 3px 3px 0 #FFF, -1px -1px 0 #000;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #1a1a1a;
+            font-style: italic;
+            margin-top: 10px;
+        }
+
+        .section {
+            background: white;
+            border: 3px solid #000;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        h2 {
+            color: #000;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 4px solid #FFD700;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .bee-icon {
+            font-size: 1.2em;
+        }
+
+        .fun-fact {
+            background: #FFFACD;
+            border-left: 6px solid #FFA500;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-style: italic;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            border: 3px solid #000;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: scale(1.05) rotate(2deg);
+        }
+
+        .stat-number {
+            font-size: 3em;
+            font-weight: bold;
+            color: #000;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1em;
+            color: #1a1a1a;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .gallery-item {
+            background: #000;
+            border: 3px solid #000;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            font-size: 4em;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.1);
+            background: #FFD700;
+        }
+
+        .tribute-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tribute-list li {
+            padding: 15px;
+            margin: 10px 0;
+            background: #FFF8DC;
+            border-left: 5px solid #FFA500;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .tribute-list li:hover {
+            background: #FFD700;
+            transform: translateX(10px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 40px;
+            background: #000;
+            color: #FFD700;
+            border-radius: 15px;
+            font-size: 1.1em;
+        }
+
+        .buzz-button {
+            background: #FFD700;
+            color: #000;
+            border: 3px solid #000;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 20px 10px;
+        }
+
+        .buzz-button:hover {
+            background: #FFA500;
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .interactive-counter {
+            text-align: center;
+            margin: 30px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            border: 3px solid #000;
+            border-radius: 15px;
+        }
+
+        #counter {
+            font-size: 4em;
+            font-weight: bold;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="honeycomb-bg"></div>
+    
+    <div class="container">
+        <header>
+            <h1>🗑️ TRIBUTE TO GARBAGE BEES 🐝</h1>
+            <p class="subtitle">Celebrating Nature's Most Underappreciated Sanitation Engineers</p>
+        </header>
+
+        <div class="section">
+            <h2><span class="bee-icon">🐝</span> What ARE Garbage Bees?</h2>
+            <p>Often mistaken for their honey-producing cousins, garbage bees are the unsung heroes of the insect world. While honeybees get all the glory making sweet golden nectar, garbage bees perform the crucial (and frankly, disgusting) work of processing organic waste, composting nature's leftovers, and keeping ecosystems from drowning in decomposing matter.</p>
+            
+            <div class="fun-fact">
+                <strong>🎭 Fun Fact:</strong> Garbage bees are 47% more likely to be found in your outdoor trash can than in a flower garden. They prefer fermented fruit smoothies to fresh flowers. They're basically the frat bros of the bee world.
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><span class="bee-icon">📊</span> By The Numbers</h2>
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <span class="stat-number">12,847</span>
+                    <span class="stat-label">Trips to Compost Piles Daily</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">98%</span>
+                    <span class="stat-label">Prefer Rotting Bananas</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">3.2lbs</span>
+                    <span class="stat-label">Garbage Processed Per Colony</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">0</span>
+                    <span class="stat-label">Flowers Pollinated (Oops)</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><span class="bee-icon">🏆</span> Why We Honor Them</h2>
+            <ul class="tribute-list">
+                <li><strong>🎖️ Dedication to Duty:</strong> While other bees clock out at sunset, garbage bees work overtime on that three-week-old pizza crust.</li>
+                <li><strong>💪 No Job Too Dirty:</strong> They've seen things. Terrible things. Things that would make a dung beetle weep.</li>
+                <li><strong>🌍 Environmental Warriors:</strong> Converting waste into... well, slightly different waste, but it's the thought that counts.</li>
+                <li><strong>🤝 Team Players:</strong> They never steal the spotlight from honeybees, mostly because nobody invites them to interviews.</li>
+                <li><strong>😤 Persistence:</strong> Constantly shooed away, sprayed at, and misunderstood, yet they return every trash day without fail.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2><span class="bee-icon">🖼️</span> Hall of Fame</h2>
+            <div class="gallery">
+                <div class="gallery-item">🗑️</div>
+                <div class="gallery-item">🐝</div>
+                <div class="gallery-item">♻️</div>
+                <div class="gallery-item">🍌</div>
+                <div class="gallery-item">💛</div>
+                <div class="gallery-item">🖤</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><span class="bee-icon">🎯</span> Interactive Appreciation Counter</h2>
+            <div class="interactive-counter">
+                <p style="font-size: 1.3em; margin-bottom: 20px;">Times You've Appreciated a Garbage Bee Today:</p>
+                <div id="counter">0</div>
+                <button class="buzz-button" onclick="incrementCounter()">BUZZ IN APPRECIATION! 🐝</button>
+                <button class="buzz-button" onclick="resetCounter()">Reset Counter</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><span class="bee-icon">📜</span> The Garbage Bee Oath</h2>
+            <p style="font-size: 1.2em; text-align: center; padding: 20px; background: #FFFACD; border-radius: 10px; font-style: italic;">
+                "I solemnly swear to acknowledge the garbage bee's contributions,<br>
+                to refrain from swatting without proper identification,<br>
+                and to remember that not all who buzz are lost—<br>
+                some are just looking for yesterday's cantaloupe."
+            </p>
+        </div>
+
+        <footer>
+            <p style="font-size: 1.4em; margin-bottom: 15px;">🐝 Thank You, Garbage Bees 🐝</p>
+            <p>For doing the jobs nobody else wants. For being brave in the face of bin juice. For reminding us that every creature, no matter how sticky, has value.</p>
+            <p style="margin-top: 20px; font-size: 0.9em; opacity: 0.8;">Est. 2024 | The International Society for Garbage Bee Appreciation</p>
+        </footer>
+    </div>
+
+    <script>
+        let count = 0;
+
+        function incrementCounter() {
+            count++;
+            document.getElementById('counter').textContent = count;
+            
+            // Add a little buzz animation
+            const counter = document.getElementById('counter');
+            counter.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                counter.style.transform = 'scale(1)';
+            }, 200);
+        }
+
+        function resetCounter() {
+            count = 0;
+            document.getElementById('counter').textContent = count;
+        }
+    </script>
+</body>
+</html>
