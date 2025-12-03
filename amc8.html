@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AMC 8 Interactive Masterclass: Sequences, Combinatorics, Functions, Binomials, Polynomials, Probability</title>
+
+  <!-- Futuristic Professional Design -->
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --panel: #0f1629;
+      --accent: #7bdff2;
+      --accent2: #b392f0;
+      --text: #e6e9ef;
+      --muted: #98a2b3;
+      --border: #1e2746;
+      --shadow: rgba(0,0,0,0.35);
+      --success: #7ce38b;
+      --warn: #ffb454;
+      --danger: #ff6b6b;
+      --focus: #2dd4bf;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      background: radial-gradient(1200px 800px at 20% 0%, #0b0f19 0%, #080b14 60%, #070a12 100%);
+      color: var(--text);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      line-height: 1.6;
+      margin: 0; padding: 0;
+    }
+    header {
+      position: relative; padding: 64px 24px 24px; overflow: hidden;
+    }
+    .grid {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(var(--border) 1px, transparent 1px),
+                        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 48px 48px; opacity: 0.15;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.65), rgba(0,0,0,0));
+      pointer-events: none;
+    }
+    .brand { max-width: 1150px; margin: 0 auto; display: flex; gap: 16px; align-items: center; }
+    .logo {
+      width: 56px; height: 56px; border-radius: 18px;
+      background: conic-gradient(from 180deg, var(--accent), var(--accent2), var(--accent));
+      filter: hue-rotate(20deg) brightness(1.1);
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 30px var(--shadow), inset 0 0 25px rgba(123,223,242,0.15);
+    }
+    h1 { font-size: 30px; margin: 0; letter-spacing: 0.3px; }
+    .subtitle { color: var(--muted); margin-top: 6px; font-size: 15px; }
+    .meta { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 10px; color: var(--muted); font-size: 12px; }
+    .container { max-width: 1150px; margin: 0 auto; padding: 0 24px 64px; }
+    .panel {
+      background: linear-gradient(180deg, rgba(15,22,41,0.9) 0%, rgba(15,22,41,0.75) 100%);
+      border: 1px solid var(--border); border-radius: 16px; box-shadow: 0 12px 40px var(--shadow);
+      padding: 24px; margin-top: 8px;
+    }
+    h2, h3, h4 { font-weight: 650; letter-spacing: 0.2px; }
+    h2 { font-size: 22px; margin-top: 28px; }
+    h3 { font-size: 19px; margin-top: 22px; }
+    h4 { font-size: 17px; margin-top: 18px; }
+    p { margin: 12px 0; }
+    hr {
+      border: none; height: 1px; background: linear-gradient(to right, transparent, var(--border), transparent);
+      margin: 28px 0;
+    }
+    .section {
+      margin: 26px 0 36px; padding: 22px; border-radius: 16px; border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(22,28,48,0.75), rgba(16,22,38,0.65));
+    }
+    .pill { display: inline-block; font-size: 12px; letter-spacing: 0.5px; color: var(--accent);
+      border: 1px solid var(--border); border-radius: 999px; padding: 6px 10px; background: rgba(123,223,242,0.06); margin-bottom: 8px;
+    }
+    .callout { border-left: 3px solid var(--accent); padding: 10px 14px; background: rgba(123,223,242,0.07);
+      border-radius: 10px; margin: 14px 0; }
+    .list { margin: 12px 0 4px; padding-left: 0; list-style: none; }
+    .list li { margin: 8px 0; display: flex; gap: 10px; align-items: flex-start; }
+    .list li::before { content: ""; width: 10px; height: 10px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2)); margin-top: 6px; flex-shrink: 0;
+    }
+    .lead { font-weight: 600; color: #dbe2f0; margin-right: 6px; }
+    .inline-note { color: var(--muted); font-size: 14px; }
+    .equation {
+      font-family: "CMU Serif","Times New Roman",serif; font-size: 16px; padding: 10px 12px;
+      background: rgba(179,146,240,0.1); border: 1px dashed var(--border); border-radius: 10px; display: inline-block; margin: 8px 0;
+    }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .card { border: 1px solid var(--border); border-radius: 14px; padding: 16px;
+      background: linear-gradient(180deg, rgba(20,26,44,0.7), rgba(14,20,36,0.6)); }
+    .badge { font-size: 11px; color: var(--muted); border: 1px solid var(--border); padding: 2px 8px; border-radius: 999px; }
+    .btn {
+      border: 1px solid var(--border); color: var(--text); background: #121a2f; padding: 8px 12px; border-radius: 10px; cursor: pointer;
+      transition: transform 0.05s ease, box-shadow 0.2s ease;
+    }
+    .btn:hover { box-shadow: 0 6px 16px var(--shadow); }
+    .btn:active { transform: translateY(1px); }
+    .btn-primary { background: linear-gradient(135deg, #182246, #15203c); border-color: #2a3767; }
+    .btn-accent { background: linear-gradient(135deg, #11313a, #0e2630); color: var(--accent); border-color: #205e6b; }
+    .input {
+      background: #0f1220; border: 1px solid var(--border); border-radius: 10px; color: var(--text);
+      padding: 8px 10px; width: 100%; outline: none;
+    }
+    .input:focus { border-color: var(--focus); box-shadow: 0 0 0 3px rgba(45,212,191,0.15); }
+    .result { margin-top: 8px; font-size: 14px; }
+    .result.ok { color: var(--success); }
+    .result.warn { color: var(--warn); }
+    .result.err { color: var(--danger); }
+    .progress {
+      height: 10px; border-radius: 999px; background: #0f1220; border: 1px solid var(--border); overflow: hidden;
+      margin: 6px 0 10px;
+    }
+    .bar {
+      height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transition: width 0.3s ease;
+    }
+    .toggle { margin-top: 8px; color: var(--muted); cursor: pointer; }
+    .hidden { display: none; }
+    .game {
+      display: grid; grid-template-columns: repeat(5, 48px); gap: 12px; justify-content: start;
+    }
+    .tile {
+      width: 48px; height: 48px; display: grid; place-items: center; border-radius: 10px;
+      background: #101626; border: 1px solid var(--border); cursor: pointer; user-select: none;
+    }
+    .tile.active { background: #14203a; border-color: #2a3767; }
+    .score { font-size: 14px; color: var(--muted); }
+    .timer { font-variant-numeric: tabular-nums; color: var(--accent); font-weight: 600; }
+    .flex { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    .kbd {
+      border: 1px solid var(--border); background: #0f1220; border-radius: 6px; padding: 2px 6px; font-size: 12px; color: var(--muted);
+    }
+    @media (max-width: 900px) {
+      .grid-2 { grid-template-columns: 1fr; }
+      .grid-3 { grid-template-columns: 1fr; }
+      header { padding: 48px 18px 24px; }
+      .panel { padding: 18px; }
+      .section { padding: 18px; }
+    }
+  </style>
+
+  <!-- MathJax for LaTeX rendering -->
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(','\\)']], displayMath: [['\
+
+\[','\\]
+
+']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" defer></script>
+</head>
+<body>
+  <header>
+    <div class="grid"></div>
+    <div class="brand">
+      <div class="logo" aria-hidden="true"></div>
+      <div>
+        <h1>AMC 8 Interactive Masterclass</h1>
+        <div class="subtitle">Sequences • Stars and Bars • Functions & Operations • Binomials & Pascal’s Triangle • Polynomials • Probability</div>
+        <div class="meta">
+          <span>Mode: Practice + Games</span>
+          <span>Difficulty: Intermediate–Advanced AMC 8</span>
+          <span>Time: 60–90 minutes</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="panel">
+      <div class="flex" style="justify-content: space-between;">
+        <div class="flex">
+          <button class="btn btn-primary" id="startCourseBtn">Start guided run</button>
+          <button class="btn" id="resetAllBtn">Reset progress</button>
+          <span class="score">Progress:</span>
+          <div class="progress" style="width: 180px;"><div id="globalBar" class="bar"></div></div>
+          <span class="score">Correct: <span id="globalCorrect">0</span> / <span id="globalTotal">0</span></span>
+        </div>
+        <div class="flex">
+          <span class="kbd">Tip: press <b>?</b> to toggle hints</span>
+          <span class="timer" id="globalTimer">00:00</span>
+        </div>
+      </div>
+
+      <hr/>
+
+      <!-- Sequences -->
+      <section class="section" id="sequences">
+        <span class="pill">Topic 1</span>
+        <h2>Sequences</h2>
+        <p>Spot the pattern fast: constant difference (arithmetic), constant ratio (geometric), constant second difference (quadratic), or linear recurrences. Verify with early terms before committing.</p>
+
+        <h3>Models</h3>
+        <div class="equation">\
+
+\[a_n = a_1 + (n-1)\\cdot d\\quad\\text{(arithmetic)}\\]
+
+</div>
+        <div class="equation">\
+
+\[a_n = a_1\\cdot r^{\\,n-1}\\quad\\text{(geometric)}\\]
+
+</div>
+        <div class="equation">\
+
+\[a_n = An^2 + Bn + C\\quad\\text{(quadratic trend)}\\]
+
+</div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="badge">Quick check</div>
+            <p><b>Identify:</b> Sequence: 2, 7, 14, 23, … What model fits best?</p>
+            <div class="flex">
+              <button class="btn option" data-q="seq1" data-a="arith">Arithmetic</button>
+              <button class="btn option" data-q="seq1" data-a="geom">Geometric</button>
+              <button class="btn option" data-q="seq1" data-a="quad">Quadratic</button>
+            </div>
+            <div id="seq1Result" class="result"></div>
+            <div class="toggle" data-toggle="#seq1Hint">Hint: check first differences, then second differences.</div>
+            <div class="inline-note hidden" id="seq1Hint">Differences: 5, 7, 9, … are arithmetic ⇒ second differences constant ⇒ quadratic.</div>
+          </div>
+          <div class="card">
+            <div class="badge">Compute</div>
+            <p><b>Arithmetic:</b> If \(a_1=4\) and \(d=3\), compute \(a_8\).</p>
+            <input class="input" id="seq2Input" placeholder="Enter value"/>
+            <button class="btn btn-accent" id="seq2Check">Check</button>
+            <div id="seq2Result" class="result"></div>
+          </div>
+        </div>
+
+        <h3>Mini-game: difference detector</h3>
+        <p>Toggle tiles to reveal differences and decide the type.</p>
+        <div class="game" id="diffGame"></div>
+        <div class="flex">
+          <button class="btn btn-primary" id="diffGameReset">Reset tiles</button>
+          <span class="score">Revealed: <span id="diffRevealed">0</span>/5</span>
+        </div>
+      </section>
+
+      <hr/>
+
+      <!-- Stars and Bars -->
+      <section class="section" id="starsBars">
+        <span class="pill">Topic 2</span>
+        <h2>Stars and bars</h2>
+        <p>Count nonnegative or positive integer solutions. Convert “distribute n identical items to k boxes” to separators and choose positions.</p>
+
+        <h3>Formulas</h3>
+        <div class="equation">\
+
+\[x_1+\\cdots+x_k=n,\\;x_i\\ge0\\;\\Rightarrow\\;\\binom{n+k-1}{k-1}\\]
+
+</div>
+        <div class="equation">\
+
+\[x_1+\\cdots+x_k=n,\\;x_i\\ge1\\;\\Rightarrow\\;\\binom{n-1}{k-1}\\]
+
+</div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="badge">Choose count</div>
+            <p><b>Nonnegative:</b> Solutions to \(x_1+x_2+x_3=20\) with \(x_i\ge0\) equals?</p>
+            <div class="flex">
+              <button class="btn option" data-q="sb1" data-a="C(22,2)">\\(\\binom{22}{2}\\)</button>
+              <button class="btn option" data-q="sb1" data-a="C(20,3)">\\(\\binom{20}{3}\\)</button>
+              <button class="btn option" data-q="sb1" data-a="C(22,3)">\\(\\binom{22}{3}\\)</button>
+            </div>
+            <div id="sb1Result" class="result"></div>
+            <div class="toggle" data-toggle="#sb1Hint">Hint: n+k-1 choose k-1.</div>
+            <div class="inline-note hidden" id="sb1Hint">Here \(n=20,k=3\Rightarrow\\binom{22}{2}\).</div>
+          </div>
+          <div class="card">
+            <div class="badge">Bounded variant</div>
+            <p><b>Bounded:</b> Number of solutions to \(a+b+c=10\) with \(0\le a\le5\), \(b,c\ge0\).</p>
+            <p class="inline-note">Enter a count; consider subtracting cases with \(a\ge6\).</p>
+            <input class="input" id="sb2Input" placeholder="Enter integer"/>
+            <button class="btn btn-accent" id="sb2Check">Check</button>
+            <div id="sb2Result" class="result"></div>
+            <div class="toggle" data-toggle="#sb2Hint">Hint: inclusion–exclusion on a.</div>
+            <div class="inline-note hidden" id="sb2Hint">Unbounded: \\(\\binom{12}{2}=66\\). Bad with \(a\\ge6\): let \(a'=a-6\\Rightarrow a'+b+c=4\\) ⇒ \\(\\binom{6}{2}=15\\). So \(66-15=51\\).</div>
+          </div>
+        </div>
+
+        <h3>Mini-game: bar builder</h3>
+        <p>Place bars among stars to visualize \\(x_1+x_2+x_3=n\\). Click to toggle bars.</p>
+        <div class="flex">
+          <label>n: <input class="input" type="number" id="starsN" min="0" value="7" style="width:100px"/></label>
+          <button class="btn btn-primary" id="buildStars">Build</button>
+          <span class="score">Arrangements: <span id="starsCount">0</span></span>
+        </div>
+        <div id="starsCanvas" class="flex" style="margin-top:10px; flex-wrap: wrap; gap: 6px;"></div>
+      </section>
+
+      <hr/>
+
+      <!-- Functions and Operations -->
+      <section class="section" id="functions">
+        <span class="pill">Topic 3</span>
+        <h2>Functions and operations</h2>
+        <p>Apply definitions precisely. For custom operations, rewrite and simplify carefully. For compositions, evaluate inner first, check domain constraints.</p>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="badge">Compose</div>
+            <p>If \(f(x)=2x-1\) and \(g(x)=x+4\), compute \(f(g(7))\) and \(g(f(7))\).</p>
+            <div class="flex">
+              <input class="input" id="func1A" placeholder="f(g(7))"/>
+              <input class="input" id="func1B" placeholder="g(f(7))"/>
+              <button class="btn btn-accent" id="func1Check">Check</button>
+            </div>
+            <div id="func1Result" class="result"></div>
+          </div>
+          <div class="card">
+            <div class="badge">Inverse</div>
+            <p>Let \(h(x)=\\frac{x-5}{2}\\). Find \(h^{-1}(y)\).</p>
+            <div class="flex">
+              <input class="input" id="func2Input" placeholder="Enter expression in y"/>
+              <button class="btn btn-primary" id="func2Check">Check</button>
+            </div>
+            <div id="func2Result" class="result"></div>
+          </div>
+        </div>
+
+        <h3>Mini-game: operation lab</h3>
+        <p>Custom op: \(a \\blacktriangle b = 2a+b^2\). Build expressions and evaluate.</p>
+        <div class="flex">
+          <input class="input" id="opA" placeholder="a"/>
+          <input class="input" id="opB" placeholder="b"/>
+          <button class="btn" id="opEval">Evaluate a △ b</button>
+          <span class="score">Result: <span id="opRes">—</span></span>
+        </div>
+        <div class="flex" style="margin-top:8px;">
+          <input class="input" id="opC" placeholder="c"/>
+          <button class="btn" id="opNested">Compute (a △ b) △ c</button>
+          <span class="score">Nested: <span id="opNestedRes">—</span></span>
+        </div>
+      </section>
+
+      <hr/>
+
+      <!-- Binomials and Pascal’s Triangle -->
+      <section class="section" id="binomials">
+        <span class="pill">Topic 4</span>
+        <h2>Binomials and Pascal’s triangle</h2>
+        <p>Coefficients in \((a+b)^n\) are binomial coefficients. Use symmetry and the Pascal recurrence for quick checks.</p>
+
+        <div class="equation">\
+
+\[(a+b)^n = \\sum_{k=0}^{n} \\binom{n}{k} a^{n-k} b^{k}\\]
+
+</div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="badge">Coefficient finder</div>
+            <p>Find coefficient of \(x^4\) in \((x+3)^7\).</p>
+            <input class="input" id="bin1Input" placeholder="Enter coefficient"/>
+            <button class="btn btn-accent" id="bin1Check">Check</button>
+            <div id="bin1Result" class="result"></div>
+            <div class="toggle" data-toggle="#bin1Hint">Hint: choose k such that \(k=4\).</div>
+            <div class="inline-note hidden" id="bin1Hint">Coefficient: \\(\\binom{7}{4}\\cdot 3^{4}=35\\cdot81=2835\\).</div>
+          </div>
+          <div class="card">
+            <div class="badge">Sum identity</div>
+            <p>Evaluate \(\\sum_{k=0}^5 \\binom{5}{k}\\).</p>
+            <div class="flex">
+              <button class="btn option" data-q="bin2" data-a="6">6</button>
+              <button class="btn option" data-q="bin2" data-a="25">25</button>
+              <button class="btn option" data-q="bin2" data-a="32">32</button>
+            </div>
+            <div id="bin2Result" class="result"></div>
+            <div class="toggle" data-toggle="#bin2Hint">Hint: \((1+1)^5\).</div>
+            <div class="inline-note hidden" id="bin2Hint">Total is \(2^5=32\).</div>
+          </div>
+        </div>
+
+        <h3>Mini-game: Pascal painter</h3>
+        <p>Generate rows and highlight a coefficient.</p>
+        <div class="flex">
+          <label>Rows: <input class="input" type="number" id="pascalRows" min="1" value="7" style="width:100px"/></label>
+          <button class="btn btn-primary" id="buildPascal">Build triangle</button>
+        </div>
+        <div id="pascalCanvas" style="margin-top:10px; display:grid; gap:6px;"></div>
+      </section>
+
+      <hr/>
+
+      <!-- Polynomials -->
+      <section class="section" id="polynomials">
+        <span class="pill">Topic 5</span>
+        <h2>Polynomials</h2>
+        <p>Factor efficiently, use remainder theorem, and exploit root relations. Many word problems encode simple polynomial structure.</p>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="badge">Factor & roots</div>
+            <p>Factor \(x^2-7x+12\) and give its roots.</p>
+            <div class="flex">
+              <input class="input" id="poly1F" placeholder="Factor (e.g., (x-?)(x-?))"/>
+              <input class="input" id="poly1R" placeholder="Roots (comma-separated)"/>
+              <button class="btn btn-accent" id="poly1Check">Check</button>
+            </div>
+            <div id="poly1Result" class="result"></div>
+          </div>
+          <div class="card">
+            <div class="badge">Remainder theorem</div>
+            <p>If \(P(x)=3x^3-2x+5\), remainder when dividing by \(x-2\)?</p>
+            <input class="input" id="poly2Input" placeholder="Enter integer"/>
+            <button class="btn btn-primary" id="poly2Check">Check</button>
+            <div id="poly2Result" class="result"></div>
+          </div>
+        </div>
+
+        <h3>Mini-game: synthetic sprint</h3>
+        <p>Test candidate roots quickly; if \(P(a)=0\), factor out \((x-a)\).</p>
+        <div class="flex">
+          <input class="input" id="polyGameP" placeholder="Enter P(x), e.g., x^3-5x^2+8x-4"/>
+          <input class="input" id="polyGameA" placeholder="a"/>
+          <button class="btn" id="polyGameTest">Test P(a)</button>
+          <span class="score">P(a): <span id="polyGameVal">—</span></span>
+        </div>
+      </section>
+
+      <hr/>
+
+      <!-- Probability -->
+      <section class="section" id="probability">
+        <span class="pill">Topic 6</span>
+        <h2>Probability</h2>
+        <p>Translate to counts: favorable over total. Use addition for exclusive events, multiplication for independent events, and complement for “at least” patterns.</p>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="badge">Dice</div>
+            <p>Two fair dice: probability the sum is 7?</p>
+            <div class="flex">
+              <button class="btn option" data-q="prob1" data-a="1/6">1/6</button>
+              <button class="btn option" data-q="prob1" data-a="5/36">5/36</button>
+              <button class="btn option" data-q="prob1" data-a="1/9">1/9</button>
+            </div>
+            <div id="prob1Result" class="result"></div>
+          </div>
+          <div class="card">
+            <div class="badge">Complement</div>
+            <p>Draw two cards without replacement from a 52-card deck. Probability of at least one ace?</p>
+            <input class="input" id="prob2Input" placeholder="Enter as simplified fraction"/>
+            <button class="btn btn-accent" id="prob2Check">Check</button>
+            <div id="prob2Result" class="result"></div>
+            <div class="toggle" data-toggle="#prob2Hint">Hint: 1 − P(no ace on both draws).</div>
+            <div class="inline-note hidden" id="prob2Hint">Complement: \\(1-\\frac{48}{52}\\cdot\\frac{47}{51}=1-\\frac{188}{221}=\\frac{33}{221}\\).</div>
+          </div>
+        </div>
+
+        <h3>Mini-game: coin combos</h3>
+        <p>Three fair coins tossed. Toggle outcomes you think count for “exactly two heads,” then check.</p>
+        <div class="flex" style="flex-wrap:wrap; gap: 8px;" id="coinBoard"></div>
+        <div class="flex">
+          <button class="btn btn-primary" id="coinCheck">Check selection</button>
+          <span class="score">Your count: <span id="coinCount">0</span> / Correct: <span id="coinCorrect">3</span></span>
+        </div>
+      </section>
+
+      <hr/>
+
+      <!-- Mixed Challenge Set -->
+      <section class="section" id="mixed">
+        <span class="pill">Synthesis</span>
+        <h2>Mixed challenge set</h2>
+        <p>Answer and track streaks. Challenges combine multiple topics the way AMC often does.</p>
+
+        <div class="grid-3">
+          <div class="card">
+            <div class="badge">C1</div>
+            <p><b>Sequence + recurrence:</b> \(a_n=2a_{n-1}-a_{n-2}\) with \(a_1=2, a_2=5\). Find \(a_6\).</p>
+            <input class="input" id="mix1Input" placeholder="Enter integer"/>
+            <button class="btn btn-accent" id="mix1Check">Check</button>
+            <div id="mix1Result" class="result"></div>
+            <div class="toggle" data-toggle="#mix1Hint">Hint: characteristic equation.</div>
+            <div class="inline-note hidden" id="mix1Hint">Characteristic \(r^2-2r+1=0\\Rightarrow (r-1)^2\\). Solution \(a_n = (A+Bn)\\cdot 1^n\\). Use initial values to solve.</div>
+          </div>
+          <div class="card">
+            <div class="badge">C2</div>
+            <p><b>Stars + probability:</b> Distribute 5 identical treats to 3 kids. Pick a random kid; probability they received at least 2?</p>
+            <input class="input" id="mix2Input" placeholder="Fraction"/>
+            <button class="btn btn-primary" id="mix2Check">Check</button>
+            <div id="mix2Result" class="result"></div>
+            <div class="toggle" data-toggle="#mix2Hint">Hint: count distributions; symmetry.</div>
+            <div class="inline-note hidden" id="mix2Hint">Total distributions: \\(\\binom{7}{2}=21\\). Use cases where a chosen kid has \\(\\ge2\\), average over symmetry.</div>
+          </div>
+          <div class="card">
+            <div class="badge">C3</div>
+            <p><b>Binomial identity:</b> Compute \(\\sum_{k=0}^{5} \\binom{5}{k}2^{k}\\).</p>
+            <input class="input" id="mix3Input" placeholder="Enter integer"/>
+            <button class="btn" id="mix3Check">Check</button>
+            <div id="mix3Result" class="result"></div>
+            <div class="toggle" data-toggle="#mix3Hint">Hint: binomial theorem with \(a=1,b=2\).</div>
+            <div class="inline-note hidden" id="mix3Hint">It equals \((1+2)^5=243\\).</div>
+          </div>
+          <div class="card">
+            <div class="badge">C4</div>
+            <p><b>Functions:</b> \(f(x)=x^2-4x+7\). Find \(f(f(1))\).</p>
+            <input class="input" id="mix4Input" placeholder="Enter integer"/>
+            <button class="btn" id="mix4Check">Check</button>
+            <div id="mix4Result" class="result"></div>
+          </div>
+          <div class="card">
+            <div class="badge">C5</div>
+            <p><b>Polynomial roots:</b> \(x^2-5x+6=0\). Compute \(\\frac{1}{r} + \\frac{1}{s}\) for roots \(r,s\).</p>
+            <input class="input" id="mix5Input" placeholder="Enter fraction"/>
+            <button class="btn" id="mix5Check">Check</button>
+            <div id="mix5Result" class="result"></div>
+            <div class="toggle" data-toggle="#mix5Hint">Hint: use Vieta and simplify.</div>
+            <div class="inline-note hidden" id="mix5Hint">\\(r+s=5\\), \\(rs=6\\) ⇒ sum of reciprocals = \\(\\frac{r+s}{rs}=\\frac{5}{6}\\).</div>
+          </div>
+          <div class="card">
+            <div class="badge">C6</div>
+            <p><b>Probability + combinations:</b> 4 red, 3 blue, 3 green marbles; draw 2 without replacement. Probability same color?</p>
+            <input class="input" id="mix6Input" placeholder="Fraction"/>
+            <button class="btn" id="mix6Check">Check</button>
+            <div id="mix6Result" class="result"></div>
+            <div class="toggle" data-toggle="#mix6Hint">Hint: count same-color pairs over total \\(\\binom{10}{2}\\).</div>
+            <div class="inline-note hidden" id="mix6Hint">Same-color: \\(\\binom{4}{2}+\\binom{3}{2}+\\binom{3}{2}=6+3+3=12\\). Total \\(\\binom{10}{2}=45\\). Probability \\(\\frac{12}{45}=\\frac{4}{15}\\).</div>
+          </div>
+        </div>
+
+        <div class="flex" style="margin-top:12px;">
+          <span class="score">Streak: <span id="streak">0</span></span>
+          <button class="btn" id="resetStreak">Reset streak</button>
+        </div>
+      </section>
+
+      <hr/>
+
+      <!-- Speed Drills -->
+      <section class="section" id="drills">
+        <span class="pill">Drills</span>
+        <h2>Speed drills</h2>
+        <p>One-minute sprint: answer as many as you can. Your score and accuracy update live.</p>
+
+        <div class="flex" style="align-items:flex-end;">
+          <button class="btn btn-primary" id="drillStart">Start 60s drill</button>
+          <span class="timer" id="drillTimer">00:00</span>
+          <span class="score">Score: <span id="drillScore">0</span> | Attempts: <span id="drillAttempts">0</span></span>
+        </div>
+        <div class="card" style="margin-top:10px;">
+          <div id="drillPrompt">Press Start to begin.</div>
+          <div class="flex" style="margin-top:8px;">
+            <input class="input" id="drillAnswer" placeholder="Your answer"/>
+            <button class="btn btn-accent" id="drillSubmit">Submit</button>
+          </div>
+          <div id="drillFeedback" class="result"></div>
+        </div>
+      </section>
+
+      <div class="inline-note" style="margin-top:14px;">
+        Keyboard shortcuts: <span class="kbd">?</span> hints toggle • <span class="kbd">Enter</span> submit • <span class="kbd">Esc</span> clear inputs
+      </div>
+
+      <div class="inline-note footer" style="text-align:center; margin-top:30px;">
+        © 2025 AMC 8 Interactive Masterclass. Built for clarity, speed, and play.
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Global progress tracking
+    const progress = { correct: 0, total: 0 };
+    const globalBar = document.getElementById('globalBar');
+    const globalCorrect = document.getElementById('globalCorrect');
+    const globalTotal = document.getElementById('globalTotal');
+    function addResult(isCorrect) {
+      progress.total++;
+      if (isCorrect) progress.correct++;
+      globalCorrect.textContent = progress.correct;
+      globalTotal.textContent = progress.total;
+      const pct = progress.total ? Math.round(100 * progress.correct / progress.total) : 0;
+      globalBar.style.width = pct + '%';
+    }
+
+    // Global timer
+    let globalStart = null;
+    const globalTimerEl = document.getElementById('globalTimer');
+    function formatTime(ms) {
+      const s = Math.floor(ms / 1000);
+      const m = Math.floor(s / 60);
+      const ss = s % 60;
+      return (m<10?'0':'')+m+':'+(ss<10?'0':'')+ss;
+    }
+    function startGlobalTimer() {
+      if (globalStart) return;
+      globalStart = Date.now();
+      const tick = () => {
+        if (!globalStart) return;
+        globalTimerEl.textContent = formatTime(Date.now() - globalStart);
+        requestAnimationFrame(tick);
+      };
+      tick();
+    }
+    document.getElementById('startCourseBtn').addEventListener('click', startGlobalTimer);
+    document.getElementById('resetAllBtn').addEventListener('click', () => {
+      progress.correct = 0; progress.total = 0;
+      globalCorrect.textContent = '0'; globalTotal.textContent = '0'; globalBar.style.width = '0%';
+      globalStart = null; globalTimerEl.textContent = '00:00';
+      // Clear all result elements
+      document.querySelectorAll('.result').forEach(el => el.textContent = '');
+    });
+
+    // Hint toggles + keyboard '?'
+    document.querySelectorAll('.toggle').forEach(t => {
+      t.addEventListener('click', () => {
+        const sel = t.getAttribute('data-toggle');
+        const el = document.querySelector(sel);
+        if (el) el.classList.toggle('hidden');
+      });
+    });
+    window.addEventListener('keydown', (e) => {
+      if (e.key === '?') {
+        document.querySelectorAll('.inline-note').forEach(n => n.classList.toggle('hidden'));
+      } else if (e.key === 'Escape') {
+        document.querySelectorAll('input.input').forEach(i => i.value = '');
+      }
+    });
+
+    // Options (MCQ) handler
+    const answersMCQ = {
+      seq1: 'quad',
+      sb1: 'C(22,2)',
+      bin2: '32',
+      prob1: '1/6',
+    };
+    document.querySelectorAll('button.option').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const q = btn.getAttribute('data-q');
+        const a = btn.getAttribute('data-a');
+        const ok = a === answersMCQ[q];
+        const resEl = document.getElementById(q + 'Result');
+        resEl.textContent = ok ? 'Correct!' : 'Not quite — try again.';
+        resEl.className = 'result ' + (ok ? 'ok' : 'err');
+        addResult(ok);
+      });
+    });
+
+    // Sequences: arithmetic compute
+    document.getElementById('seq2Check').addEventListener('click', () => {
+      const v = document.getElementById('seq2Input').value.trim();
+      const correct = 4 + (8 - 1) * 3; // a1 + (n-1)d
+      const ok = v !== '' && Number(v) === correct;
+      const res = document.getElementById('seq2Result');
+      res.textContent = ok ? 'Correct: 25.' : 'Check formula: a_n = a_1 + (n-1)d ⇒ 25.';
+      res.className = 'result ' + (ok ? 'ok' : 'err');
+      addResult(ok);
+    });
+
+    // Sequences mini-game: difference detector
+    const diffSeq = [2,7,14,23,34];
+    const diffGame = document.getElementById('diffGame');
+    const diffRevealed = document.getElementById('diffRevealed');
+    function buildDiffGame() {
+      diffGame.innerHTML = '';
+      let revealed = 0;
+      diffSeq.forEach((num, idx) => {
+        const tile = document.createElement('div');
+        tile.className = 'tile';
+        tile.textContent = '•';
+        tile.title = 'Click to reveal';
+        tile.addEventListener('click', () => {
+          if (tile.classList.contains('active')) return;
+          tile.classList.add('active');
+          tile.textContent = num + (idx ? ' (' + (num - diffSeq[idx-1]) + ')' : '');
+          revealed++;
+          diffRevealed.textContent = revealed;
+        });
+        diffGame.appendChild(tile);
+      });
+    }
+    buildDiffGame();
+    document.getElementById('diffGameReset').addEventListener('click', buildDiffGame);
+
+    // Stars and Bars bounded check
+    document.getElementById('sb2Check').addEventListener('click', () => {
+      const v = document.getElementById('sb2Input').value.trim();
+      const ok = v === '51' || v === '51.0';
+      const res = document.getElementById('sb2Result');
+      res.textContent = ok ? 'Correct: 51.' : 'Answer is 51 (subtract cases with a≥6).';
+      res.className = 'result ' + (ok ? 'ok' : 'err');
+      addResult(ok);
+    });
+
+    // Stars mini-game: builder
+    const starsCanvas = document.getElementById('starsCanvas');
+    const starsCount = document.getElementById('starsCount');
+    function comb(n, k) {
+      if (k < 0 || k > n) return 0;
+      k = Math.min(k, n - k);
+      let num = 1, den = 1;
+      for (let i = 1; i <= k; i++) { num *= (n - k + i); den *= i; }
+      return Math.round(num / den);
+    }
+    document.getElementById('buildStars').addEventListener('click', () => {
+      const n = Number(document.getElementById('starsN').value);
+      starsCanvas.innerHTML = '';
+      const k = 3, total = comb(n + k - 1, k - 1);
+      starsCount.textContent = total;
+      // Draw stars and k-1 bars that can be toggled (visual only)
+      const len = n + k - 1;
+      for (let i = 0; i < len; i++) {
+        const tile = document.createElement('div');
+        tile.className = 'tile';
+        tile.textContent = '★';
+        tile.addEventListener('click', () => {
+          tile.textContent = tile.textContent === '★' ? '|' : '★';
+        });
+        starsCanvas.appendChild(tile);
+      }
+      // Add a note
+      const note = document.createElement('div');
+      note.className = 'inline-note';
+      note.textContent = 'Toggle any ' + (k-1) + ' tiles to bars to form one distribution.';
+      starsCanvas.appendChild(note);
+    });
+
+    // Functions: composition check
+    document.getElementById('func1Check').addEventListener('click', () => {
+      const a = document.getElementById('func1A').value.trim();
+      const b = document.getElementById('func1B').value.trim();
+      const okA = a !== '' && Number(a) === (2 * (7 + 4) - 1); // f(g(7)) = 2(7+4)-1 = 21
+      const okB = b !== '' && Number(b) === ((2 * 7 - 1) + 4); // g(f(7)) = f(7)+4 = (13)+4=17
+      const res = document.getElementById('func1Result');
+      let msg = '';
+      if (okA && okB) { msg = 'Correct: f(g(7))=21 and g(f(7))=17.'; res.className = 'result ok'; addResult(true); }
+      else { msg = 'Target: f(g(7))=21, g(f(7))=17.'; res.className = 'result err'; addResult(false); }
+      res.textContent = msg;
+    });
+
+    // Functions: inverse check
+    document.getElementById('func2Check').addEventListener('click', () => {
+      const v = document.getElementById('func2Input').value.replace(/\s+/g,'');
+      const ok = v === '2y+5' || v === '5+2y' || v === '2*y+5';
+      const res = document.getElementById('func2Result');
+      res.textContent = ok ? 'Correct: h^{-1}(y)=2y+5.' : 'Solve y=(x-5)/2 ⇒ x=2y+5.';
+      res.className = 'result ' + (ok ? 'ok' : 'err');
+      addResult(ok);
+    });
+
+    // Operation lab
+    function parseNum(id) {
+      const s = document.getElementById(id).value.trim();
+      return s === '' ? NaN : Number(s);
+    }
+    document.getElementById('opEval').addEventListener('click', () => {
+      const a = parseNum('opA'), b = parseNum('opB');
+      const out = isNaN(a)||isNaN(b) ? 'Enter a and b' : (2*a + b*b);
+      document.getElementById('opRes').textContent = out;
+    });
+    document.getElementById('opNested').addEventListener('click', () => {
+      const a = parseNum('opA'), b = parseNum('opB'), c = parseNum('opC');
+      let out = 'Enter a, b, c';
+      if (!isNaN(a)&&!isNaN(b)&&!isNaN(c)) {
+        const t = 2*a + b*b;
+        out = 2*t + c*c;
+      }
+      document.getElementById('opNestedRes').textContent = out;
+    });
+
+    // Binomial coefficient finder
+    document.getElementById('bin1Check').addEventListener('click', () => {
+      const v = document.getElementById('bin1Input').value.trim();
+      const ok = v === '2835';
+      const res = document.getElementById('bin1Result');
+      res.textContent = ok ? 'Correct: 2835.' : 'Use k=4 ⇒ C(7,4)·3^4 = 2835.';
+      res.className = 'result ' + (ok ? 'ok' : 'err');
+      addResult(ok);
+    });
+
+    // Pascal painter
+    function buildPascalRows(n) {
+      const tri = [];
+      for (let r = 0; r < n; r++) {
+        const row = [];
+        for (let c = 0; c <= r; c++) {
+          if (c === 0 || c === r) row[c] = 1;
+          else row[c] = tri[r-1][c-1] + tri[r-1][c];
+        }
+        tri.push(row);
+      }
+      return tri;
+    }
+    const pascalCanvas = document.getElementById('pascalCanvas');
+    document.getElementById('buildPascal').addEventListener('click', () => {
+      const rows = Number(document.getElementById('pascalRows').value);
+      const tri = buildPascalRows(rows);
+      pascalCanvas.style.gridTemplateColumns = '1fr';
+      pascalCanvas.innerHTML = '';
+      tri.forEach((row, r) => {
+        const line = document.createElement('div');
+        line.className = 'flex';
+        const label = document.createElement('span');
+        label.className = 'badge';
+        label.textContent = 'Row ' + r;
+        line.appendChild(label);
+        row.forEach((val, c) => {
+          const tile = document.createElement('div');
+          tile.className = 'tile';
+          tile.textContent = val;
+          tile.title = 'Click to highlight C(' + r + ',' + c + ')';
+          tile.addEventListener('click', () => tile.classList.toggle('active'));
+          line.appendChild(tile);
+        });
+        pascalCanvas.appendChild(line);
+      });
+    });
+
+    // Polynomials: factor check
+    document.getElementById('poly1Check').addEventListener('click', () => {
+      const f = document.getElementById('poly1F').value.replace(/\s+/g,'');
+      const r = document.getElementById('poly1R').value.replace(/\s+/g,'');
+      const okF = f === '(x-3)(x-4)' || f === '(x-4)(x-3)';
+      const okR = r === '3,4' || r === '4,3';
+      const ok = okF && okR;
+      const res = document.getElementById('poly1Result');
+      res.textContent = ok ? 'Correct: (x-3)(x-4), roots 3 and 4.' : 'Try factors of 12 summing to 7: (x-3)(x-4).';
+      res.className = 'result ' + (ok ? 'ok' : 'err');
+      addResult(ok);
+    });
+
+    // Polynomials: remainder theorem check
+    document.getElementById('poly2Check').addEventListener('click', () => {
+      const v = document.getElementById('poly2Input').value.trim();
+      const correct = 3*8 - 2*2 + 5; // 24 - 4 + 5 = 25
+      const ok = v !== '' && Number(v) === correct;
+      const res = document.getElementById('poly2Result');
+      res.textContent = ok ? 'Correct: 25.' : 'Remainder = P(2) = 25.';
+      res.className = 'result ' + (ok ? 'ok' : 'err');
+      addResult(ok);
+    });
+
+    // Probability MCQ
+    document.getElementById('prob2Check').addEventListener('click', () => {
+      const v = document.getElementById('prob2Input').value.replace(/\s+/g,'');
+      const ok = v === '33/221';
+      const res = document.getElementById('prob2Result');
+      res.textContent = ok ? 'Correct: 33/221.' : 'Compute 1 - (48/52)(47/51) = 33/221.';
+      res.className = 'result ' + (ok ? 'ok' : 'err');
+      addResult(ok);
+    });
+
+    // Probability mini-game: coin combos
+    const outcomes = ['HHH','HHT','HTH','THH','HTT','THT','TTH','TTT'];
+    const coinBoard = document.getElementById('coinBoard');
+    const coinCountEl = document.getElementById('coinCount');
+    const coinCorrectEl = document.getElementById('coinCorrect');
+    function buildCoinBoard() {
+      coinBoard.innerHTML = '';
+      outcomes.forEach(o => {
+        const tile = document.createElement('div');
+        tile.className = 'tile';
+        tile.textContent = o;
+        tile.addEventListener('click', () => tile.classList.toggle('active'));
+        coinBoard.appendChild(tile);
+      });
+      coinCountEl.textContent = '0';
+    }
+    buildCoinBoard();
+    document.getElementById('coinCheck').addEventListener('click', () => {
+      const selected = Array.from(coinBoard.children).filter(t => t.classList.contains('active')).map(t => t.textContent);
+      const correctSet = ['HHT','HTH','THH'];
+      coinCountEl.textContent = selected.length;
+      const ok = selected.length === correctSet.length && selected.every(s => correctSet.includes(s));
+      const msg = ok ? 'Perfect selection! P = 3/8.' : 'Select exactly HHT, HTH, THH.';
+      const resDiv = document.createElement('div');
+      resDiv.className = 'result ' + (ok ? 'ok' : 'err');
+      resDiv.textContent = msg;
+      coinBoard.parentElement.appendChild(resDiv);
+      addResult(ok);
+    });
+
+    // Mixed challenges
+    // Mix1 recurrence: a_n = 2a_{n-1} - a_{n-2}, a1=2, a2=5 => compute iteratively
+    document.getElementById('mix1Check').addEventListener('click', () => {
+      let a1 = 2, a2 = 5, a = [null,a1,a2];
+      for (let n=3; n<=6; n++) a[n] = 2*a[n-1] - a[n-2];
+      const v = document.getElementById('mix1Input').value.trim();
+      const ok = v !== '' && Number(v) === a[6];
+      const res = document.getElementById('mix1Result');
+      res.textContent = ok ? ('Correct: ' + a[6] + '.') : ('Compute: a3=' + a[3] + ', a4=' + a[4] + ', a5=' + a[5] + ', a6=' + a[6] + '.');
+      res.className = 'result ' + (ok ? 'ok' : 'err');
+      addResult(ok);
+    });
+
+    // Mix2 stars + probability: symmetry approach
+    document.getElementById('mix2Check').addEventListener('click', () => {
+      // Distributions of 5 to 3: total 21. Probability a random kid has >=2 equals expected fraction of kids with >=2 / 3.
+      // Compute counts of distributions where a fixed kid has >=2.
+      let countKidGE2 = 0;
+      for (let a=0; a<=5; a++) {
+        for (let b=0; b<=5-a; b++) {
+          const c = 5 - a - b;
+          if (a >= 2) countKidGE2++;
+        }
+      }
+      const total = 21;
+      const p = countKidGE2 / total; // for fixed kid
+      const frac = simplifyFraction(countKidGE2, total);
+      const v = document.getElementById('mix2Input').value.replace(/\s+/g,'');
+      const ok = v === frac.n + '/' + frac.d;
+      const res = document.getElementById('mix2Result');
+      res.textContent = (ok ? 'Correct: ' : 'Answer: ') + frac.n + '/' + frac.d + ' (≈ ' + (p.toFixed(3)) + ').';
+      res.className = 'result ' + (ok ? 'ok' : 'err');
+      addResult(ok);
+    });
+
+    // Mix3 binomial weighted sum
+    document.getElementById('mix3Check').addEventListener('click', () => {
+      const v = document.getElementById('mix3Input').value.trim();
+      const ok = v === '243';
+      const res = document.getElementById('mix3Result');
+      res.textContent = ok ? 'Correct: 243.' : 'Use (1+2)^5 = 243.';
+      res.className = 'result ' + (ok ? 'ok' : 'err');
+      addResult(ok);
+    });
+
+    // Mix4 functions composition
+    document.getElementById('mix4Check').addEventListener('click', () => {
+      const f1 = (x) => x*x - 4*x + 7;
+      const ans = f1(f1(1)); // f(1)=1-4+7=4; f(4)=16-16+7=7
+      const v = document.getElementById('mix4Input').value.trim();
+      const ok = v !== '' && Number(v) === ans;
+      const res = document.getElementById('mix4Result');
+      res.textContent = ok ? 'Correct: 7.' : 'Compute f(1)=4, then f(4)=7.';
+      res.className = 'result ' + (ok ? 'ok' : 'err');
+      addResult(ok);
+    });
+
+    // Mix5 Vieta reciprocals
+    document.getElementById('mix5Check').addEventListener('click', () => {
+      const v = document.getElementById('mix5Input').value.replace(/\s+/g,'');
+      const ok = v === '5/6';
+      const res = document.getElementById('mix5Result');
+      res.textContent = ok ? 'Correct: 5/6.' : 'Sum of reciprocals = (r+s)/(rs) = 5/6.';
+      res.className = 'result ' + (ok ? 'ok' : 'err');
+      addResult(ok);
+    });
+
+    // Mix6 marble probability
+    document.getElementById('mix6Check').addEventListener('click', () => {
+      const v = document.getElementById('mix6Input').value.replace(/\s+/g,'');
+      const ok = v === '4/15';
+      const res = document.getElementById('mix6Result');
+      res.textContent = ok ? 'Correct: 4/15.' : 'Total 45, favorable 12 ⇒ 4/15.';
+      res.className = 'result ' + (ok ? 'ok' : 'err');
+      addResult(ok);
+    });
+
+    // Streak
+    let streak = 0;
+    function bumpStreak(ok) {
+      if (ok) streak++; else streak = 0;
+      document.getElementById('streak').textContent = streak;
+    }
+    // Hook into addResult for streak logic
+    const originalAddResult = addResult;
+    addResult = function(ok) {
+      originalAddResult(ok);
+      bumpStreak(ok);
+    };
+    document.getElementById('resetStreak').addEventListener('click', () => {
+      streak = 0; document.getElementById('streak').textContent = '0';
+    });
+
+    // Drills
+    const drillTimerEl = document.getElementById('drillTimer');
+    const drillPrompt = document.getElementById('drillPrompt');
+    const drillAnswer = document.getElementById('drillAnswer');
+    const drillFeedback = document.getElementById('drillFeedback');
+    const drillScoreEl = document.getElementById('drillScore');
+    const drillAttemptsEl = document.getElementById('drillAttempts');
+    let drillTimeLeft = 0, drillTickId = null, drillScore = 0, drillAttempts = 0;
+    const drillPool = [
+      { q: 'Arithmetic: a1=5, d=2. Compute a10.', a: '23' },
+      { q: 'Geometric: a1=3, r=2. Compute a5.', a: '48' },
+      { q: 'Stars: solutions to x1+x2+x3=6.', a: '28' }, // C(8,2)=28
+      { q: 'Binomial: coefficient of x^2 in (x+1)^5.', a: '10' }, // C(5,3)=10
+      { q: 'Remainder: P(x)=x^2-1, divide by x-3. Remainder?', a: '8' }, // P(3)=9-1=8
+      { q: 'Probability: flip 2 fair coins. Probability of 1 head?', a: '1/2' },
+      { q: 'Function: f(x)=x+7. Compute f(f(0)).', a: '14' },
+      { q: 'Polynomial: roots of x^2-3x+2?', a: '1,2' },
+      { q: 'Pascal: sum of Row 4.', a: '16' }, // 2^4
+      { q: 'Sequence type? 3,7,13,21,…', a: 'quadratic' }, // diff 4,6,8
+    ];
+    function randomDrill() {
+      return drillPool[Math.floor(Math.random()*drillPool.length)];
+    }
+    function startDrill() {
+      drillTimeLeft = 60;
+      drillScore = 0; drillAttempts = 0;
+      drillScoreEl.textContent = drillScore;
+      drillAttemptsEl.textContent = drillAttempts;
+      nextDrill();
+      if (drillTickId) clearInterval(drillTickId);
+      drillTickId = setInterval(() => {
+        drillTimeLeft--;
+        drillTimerEl.textContent = '00:' + (drillTimeLeft<10?'0':'') + drillTimeLeft;
+        if (drillTimeLeft <= 0) {
+          clearInterval(drillTickId); drillTickId = null;
+          drillFeedback.textContent = 'Time! Score: ' + drillScore + '/' + drillAttempts;
+          drillFeedback.className = 'result ok';
+        }
+      }, 1000);
+    }
+    function nextDrill() {
+      const item = randomDrill();
+      drillPrompt.textContent = item.q;
+      drillPrompt.dataset.answer = item.a;
+      drillAnswer.value = '';
+      drillFeedback.textContent = '';
+    }
+    document.getElementById('drillStart').addEventListener('click', startDrill);
+    document.getElementById('drillSubmit').addEventListener('click', () => {
+      if (!drillPrompt.dataset.answer) return;
+      const a = drillPrompt.dataset.answer;
+      const v = drillAnswer.value.trim();
+      const ok = v === a;
+      drillAttempts++;
+      if (ok) drillScore++;
+      drillFeedback.textContent = ok ? 'Correct!' : 'Target: ' + a;
+      drillFeedback.className = 'result ' + (ok ? 'ok' : 'err');
+      drillScoreEl.textContent = drillScore;
+      drillAttemptsEl.textContent = drillAttempts;
+      addResult(ok);
+      if (drillTimeLeft > 0) setTimeout(nextDrill, 400);
+    });
+
+    // Helper: fraction simplifier
+    function gcd(a,b){ return b ? gcd(b, a%b) : a; }
+    function simplifyFraction(n,d){
+      const g = gcd(n,d); return { n: n/g, d: d/g };
+    }
+
+    // Keyboard shortcut: Enter submits focused section if a check button exists
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        // Attempt to click the nearest check button in the same section as focused input
+        const active = document.activeElement;
+        if (active && active.tagName === 'INPUT') {
+          const section = active.closest('.card') || active.closest('.section');
+          if (section) {
+            const btn = section.querySelector('button.btn-accent, button.btn-primary, button.btn');
+            if (btn) btn.click();
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
