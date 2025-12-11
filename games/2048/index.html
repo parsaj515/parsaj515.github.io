@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>2048</title>
+
+		<meta name="HandheldFriendly" content="True" />
+		<meta name="MobileOptimized" content="320" />
+		<meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1, user-scalable=no, minimal-ui" />
+		<meta name="format-detection" content="telephone=no" />
+
+		<meta name="apple-itunes-app" content="app-id=868076805">
+
+		<meta property="og:title" content="2048" />
+		<meta property="og:site_name" content="2048" />
+		<meta property="og:description" content="Join the numbers and get to the 2048 tile! Careful: this game is extremely addictive!" />
+		<meta property="og:image" content="http://gabrielecirulli.github.io/2048/meta/og_image.png" />
+
+		<meta name="twitter:card" content="app" />
+		<meta name="twitter:site" content="@gabrielecirulli" />
+		<meta name="twitter:title" content="2048" />
+		<meta name="twitter:description" content="Join the numbers and get to the 2048 tile! Careful: this game is extremely addictive!" />
+		<meta name="twitter:image" content="http://gabrielecirulli.github.io/2048/meta/og_image.png" />
+		<meta name="twitter:url" content="http://gabrielecirulli.github.io/2048/" />
+		<meta name="twitter:app:country" content="US">
+		<meta name="twitter:app:name:iphone" content="2048">
+		<meta name="twitter:app:id:iphone" content="868076805">
+		<meta name="twitter:app:url:iphone" content="https://itunes.apple.com/us/app/2048-by-gabriele-cirulli/id868076805">
+		<meta name="twitter:app:name:ipad" content="2048">
+		<meta name="twitter:app:id:ipad" content="868076805">
+		<meta name="twitter:app:url:ipad" content="https://itunes.apple.com/us/app/2048-by-gabriele-cirulli/id868076805">
+		<meta name="twitter:app:name:googleplay" content="2048">
+		<meta name="twitter:app:id:googleplay" content="com.gabrielecirulli.app2048">
+		<meta name="twitter:app:url:googleplay" content="https://play.google.com/store/apps/details?id=com.gabrielecirulli.app2048">
+	</head>
+	<body>
+		<div class="cookie-notice">
+			<p>2048 uses cookies to analyse traffic to the site and to serve ads. <a href="privacy.html" target="_blank" rel="noopener noreferrer">Learn More</a></p>
+			<a class="cookie-notice-dismiss-button">Got it</a>
+		</div>
+
+		<div class="container">
+			<div class="meta">
+				<div class="heading">
+					<h1 class="title">2048</h1>
+					<div class="scores-container">
+						<div class="score-container">0</div>
+						<div class="best-container">0</div>
+					</div>
+				</div>
+
+				<div class="above-game">
+					<a class="restart-button">New Game</a>
+					<p class="game-intro">Join the numbers and get to the <strong>2048 tile!</strong></p>
+					<div class="extras">
+						<p class="game-explanation"><strong class="important">How to play:</strong> Use your <strong>arrow keys</strong> to move the tiles. When two tiles with the same number touch, they <strong>merge into one!</strong></p>
+
+						<div class="footer">
+							<p class="attribution"><span>Created</span> by <a href="http://gabrielecirulli.com" target="_blank">Gabriele Cirulli.</a></p>
+							<a href="privacy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+						</div>
+						<div class="sharing"></div>
+					</div>
+				</div>
+
+				<div class="app-notice">
+					<span class="notice-close-button">&times;</span>
+					<p>Get 2048 for <a href="https://itunes.apple.com/us/app/2048-by-gabriele-cirulli/id868076805" target="_blank">iOS</a> and <a href="https://play.google.com/store/apps/details?id=com.gabrielecirulli.app2048" target="_blank">Android!</a></p>
+				</div>
+			</div>
+			<div class="inner">
+				<div class="game-container">
+					<div class="game-message">
+						<p></p>
+						<div class="lower">
+							<a class="keep-playing-button">Keep going</a>
+							<a class="retry-button">Try again</a>
+							<div class="score-sharing"></div>
+							<div class="mailing-list"></div>
+						</div>
+					</div>
+
+					<div class="grid-container">
+						<div class="grid-row">
+							<div class="grid-cell"></div>
+							<div class="grid-cell"></div>
+							<div class="grid-cell"></div>
+							<div class="grid-cell"></div>
+						</div>
+						<div class="grid-row">
+							<div class="grid-cell"></div>
+							<div class="grid-cell"></div>
+							<div class="grid-cell"></div>
+							<div class="grid-cell"></div>
+						</div>
+						<div class="grid-row">
+							<div class="grid-cell"></div>
+							<div class="grid-cell"></div>
+							<div class="grid-cell"></div>
+							<div class="grid-cell"></div>
+						</div>
+						<div class="grid-row">
+							<div class="grid-cell"></div>
+							<div class="grid-cell"></div>
+							<div class="grid-cell"></div>
+							<div class="grid-cell"></div>
+						</div>
+					</div>
+
+					<div class="tile-container"></div>
+				</div>
+			</div>
+
+			<div class="extras below-game">
+				<p class="game-explanation"><strong class="important">How to play:</strong> Use your <strong>arrow keys</strong> to move the tiles. When two tiles with the same number touch, they <strong>merge into one!</strong></p>
+
+				<div class="footer">
+					<p class="attribution"><span>Created</span> by <a href="https://gabrielecirulli.com" target="_blank">Gabriele Cirulli.</a></p>
+					<a href="privacy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+				</div>
+			</div>
+		</div>
+
+		<script src="js/bind_polyfill.js"></script>
+		<script src="js/classlist_polyfill.js"></script>
+		<script src="js/animframe_polyfill.js"></script>
+		<script src="js/keyboard_input_manager.js"></script>
+		<script src="js/html_actuator.js"></script>
+		<script src="js/grid.js"></script>
+		<script src="js/tile.js"></script>
+		<script src="js/local_storage_manager.js"></script>
+		<script src="js/game_manager.js"></script>
+		<script src="js/application.js"></script>
+	</body>
+</html>
