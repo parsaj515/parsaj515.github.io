@@ -1,0 +1,3 @@
+# Parsa Jamali's Resources...
+
+Bunch of websites made by deepseek/stolen from other people. 
