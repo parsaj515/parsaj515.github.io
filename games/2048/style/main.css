@@ -1,9 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
 html, body {
 	margin: 0;
 	padding: 0;
 	background: #faf8ef;
 	color: #776e65;
-	font-family: Arial, sans-serif;
+	font-family: "Roboto", Arial, sans-serif;
 	font-size: 18px;
 }
 
@@ -1570,3 +1572,4 @@ hr {
 	margin-left: 20px;
 
 }
+
