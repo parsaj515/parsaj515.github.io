@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<form method="post" class="search-bar">
+  <input type="text" name="query" placeholder="Search movies or TV shows..." value="{{ query }}">
+  <select name="media_type">
+    <option value="movie" {% if media_type=='movie' %}selected{% endif %}>Movies</option>
+    <option value="tv" {% if media_type=='tv' %}selected{% endif %}>TV Shows</option>
+  </select>
+  <button type="submit">🔍 Search</button>
+</form>
+
+{% if results %}
+<div class="results">
+  {% for item in results %}
+  <div class="card">
+    <a href="{{ url_for('watch', media_type=media_type, tmdb_id=item.id) }}">
+      {% if item.poster_path %}
+      <img src="https://image.tmdb.org/t/p/w300{{ item.poster_path }}" alt="{{ item.title or item.name }}">
+      {% endif %}
+      <h3>{{ item.title or item.name }}</h3>
+      <p>{{ item.release_date or item.first_air_date }}</p>
+    </a>
+  </div>
+  {% endfor %}
+</div>
+{% elif query %}
+<p>No results found.</p>
+{% endif %}
+{% endblock %}
