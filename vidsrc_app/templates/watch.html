@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ details.title or details.name }}</h2>
+
+{% if details.poster_path %}
+<img class="poster" src="https://image.tmdb.org/t/p/w300{{ details.poster_path }}" alt="{{ details.title or details.name }}">
+{% endif %}
+
+<p>{{ details.overview }}</p>
+
+<form method="post" class="options-form">
+  {% if media_type == 'tv' %}
+  <label>Season:</label>
+  <select name="season">
+    {% for season in seasons %}
+      <option value="{{ season.season_number }}">{{ season.name }}</option>
+    {% endfor %}
+  </select>
+
+  <label>Episode:</label>
+  <input type="number" name="episode" min="1" required>
+  <label>Auto-next:</label>
+  <select name="autonext">
+    <option value="0" selected>No</option>
+    <option value="1">Yes</option>
+  </select>
+  {% endif %}
+
+  <label>Subtitle Language:</label>
+  <input type="text" name="ds_lang" placeholder="e.g. en">
+
+  <label>Subtitle File URL (.srt/.vtt):</label>
+  <input type="text" name="sub_url" placeholder="https://example.com/subtitles.vtt">
+
+  <label>Autoplay:</label>
+  <select name="autoplay">
+    <option value="1" selected>Yes</option>
+    <option value="0">No</option>
+  </select>
+
+  <button type="submit">🎥 Generate Embed</button>
+</form>
+
+{% if embed_url %}
+<div class="player">
+  <h3>Now Playing:</h3>
+  <iframe src="{{ embed_url }}" frameborder="0" allowfullscreen></iframe>
+</div>
+{% endif %}
+{% endblock %}
