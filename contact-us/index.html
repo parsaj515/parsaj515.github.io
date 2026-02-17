@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GamerX · contact us</title>
+  <!-- same fonts & icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ---------- consistent with privacy & about pages ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #0b0c14;
+      background-image: 
+        radial-gradient(circle at 20% 30%, rgba(45, 160, 240, 0.08) 0%, transparent 30%),
+        radial-gradient(circle at 80% 70%, rgba(200, 60, 255, 0.08) 0%, transparent 35%),
+        repeating-linear-gradient(45deg, rgba(0, 255, 255, 0.02) 0px, rgba(0, 255, 255, 0.02) 2px, transparent 2px, transparent 8px);
+      font-family: 'Poppins', sans-serif;
+      color: #e2e8f0;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+    }
+
+    .contact-card {
+      max-width: 900px;
+      width: 100%;
+      background: rgba(12, 18, 34, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(0, 255, 255, 0.2);
+      border-radius: 42px;
+      padding: 3rem 2.8rem;
+      box-shadow: 0 30px 50px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(0, 255, 255, 0.1) inset, 0 0 25px rgba(0, 180, 255, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .contact-card:hover {
+      box-shadow: 0 35px 60px rgba(0, 0, 0, 0.9), 0 0 0 2px rgba(0, 255, 255, 0.25) inset, 0 0 35px #4efff0;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 800;
+      font-size: 3rem;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      margin-bottom: 0.6rem;
+      background: linear-gradient(135deg, #a5f0ff, #c084fc, #ffb6ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 15px cyan;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    h1 i {
+      font-size: 3rem;
+      color: #3cc7f2;
+      filter: drop-shadow(0 0 8px cyan);
+    }
+
+    .tagline {
+      font-size: 1.15rem;
+      color: #9ab9e0;
+      margin-bottom: 2.8rem;
+      border-left: 4px solid #0ff;
+      padding-left: 1.8rem;
+      font-weight: 300;
+      background: linear-gradient(90deg, rgba(0,255,255,0.1), transparent);
+    }
+
+    .intro-text {
+      font-size: 1.2rem;
+      background: rgba(0, 255, 255, 0.05);
+      padding: 1.8rem 2.2rem;
+      border-radius: 32px;
+      border: 1px dashed #00e0ff;
+      margin: 1.8rem 0 2.8rem 0;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+      text-align: center;
+    }
+
+    .contact-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      margin: 2.5rem 0;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5rem;
+      background: rgba(20, 30, 50, 0.5);
+      border: 1px solid rgba(0, 255, 255, 0.2);
+      border-radius: 38px;
+      padding: 1.5rem 2rem;
+      backdrop-filter: blur(4px);
+      transition: 0.2s;
+    }
+
+    .contact-item:hover {
+      border-color: #ff66c0;
+      box-shadow: 0 0 18px #ff66c0;
+    }
+
+    .contact-icon {
+      font-size: 2.2rem;
+      min-width: 60px;
+      height: 60px;
+      background: rgba(0, 255, 255, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0ff;
+      border: 1px solid cyan;
+      box-shadow: 0 0 15px cyan;
+    }
+
+    .contact-details {
+      flex: 1;
+    }
+
+    .contact-details h3 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.6rem;
+      margin-bottom: 0.5rem;
+      color: #b7f0ff;
+      letter-spacing: 1px;
+    }
+
+    .contact-details p {
+      margin-bottom: 0.3rem;
+      font-size: 1.1rem;
+      word-break: break-word;
+    }
+
+    .contact-details a {
+      color: #9effff;
+      text-decoration: none;
+      border-bottom: 1px dotted cyan;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .contact-details a:hover {
+      color: white;
+      border-bottom: 2px solid magenta;
+      text-shadow: 0 0 8px magenta;
+    }
+
+    .email-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem 1.8rem;
+      align-items: center;
+    }
+
+    .email-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .email-item i {
+      color: #0ff;
+      font-size: 1rem;
+    }
+
+    .separator {
+      color: #5f7999;
+      font-size: 1.2rem;
+    }
+
+    .footer-note {
+      margin-top: 3rem;
+      text-align: center;
+      font-size: 0.95rem;
+      color: #7f93b9;
+      border-top: 1px solid rgba(0, 255, 255, 0.2);
+      padding-top: 2rem;
+    }
+
+    .footer-note i {
+      color: #ff66c0;
+    }
+
+    /* small screens */
+    @media (max-width: 600px) {
+      .contact-card {
+        padding: 2rem 1.5rem;
+      }
+      h1 {
+        font-size: 2.2rem;
+      }
+      .contact-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .contact-icon {
+        margin-bottom: 0.5rem;
+      }
+      .email-group {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="contact-card">
+    <h1>
+      <i class="fas fa-envelope-open-text"></i> 
+      <span>Contact Us</span>
+    </h1>
+    <div class="tagline">
+      <i class="fas fa-comment-dots"></i>  we speak gamer · 24-48h reply
+    </div>
+
+    <!-- intro paragraph (exact wording) -->
+    <div class="intro-text">
+      <i class="fas fa-message" style="color: #0ff; font-size: 2rem; margin-bottom: 0.8rem; display: block;"></i>
+      <p style="font-size: 1.25rem; font-weight: 400;">Have a question, feedback, or a business inquiry? We’d love to hear from you! At GamerX, we value our readers' input and aim to respond to all messages within 24-48 hours.</p>
+    </div>
+
+    <!-- how to reach us (exact content with links) -->
+    <div class="contact-grid">
+      
+      <!-- EMAIL SECTION (two addresses) -->
+      <div class="contact-item">
+        <div class="contact-icon"><i class="fas fa-at"></i></div>
+        <div class="contact-details">
+          <h3>Email</h3>
+          <div class="email-group">
+            <!-- first email with mailto -->
+            <span class="email-item">
+              <i class="fas fa-envelope"></i>
+              <a href="mailto:jparsa612@gmail.com">jparsa612@gmail.com</a>
+            </span>
+            <span class="separator">/</span>
+            <!-- second email with mailto -->
+            <span class="email-item">
+              <i class="fas fa-envelope"></i>
+              <a href="mailto:iammrbeastbackup@gmail.com">iammrbeastbackup@gmail.com</a>
+            </span>
+          </div>
+          <p style="color:#acc9e5; margin-top: 0.3rem;">click to send a direct message</p>
+        </div>
+      </div>
+
+      <!-- SOCIAL MEDIA SECTION (instagram) -->
+      <div class="contact-item">
+        <div class="contact-icon"><i class="fab fa-instagram"></i></div>
+        <div class="contact-details">
+          <h3>Social Media</h3>
+          <p>
+            <i class="fab fa-instagram" style="color: #ff77b0;"></i> 
+            <a href="https://www.instagram.com/guava_229000/" target="_blank" rel="noopener">instagram.com/guava_229000/</a>
+          </p>
+          <p style="color:#acc9e5;">DM us – we’re active!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- extra trust/community line (optional but fits style) -->
+    <div class="footer-note">
+      <i class="fas fa-heart" style="color: #ff44a0;"></i>  GamerX · we reply like pros  <i class="fas fa-headset"></i>
+    </div>
+  </div>
+
+  <!-- tiny floating signature -->
+  <div style="position: fixed; bottom: 12px; right: 18px; opacity:0.25; font-size: 0.8rem; color: #6af; pointer-events: none;">
+    <i class="fas fa-paper-plane"></i> contact gamerx
+  </div>
+</body>
+</html>
