@@ -1412,15 +1412,6 @@
     </style>
 </head>
 <body>
-    <div id="password-modal" class="password-modal">
-        <div class="password-modal-content">
-            <h2>Super Chat 🔒</h2>
-            <p>Enter password to access the chat:</p>
-            <input type="password" id="password-input" placeholder="Enter password" style="width: 100%; margin: 15px 0; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px;">
-            <button onclick="checkPassword()" style="background-color: #5a67d8; border: none; color: #fff; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: 700; width: 100%">Enter Chat</button>
-            <p id="password-error" style="color: red; display: none">Incorrect password</p>
-        </div>
-    </div>
 
     <div id="admin-password-modal" class="admin-password-modal">
         <div class="password-modal-content">
@@ -1474,7 +1465,7 @@
 
     <div id="emoji-picker-overlay" class="emoji-picker-overlay"></div>
     
-    <div class="app-container" style="display: none">
+    <div class="app-container" style="display: flex">
         <div id="game-container" class="game-container">
             <button class="full-screen-btn" onclick="toggleFullScreen()">
                 <span class="material-icons" id="full-screen-icon">fullscreen</span>
@@ -1624,41 +1615,10 @@
     </div>
 
     <script>
-        // Password protection
-        function checkPassword() {
-            const password = document.getElementById('password-input').value;
-            const error = document.getElementById('password-error');
-            if (password === 'superchat692') {
-                document.getElementById('password-modal').remove();
-                document.querySelector('.app-container').style.display = 'flex';
-                initializeApp();
-            } else {
-                error.style.display = 'block';
-            }
-        }
-
-        function checkAdminPassword() {
-            const password = document.getElementById('admin-password-input').value;
-            const error = document.getElementById('admin-password-error');
-            if (password === 'chat-app5041') {
-                document.getElementById('admin-password-modal').style.display = 'none';
-                document.getElementById('admin-panel').style.display = 'flex';
-                updateAdminUserList();
-                updateAdminStats();
-            } else {
-                error.style.display = 'block';
-            }
-        }
 
         function closeAdminPasswordModal() {
             document.getElementById('admin-password-modal').style.display = 'none';
         }
-
-        document.getElementById('password-input').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                checkPassword();
-            }
-        });
 
         document.getElementById('admin-password-input').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
@@ -3271,6 +3231,7 @@
         window.addEventListener('message', function(event) {
             // Handle messages from the game iframe if needed
         });
+    document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
 </body>
 </html>
