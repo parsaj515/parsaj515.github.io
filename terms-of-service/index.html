@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GamerX · terms of service</title>
+  <!-- same fonts & icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ---------- consistent style ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #0b0c14;
+      background-image: 
+        radial-gradient(circle at 20% 30%, rgba(45, 160, 240, 0.08) 0%, transparent 30%),
+        radial-gradient(circle at 80% 70%, rgba(200, 60, 255, 0.08) 0%, transparent 35%),
+        repeating-linear-gradient(45deg, rgba(0, 255, 255, 0.02) 0px, rgba(0, 255, 255, 0.02) 2px, transparent 2px, transparent 8px);
+      font-family: 'Poppins', sans-serif;
+      color: #e2e8f0;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+    }
+
+    .terms-card {
+      max-width: 1000px;
+      width: 100%;
+      background: rgba(12, 18, 34, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(0, 255, 255, 0.2);
+      border-radius: 42px;
+      padding: 3rem 2.8rem;
+      box-shadow: 0 30px 50px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(0, 255, 255, 0.1) inset, 0 0 25px rgba(0, 180, 255, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .terms-card:hover {
+      box-shadow: 0 35px 60px rgba(0, 0, 0, 0.9), 0 0 0 2px rgba(0, 255, 255, 0.25) inset, 0 0 35px #4efff0;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 800;
+      font-size: 3rem;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      margin-bottom: 0.6rem;
+      background: linear-gradient(135deg, #a5f0ff, #c084fc, #ffb6ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 15px cyan;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    h1 i {
+      font-size: 3rem;
+      color: #3cc7f2;
+      filter: drop-shadow(0 0 8px cyan);
+    }
+
+    .tagline {
+      font-size: 1.15rem;
+      color: #9ab9e0;
+      margin-bottom: 2.5rem;
+      border-left: 4px solid #0ff;
+      padding-left: 1.8rem;
+      font-weight: 300;
+      background: linear-gradient(90deg, rgba(0,255,255,0.1), transparent);
+    }
+
+    h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 600;
+      font-size: 1.8rem;
+      letter-spacing: 1px;
+      margin: 2.2rem 0 1rem 0;
+      color: #b7f0ff;
+      border-bottom: 2px solid rgba(0, 255, 255, 0.4);
+      padding-bottom: 0.4rem;
+      display: inline-block;
+      text-shadow: 0 0 5px #0ff;
+    }
+
+    h2 i {
+      color: #0ff;
+      margin-right: 12px;
+      font-size: 2rem;
+      vertical-align: middle;
+    }
+
+    p, li {
+      font-weight: 400;
+      color: #d6e6ff;
+      margin-bottom: 1rem;
+    }
+
+    ul, ol {
+      padding-left: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    li::marker {
+      color: #0ff;
+    }
+
+    .intro-message {
+      font-size: 1.2rem;
+      background: rgba(0, 255, 255, 0.05);
+      padding: 1.8rem 2.2rem;
+      border-radius: 32px;
+      border: 1px dashed #00e0ff;
+      margin: 1.8rem 0 2rem 0;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    }
+
+    a {
+      color: #9effff;
+      text-decoration: none;
+      border-bottom: 1px dotted cyan;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    a:hover {
+      color: white;
+      border-bottom: 2px solid magenta;
+      text-shadow: 0 0 8px magenta;
+    }
+
+    .badge {
+      background: rgba(0, 255, 255, 0.1);
+      border: 1px solid cyan;
+      border-radius: 40px;
+      padding: 0.4rem 1.4rem;
+      font-size: 0.9rem;
+      display: inline-block;
+      margin: 0.5rem 0 1rem 0;
+      color: #bbfffc;
+    }
+
+    .footer-note {
+      margin-top: 3rem;
+      text-align: center;
+      font-size: 0.95rem;
+      color: #7f93b9;
+      border-top: 1px solid rgba(0, 255, 255, 0.2);
+      padding-top: 2rem;
+    }
+
+    .footer-note i {
+      color: #ff66c0;
+    }
+
+    @media (max-width: 600px) {
+      .terms-card {
+        padding: 2rem 1.5rem;
+      }
+      h1 {
+        font-size: 2.2rem;
+      }
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="terms-card">
+    <h1>
+      <i class="fas fa-file-contract"></i> 
+      <span>Terms of Service</span>
+    </h1>
+    <div class="tagline">
+      <i class="fas fa-gavel"></i>  the rules of the game · last updated 2025
+    </div>
+
+    <div class="intro-message">
+      <i class="fas fa-scroll" style="color: #0ff; font-size: 2rem; margin-bottom: 0.8rem; display: block;"></i>
+      <p style="font-size: 1.2rem;">Welcome to GamerX. By accessing or using our website at <strong>parsaj515.github.io</strong> and its subdomains, you agree to be bound by these Terms of Service. Please read them carefully.</p>
+    </div>
+
+    <!-- 1. Acceptance -->
+    <section>
+      <h2><i class="fas fa-check-circle"></i> 1. Acceptance of Terms</h2>
+      <p>By accessing or using any part of GamerX, you agree to be legally bound by these Terms, our <a href="/privacy.html">Privacy Policy</a>, and all applicable laws. If you do not agree, you may not use our services.</p>
+    </section>
+
+    <!-- 2. Changes to Terms -->
+    <section>
+      <h2><i class="fas fa-pen"></i> 2. Changes to Terms</h2>
+      <p>We reserve the right to modify these Terms at any time. Changes will be effective immediately upon posting on this page. Your continued use of GamerX after changes constitutes your acceptance of the new Terms.</p>
+    </section>
+
+    <!-- 3. User Accounts (if applicable) -->
+    <section>
+      <h2><i class="fas fa-user-astronaut"></i> 3. User Accounts & Responsibilities</h2>
+      <p>Some areas of GamerX (like chat) may allow you to create an account or interact with others. You are responsible for:</p>
+      <ul>
+        <li>Maintaining the confidentiality of your account credentials.</li>
+        <li>All activities that occur under your account.</li>
+        <li>Not using the service for any illegal or unauthorized purpose.</li>
+        <li>Respecting other users – no harassment, hate speech, or spam.</li>
+      </ul>
+    </section>
+
+    <!-- 4. Acceptable Use -->
+    <section>
+      <h2><i class="fas fa-shield-halos"></i> 4. Acceptable Use Policy</h2>
+      <p>You agree not to:</p>
+      <ul>
+        <li>Use GamerX to distribute malware, viruses, or harmful code.</li>
+        <li>Attempt to gain unauthorized access to our systems or other users' accounts.</li>
+        <li>Scrape, crawl, or copy content without permission (except for public search engines).</li>
+        <li>Engage in any activity that disrupts or interferes with the site's functionality.</li>
+        <li>Post copyrighted material you do not own.</li>
+      </ul>
+    </section>
+
+    <!-- 5. Intellectual Property -->
+    <section>
+      <h2><i class="fas fa-copyright"></i> 5. Intellectual Property</h2>
+      <p>All content on GamerX – including games, text, graphics, logos, and software – is the property of GamerX or its licensors and is protected by copyright and other laws. You may not reproduce, distribute, or create derivative works without explicit permission.</p>
+      <p>However, tools like the <strong>HTML editor, Python IDE, and obfuscator</strong> are provided for you to create your own content – you retain rights to code you write using those tools.</p>
+    </section>
+
+    <!-- 6. Third-Party Links & Services -->
+    <section>
+      <h2><i class="fas fa-link"></i> 6. Third-Party Links</h2>
+      <p>Our site contains links to third-party websites (e.g., Instagram) and services (e.g., Google AdSense). We are not responsible for the content or practices of these third parties. Your interactions are governed by their terms and policies.</p>
+    </section>
+
+    <!-- 7. Disclaimer of Warranties -->
+    <section>
+      <h2><i class="fas fa-exclamation-triangle"></i> 7. Disclaimer of Warranties</h2>
+      <p>GamerX is provided "as is" and "as available." We make no warranties, expressed or implied, regarding the reliability, accuracy, or availability of the site. We do not guarantee that the site will be error-free, secure, or uninterrupted.</p>
+      <p><strong>Games and tools</strong> are for entertainment and educational purposes – use them at your own risk.</p>
+    </section>
+
+    <!-- 8. Limitation of Liability -->
+    <section>
+      <h2><i class="fas fa-ban"></i> 8. Limitation of Liability</h2>
+      <p>To the fullest extent permitted by law, GamerX and its operators shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the site. In any case, our total liability shall not exceed $100.</p>
+    </section>
+
+    <!-- 9. Indemnification -->
+    <section>
+      <h2><i class="fas fa-shield"></i> 9. Indemnification</h2>
+      <p>You agree to indemnify and hold harmless GamerX, its affiliates, and contributors from any claims, damages, or expenses arising from your violation of these Terms or your use of the site.</p>
+    </section>
+
+    <!-- 10. Termination -->
+    <section>
+      <h2><i class="fas fa-stop"></i> 10. Termination</h2>
+      <p>We reserve the right to suspend or terminate your access to GamerX at any time, without notice, for conduct that we believe violates these Terms or is harmful to other users or the site.</p>
+    </section>
+
+    <!-- 11. Governing Law -->
+    <section>
+      <h2><i class="fas fa-gavel"></i> 11. Governing Law</h2>
+      <p>These Terms shall be governed by the laws of The United States of America, without regard to its conflict of law provisions. Any disputes shall be resolved in the courts of [Your Jurisdiction].</p>
+    </section>
+
+    <!-- 12. Contact Information -->
+    <section>
+      <h2><i class="fas fa-envelope"></i> 12. Contact Us</h2>
+      <p>If you have any questions about these Terms, please reach out:</p>
+      <ul style="list-style: none; padding-left: 0;">
+        <li><i class="fas fa-envelope" style="color:#0ff;"></i> <a href="mailto:jparsa612@gmail.com">jparsa612@gmail.com</a> / <a href="mailto:iammrbeastbackup@gmail.com">iammrbeastbackup@gmail.com</a></li>
+        <li><i class="fab fa-instagram" style="color:#ff77b0;"></i> <a href="https://www.instagram.com/guava_229000/" target="_blank">@guava_229000</a></li>
+      </ul>
+    </section>
+
+    <!-- footer -->
+    <div class="footer-note">
+      <i class="fas fa-crown"></i> GamerX · parsaj515.github.io · <i class="fas fa-dragon"></i> game on, responsibly
+    </div>
+  </div>
+
+  <!-- floating signature -->
+  <div style="position: fixed; bottom: 12px; right: 18px; opacity:0.25; font-size: 0.8rem; color: #6af; pointer-events: none;">
+    <i class="fas fa-file-signature"></i> terms v1
+  </div>
+</body>
+</html>
