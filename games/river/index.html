@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fullscreen Iframe</title>
+    <title>Fullscreen iFrame</title>
     <style>
-        /* Remove default spacing around the page */
+        /* Remove all default margins and padding, and prevent scrolling */
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
             width: 100%;
-            overflow: hidden; /* Prevents double scrollbars */
+            overflow: hidden;
         }
 
-        /* Make the iframe fill the entire viewport */
-        #inlineFrameExample {
+        /* Make the iframe cover the entire window */
+        #fullscreenIframe {
             position: absolute;
             top: 0;
             left: 0;
@@ -27,9 +27,16 @@
 </head>
 <body>
 
+    <!-- 
+        The iframe below is configured to allow fullscreen activation.
+        - allowfullscreen (boolean) enables the Fullscreen API for the embedded content.
+        - allow="fullscreen" is the modern equivalent and may be required for some browsers.
+        - Also included are 'autoplay' and 'keyboard' permissions for better compatibility.
+        Replace the src with any URL you want to embed.
+    -->
     <iframe 
-        id="inlineFrameExample" 
-        title="Inline Frame Example" 
+        id="fullscreenIframe"
+        title="Embedded Content"
         src="https://html-classic.itch.zone/html/7159764/index.html"
         allow="autoplay; fullscreen; keyboard"
         allowfullscreen>
