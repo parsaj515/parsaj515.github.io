@@ -1,6 +1,15 @@
 <!doctype html> 
 <html lang="en">
 <head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HPEGCR53KC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-HPEGCR53KC');
+</script>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 
@@ -233,10 +242,20 @@
     </section>
   </main>
   <script>
-        function cb(response) {
-            document.getElementById('count').innerText = response.value;
-        }
-    </script>
-    <script async src="https://api.countapi.xyz/hit/parsaj515.github.io/visits?callback=cb"></script>
+    // Replace 'parsaj515' with your project name to keep your count unique
+    const namespace = "parsaj515-github-io";
+    const key = "main-counter";
+
+    fetch(`https://api.counterapi.dev/v1/${namespace}/${key}/up`)
+        .then(response => response.json())
+        .then(data => {
+            // This updates the 'count' ID with the real number from the API
+            document.getElementById('count').innerText = data.count;
+        })
+        .catch(err => {
+            console.error("Counter Error:", err);
+            document.getElementById('count').innerText = "Error";
+        });
+</script>
 </body>
 </html>
