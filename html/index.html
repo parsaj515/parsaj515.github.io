@@ -1,38 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Python IDE</title>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1308519039558685"
-     crossorigin="anonymous"></script>
-    <link rel="icon" href="html.ico" type="image/x-icon">
-    <style>
-        body {
-            margin: 0;
-            padding: 20px;
-            height: 100vh;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-        }
-        iframe {
-            flex: 1;
-            width: 100%;
-            height: 100%;
-            border: none;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python IDE</title>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1308519039558685"
+crossorigin="anonymous"></script>
+<link rel="icon" href="html.ico" type="image/x-icon">
+<style>
+    body {
+        margin: 0;
+        padding: 20px;
+        height: 100vh;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        overflow: hidden;
+        position: relative;
+        background: #fff;
+    }
+    iframe {
+        flex: 1;
+        width: 100%;
+        height: 100%;
+        border: none;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .explosion {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: red;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        font-size: 2em;
+        z-index: 9999;
+        opacity: 0;
+        transition: opacity 0.5s;
+        pointer-events: none;
+    }
+</style>
 </head>
 <body>
-    <iframe id="inlineFrameExample" title="Responsive ACSL Python IDE" src="https://onlineide.pro/playground/python"></iframe>
+
+<iframe id="inlineFrameExample" title="Responsive ACSL Python IDE" src="https://onlineide.pro/playground/python"></iframe>
+<div id="explosionContainer" class="explosion"></div>
+
+<script>
+let lastRightClick = 0;
+let clickCount = 0;
+
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault(); // prevent the default right-click menu
+    const now = Date.now();
+
+    if (now - lastRightClick < 400) { // double right-click within 400ms
+        clickCount++;
+    } else {
+        clickCount = 1;
+    }
+
+    lastRightClick = now;
+
+    if (clickCount === 2) {
+        triggerExplosion();
+        clickCount = 0;
+    }
+});
+
+function triggerExplosion() {
+    const container = document.getElementById('explosionContainer');
+    container.innerHTML = '';
+
+    // create a bunch of toe emojis
+    for (let i = 0; i < 200; i++) {
+        const span = document.createElement('span');
+        span.textContent = '🦶';
+        span.style.position = 'absolute';
+        span.style.left = Math.random() * window.innerWidth + 'px';
+        span.style.top = Math.random() * window.innerHeight + 'px';
+        span.style.fontSize = (Math.random() * 40 + 20) + 'px';
+        span.style.transform = `rotate(${Math.random()*360}deg)`;
+        container.appendChild(span);
+    }
+
+    container.style.opacity = '1';
+
+    // Animate the emojis flying out
+    const spans = container.querySelectorAll('span');
+    spans.forEach(span => {
+        const x = (Math.random() - 0.5) * 2000;
+        const y = (Math.random() - 0.5) * 2000;
+        span.animate([
+            { transform: span.style.transform },
+            { transform: `translate(${x}px, ${y}px) rotate(${Math.random()*720}deg)` }
+        ], { duration: 1500, easing: 'ease-out', fill: 'forwards' });
+    });
+
+    // Flash red background
+    document.body.animate([
+        { backgroundColor: '#fff' },
+        { backgroundColor: '#ff0000' },
+        { backgroundColor: '#fff' }
+    ], { duration: 500, iterations: 1 });
+
+    // remove explosion after 2 seconds
+    setTimeout(() => container.style.opacity = '0', 2000);
+}
+</script>
+
 </body>
 </html>
