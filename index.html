@@ -1,465 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-HPEGCR53KC"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GamerX · Home</title>
 
-  gtag('config', 'G-HPEGCR53KC');
-</script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GamerX · Home</title>
-  <!-- same font & icon set -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    /* ----- base (same vibe, slightly more airy) ----- */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" crossorigin="anonymous"></script>
 
-    body {
-      background: #0b0c14;
-      background-image: 
-        radial-gradient(circle at 10% 20%, rgba(45, 160, 240, 0.06) 0%, transparent 30%),
-        radial-gradient(circle at 90% 75%, rgba(200, 60, 255, 0.06) 0%, transparent 35%),
-        repeating-linear-gradient(45deg, rgba(0, 255, 255, 0.02) 0px, rgba(0, 255, 255, 0.02) 1px, transparent 1px, transparent 6px);
-      font-family: 'Poppins', sans-serif;
-      color: #e2e8f0;
-      line-height: 1.5;
-      min-height: 100vh;
-      padding: 2rem 1.5rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+<!-- Fonts & Icons -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    .home-container {
-      max-width: 1300px;
-      width: 100%;
-    }
-
-    /* ----- glass card for header / sections ----- */
-    .glass-panel {
-      background: rgba(12, 18, 34, 0.7);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(0, 255, 255, 0.15);
-      border-radius: 38px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 255, 255, 0.1) inset;
-      transition: all 0.2s ease;
-    }
-
-    .glass-panel:hover {
-      border-color: rgba(0, 255, 255, 0.3);
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), 0 0 0 2px rgba(255, 0, 255, 0.15) inset;
-    }
-
-    /* ----- header ----- */
-    .hero {
-      padding: 2.5rem 2.8rem;
-      margin-bottom: 3rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 2rem;
-    }
-
-    .logo-block h1 {
-      font-family: 'Orbitron', sans-serif;
-      font-weight: 800;
-      font-size: 3.2rem;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      background: linear-gradient(135deg, #a5f0ff, #c084fc, #ffb6ff);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      text-shadow: 0 0 20px cyan;
-      line-height: 1.2;
-    }
-
-    .logo-block h1 i {
-      color: #3cc7f2;
-      font-size: 3rem;
-      margin-right: 10px;
-      filter: drop-shadow(0 0 8px cyan);
-    }
-
-    .mission-tag {
-      font-size: 1.1rem;
-      color: #9ab9e0;
-      border-left: 4px solid #0ff;
-      padding-left: 1.5rem;
-      background: linear-gradient(90deg, rgba(0,255,255,0.1), transparent);
-      max-width: 450px;
-    }
-
-    /* ----- grid of tools (minimal, clean) ----- */
-    .section-title {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 2rem;
-      margin: 2.5rem 0 1.8rem 0;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: #b7f0ff;
-      text-shadow: 0 0 5px #0ff;
-      border-bottom: 2px solid rgba(0, 255, 255, 0.3);
-      padding-bottom: 0.4rem;
-      width: fit-content;
-    }
-
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 1.6rem;
-    }
-
-    .tool-card {
-      background: rgba(16, 22, 40, 0.7);
-      backdrop-filter: blur(6px);
-      border: 1px solid rgba(0, 255, 255, 0.2);
-      border-radius: 30px;
-      padding: 1.5rem 1.2rem;
-      transition: all 0.15s;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.4);
-    }
-
-    .tool-card:hover {
-      transform: translateY(-4px);
-      border-color: #ff77b0;
-      box-shadow: 0 18px 30px rgba(200, 0, 255, 0.3);
-    }
-
-    .tool-icon {
-      font-size: 2.2rem;
-      margin-bottom: 0.8rem;
-      color: #0ff;
-      filter: drop-shadow(0 0 8px cyan);
-      background: rgba(0,255,255,0.1);
-      width: 50px;
-      height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 20px;
-      border: 1px solid cyan;
-    }
-
-    .tool-card h3 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 1.3rem;
-      font-weight: 600;
-      margin-bottom: 0.4rem;
-      color: #ffffff;
-    }
-
-    .tool-desc {
-      font-size: 0.9rem;
-      color: #b0c9f0;
-      margin-bottom: 1rem;
-      line-height: 1.4;
-      flex: 1;
-    }
-
-    .tool-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem 0.8rem;
-      font-size: 0.75rem;
-      color: #7bc5d5;
-      border-top: 1px dashed rgba(0,255,255,0.3);
-      padding-top: 0.7rem;
-      margin-top: 0.2rem;
-    }
-
-    .tool-tags i {
-      margin-right: 3px;
-      font-size: 0.6rem;
-      color: magenta;
-    }
-
-    .tool-link {
-      text-decoration: none;
-      color: inherit;
-      display: block;
-    }
-
-    /* snippet preview (for fun, minimalist) */
-    .preview-ribbon {
-      margin: 3rem 0 2rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-      justify-content: space-between;
-    }
-
-    .preview-item {
-      background: rgba(0, 0, 0, 0.3);
-      border-radius: 28px;
-      padding: 1.4rem 2rem;
-      border: 1px solid rgba(0, 255, 255, 0.15);
-      flex: 1 1 260px;
-      backdrop-filter: blur(4px);
-    }
-
-    .preview-item i {
-      color: #0ff;
-      margin-right: 8px;
-    }
-
-    .preview-code {
-      font-family: 'Monaco', monospace;
-      font-size: 0.8rem;
-      color: #a0f0f0;
-      background: #111a22;
-      padding: 0.6rem;
-      border-radius: 12px;
-      border: 1px solid cyan;
-      overflow-x: auto;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-
-    /* ----- footer (with links to policy pages) ----- */
-    .site-footer {
-      margin-top: 4rem;
-      padding: 2.2rem 2rem;
-      background: rgba(8, 12, 24, 0.8);
-      backdrop-filter: blur(10px);
-      border-radius: 38px;
-      border: 1px solid rgba(255, 0, 255, 0.2);
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1.8rem;
-    }
-
-    .footer-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2rem;
-    }
-
-    .footer-links a {
-      color: #b4d0ff;
-      text-decoration: none;
-      border-bottom: 1px dotted cyan;
-      font-weight: 500;
-      transition: 0.2s;
-    }
-
-    .footer-links a:hover {
-      color: white;
-      border-bottom: 2px solid magenta;
-    }
-
-    .social a {
-      color: #ff99cc;
-      font-size: 1.8rem;
-      margin-left: 1rem;
-      border: none;
-    }
-
-    .social a:hover {
-      color: #0ff;
-      text-shadow: 0 0 15px magenta;
-    }
-
-    hr {
-      border: 0.5px solid rgba(0,255,255,0.2);
-      margin: 2rem 0 1rem;
-    }
-
-    @media (max-width: 600px) {
-      .hero {
-        padding: 1.8rem;
-      }
-      .logo-block h1 {
-        font-size: 2.4rem;
-      }
-      .section-title {
-        font-size: 1.8rem;
-      }
-    }
-  </style>
+<style>
+/* ----- base ----- */
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#0b0c14;font-family:'Poppins',sans-serif;color:#e2e8f0;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:2rem 1.5rem;}
+.home-container{max-width:1300px;width:100%;}
+.glass-panel{background:rgba(12,18,34,0.7);backdrop-filter:blur(12px);border:1px solid rgba(0,255,255,0.15);border-radius:38px;box-shadow:0 20px 40px rgba(0,0,0,0.6),0 0 0 1px rgba(0,255,255,0.1) inset;transition:all 0.2s ease;}
+.glass-panel:hover{border-color:rgba(0,255,255,0.3);box-shadow:0 25px 50px rgba(0,0,0,0.8),0 0 0 2px rgba(255,0,255,0.15) inset;}
+.hero{padding:2.5rem 2.8rem;margin-bottom:3rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:2rem;}
+.logo-block h1{font-family:'Orbitron',sans-serif;font-weight:800;font-size:3.2rem;text-transform:uppercase;letter-spacing:3px;background:linear-gradient(135deg,#a5f0ff,#c084fc,#ffb6ff);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 20px cyan;line-height:1.2;}
+.logo-block h1 i{color:#3cc7f2;font-size:3rem;margin-right:10px;filter:drop-shadow(0 0 8px cyan);}
+.mission-tag{font-size:1.1rem;color:#9ab9e0;border-left:4px solid #0ff;padding-left:1.5rem;background:linear-gradient(90deg, rgba(0,255,255,0.1), transparent);max-width:450px;}
+.section-title{font-family:'Orbitron',sans-serif;font-size:2rem;margin:2.5rem 0 1.8rem 0;display:flex;align-items:center;gap:10px;color:#b7f0ff;text-shadow:0 0 5px #0ff;border-bottom:2px solid rgba(0,255,255,0.3);padding-bottom:0.4rem;width:fit-content;}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.6rem;}
+.tool-card{background:rgba(16,22,40,0.7);backdrop-filter:blur(6px);border:1px solid rgba(0,255,255,0.2);border-radius:30px;padding:1.5rem 1.2rem;transition:all 0.15s;display:flex;flex-direction:column;box-shadow:0 8px 16px rgba(0,0,0,0.4);cursor:pointer;}
+.tool-card:hover{transform:translateY(-4px);border-color:#ff77b0;box-shadow:0 18px 30px rgba(200,0,255,0.3);}
+.tool-icon{font-size:2.2rem;margin-bottom:0.8rem;color:#0ff;filter:drop-shadow(0 0 8px cyan);background:rgba(0,255,255,0.1);width:50px;height:50px;display:flex;align-items:center;justify-content:center;border-radius:20px;border:1px solid cyan;}
+.tool-card h3{font-family:'Orbitron',sans-serif;font-size:1.3rem;font-weight:600;margin-bottom:0.4rem;color:#ffffff;}
+.tool-desc{font-size:0.9rem;color:#b0c9f0;margin-bottom:1rem;line-height:1.4;flex:1;}
+.tool-tags{display:flex;flex-wrap:wrap;gap:0.4rem 0.8rem;font-size:0.75rem;color:#7bc5d5;border-top:1px dashed rgba(0,255,255,0.3);padding-top:0.7rem;margin-top:0.2rem;}
+.tool-tags i{margin-right:3px;font-size:0.6rem;color:magenta;}
+.site-footer{margin-top:4rem;padding:2.2rem 2rem;background:rgba(8,12,24,0.8);backdrop-filter:blur(10px);border-radius:38px;border:1px solid rgba(255,0,255,0.2);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.8rem;}
+.footer-links{display:flex;flex-wrap:wrap;gap:2rem;}
+.footer-links a{color:#b4d0ff;text-decoration:none;border-bottom:1px dotted cyan;font-weight:500;transition:0.2s;}
+.footer-links a:hover{color:white;border-bottom:2px solid magenta;}
+.social a{color:#ff99cc;font-size:1.8rem;margin-left:1rem;border:none;}
+.social a:hover{color:#0ff;text-shadow:0 0 15px magenta;}
+hr{border:0.5px solid rgba(0,255,255,0.2);margin:2rem 0 1rem;}
+.video-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);display:flex;justify-content:center;align-items:center;z-index:9999;display:none;}
+.video-overlay iframe{max-width:90%;max-height:80%;border:3px solid cyan;border-radius:20px;}
+.video-overlay .close-btn{position:absolute;top:15px;right:20px;font-size:2rem;color:white;cursor:pointer;}
+@media(max-width:600px){.hero{padding:1.8rem}.logo-block h1{font-size:2.4rem}.section-title{font-size:1.8rem;}}
+</style>
 </head>
+
 <body>
-  <div class="home-container">
-    <!-- hero header -->
-    <header class="hero glass-panel">
-      <div class="logo-block">
-        <h1><i class="fas fa-dragon"></i> GamerX</h1>
-        <div class="mission-tag">
-          <i class="fas fa-compass"></i> unblocked games · tools · practice · chat
-        </div>
-      </div>
-      <div style="color:#8aa6d0; font-size:1rem;">
-        <i class="fas fa-shield-halos"></i> your hub, since 2024
-      </div>
-    </header>
+<div class="home-container">
 
-    <!-- MAIN CARDS: all the cool paths (minimal grid) -->
-    <div class="section-title"><i class="fas fa-cubes"></i> explore tools & games</div>
-    
-    <div class="card-grid">
-      <!-- games -->
-      <a href="/games" class="tool-link" target="_blank">
-        <div class="tool-card">
-          <div class="tool-icon"><i class="fas fa-gamepad"></i></div>
-          <h3>Playground</h3>
-          <div class="tool-desc">Quick casual games – Slope, 2048, Cookie Clicker, Crossy Road & more.</div>
-          <div class="tool-tags"><i class="fas fa-tag"></i> chapter game · minecraft-like · driving chaos</div>
-        </div>
-      </a>
-
-      <!-- chat -->
-      <a href="/chat" class="tool-link" target="_blank">
-        <div class="tool-card">
-          <div class="tool-icon"><i class="fas fa-comment-dots"></i></div>
-          <h3>NeuraChat</h3>
-          <div class="tool-desc">Encrypted chat with admin dashboard, user management, and live counts.</div>
-          <div class="tool-tags"><i class="fas fa-tag"></i> 0 online · super chat 🔒</div>
-        </div>
-      </a>
-
-      <!-- race (PICO-8) -->
-      <a href="/race" class="tool-link" target="_blank">
-        <div class="tool-card">
-          <div class="tool-icon"><i class="fas fa-car"></i></div>
-          <h3>PICO‑8 Race</h3>
-          <div class="tool-desc">Retro-style racing cartridge – pure PICO‑8 vibes.</div>
-          <div class="tool-tags"><i class="fas fa-tag"></i> racing · 8‑bit</div>
-        </div>
-      </a>
-
-      <!-- python ide (/html) -->
-      <a href="/html" class="tool-link" target="_blank">
-        <div class="tool-card">
-          <div class="tool-icon"><i class="fab fa-python"></i></div>
-          <h3>Python IDE</h3>
-          <div class="tool-desc">Write and run Python code in your browser. Quick and lightweight.</div>
-          <div class="tool-tags"><i class="fas fa-tag"></i> ide · python</div>
-        </div>
-      </a>
-
-      <!-- about-blank.html -->
-      <a href="/about-blank.html" class="tool-link" target="_blank">
-        <div class="tool-card">
-          <div class="tool-icon"><i class="fas fa-window-maximize"></i></div>
-          <h3>about:blank</h3>
-          <div class="tool-desc">Generate about:blank pages – simple, clean slates.</div>
-          <div class="tool-tags"><i class="fas fa-tag"></i> blank · utility</div>
-        </div>
-      </a>
-
-      <!-- AMC8 practice -->
-      <a href="/amc8.html" class="tool-link" target="_blank">
-        <div class="tool-card">
-          <div class="tool-icon"><i class="fas fa-calculator"></i></div>
-          <h3>AMC 8 master</h3>
-          <div class="tool-desc">Interactive practice: sequences, stars & bars, binomials, probability.</div>
-          <div class="tool-tags"><i class="fas fa-tag"></i> math · olympiad · drills</div>
-        </div>
-      </a>
-
-      <!-- codebusters -->
-      <a href="/codebusters.html" class="tool-link" target="_blank">
-        <div class="tool-card">
-          <div class="tool-icon"><i class="fas fa-key"></i></div>
-          <h3>CodeBusters</h3>
-          <div class="tool-desc">Science Olympiad – practice ciphers, frequencies, and busting codes.</div>
-          <div class="tool-tags"><i class="fas fa-tag"></i> cipher · so</div>
-        </div>
-      </a>
-
-      <!-- html editor -->
-      <a href="/html-editor.html" class="tool-link" target="_blank">
-        <div class="tool-card">
-          <div class="tool-icon"><i class="fas fa-code"></i></div>
-          <h3>HTML editor</h3>
-          <div class="tool-desc">Live HTML/CSS preview – tinker and see results instantly.</div>
-          <div class="tool-tags"><i class="fas fa-tag"></i> frontend · sandbox</div>
-        </div>
-      </a>
-
-      <!-- html minifier -->
-      <a href="/html-minifier.html" class="tool-link" target="_blank">
-        <div class="tool-card">
-          <div class="tool-icon"><i class="fas fa-compress-alt"></i></div>
-          <h3>HTML minifier</h3>
-          <div class="tool-desc">Compress your HTML – remove whitespace, optimise.</div>
-          <div class="tool-tags"><i class="fas fa-tag"></i> minify · tool</div>
-        </div>
-      </a>
-
-      <!-- java ide -->
-      <a href="/java.html" class="tool-link" target="_blank">
-        <div class="tool-card">
-          <div class="tool-icon"><i class="fab fa-java"></i></div>
-          <h3>Java IDE</h3>
-          <div class="tool-desc">Run Java with Scanner, real popup input. Example snippet ready.</div>
-          <div class="tool-tags"><i class="fas fa-tag"></i> java · scanner</div>
-        </div>
-      </a>
-
-      <!-- obfuscator -->
-      <a href="/obfuscator.html" class="tool-link" target="_blank">
-        <div class="tool-card">
-          <div class="tool-icon"><i class="fas fa-mask"></i></div>
-          <h3>Code obfuscator</h3>
-          <div class="tool-desc">Obfuscate JavaScript, Python, or other – make code unreadable.</div>
-          <div class="tool-tags"><i class="fas fa-tag"></i> obfuscate · security</div>
-        </div>
-      </a>
-    </div>
-
-    <!-- tiny preview snippet from actual content (minimalist) -->
-    <div class="preview-ribbon">
-      <div class="preview-item glass-panel" style="padding:1.2rem;">
-        <i class="fas fa-dice-d20"></i> <strong>AMC8 sample:</strong> 
-        <div style="margin-top:8px;">Sequence 2,7,14,23… hint: second differences constant → quadratic.</div>
-      </div>
-      <div class="preview-item glass-panel" style="padding:1.2rem;">
-        <i class="fas fa-terminal"></i> <strong>Java IDE:</strong>
-        <div class="preview-code">Scanner sc = new Scanner(System.in);<br>String name = sc.nextLine();</div>
-      </div>
-      <div class="preview-item glass-panel" style="padding:1.2rem;">
-        <i class="fas fa-comment"></i> <strong>NeuraChat:</strong> online: 0 · admin panel ready
-      </div>
-    </div>
-
-    <!-- FOOTER with links to privacy, about, contact (as requested) -->
-    <footer class="site-footer">
-      <div class="footer-links">
-        <a href="/privacy-policy"><i class="fas fa-lock"></i> Privacy</a>
-        <a href="/about-us"><i class="fas fa-dragon"></i> About</a>
-        <a href="/contact-us"><i class="fas fa-envelope"></i> Contact</a>
-		<a href="/terms-of-service"><i class="fas fa-file-contract"></i> Terms of Service</a>
-        <a href="https://www.instagram.com/guava_229000/" target="_blank"><i class="fab fa-instagram"></i> Insta</a>
-      </div>
-      <div style="color:#6c86a6; font-size:0.9rem;">
-        <i class="fas fa-crown"></i> parsaj515.github.io & subdomains
-      </div>
-    </footer>
-
-    <!-- tiny extra note: all paths are relative, open in same/new tab? we used target="_blank" for cards, but you can change -->
-    <div style="text-align: right; font-size:0.8rem; margin-top:1rem; opacity:0.5">
-      <i class="fas fa-ghost"></i> minimalist hub v1
-    </div>
+<!-- HEADER -->
+<header class="hero glass-panel">
+  <div class="logo-block">
+    <h1><i class="fas fa-dragon"></i> GamerX</h1>
+    <div class="mission-tag"><i class="fas fa-compass"></i> unblocked games · tools · practice · chat</div>
   </div>
+  <div style="color:#8aa6d0;font-size:1rem;"><i class="fas fa-shield-halved"></i> your hub, since 2024</div>
+</header>
+
+<!-- HEADER VIDEO AD -->
+<ins class="adsbygoogle"
+     style="display:block; text-align:center; margin:1rem 0;"
+     data-ad-client="ca-pub-YOUR_PUB_ID"
+     data-ad-slot="VIDEO_SLOT_1"
+     data-ad-format="autorelaxed"
+     data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+<!-- TOOL CARDS GRID -->
+<div class="section-title"><i class="fas fa-cubes"></i> explore tools & games</div>
+<div class="card-grid">
+
+  <!-- CARD 1: Playground -->
+  <div class="tool-card" onclick="playAdVideo('VIDEO_SLOT_2')">
+    <div class="tool-icon"><i class="fas fa-gamepad"></i></div>
+    <h3>Playground</h3>
+    <div class="tool-desc">Quick casual games – Slope, 2048, Cookie Clicker, Crossy Road & more.</div>
+    <div class="tool-tags"><i class="fas fa-tag"></i> chapter game · minecraft-like · driving chaos</div>
+  </div>
+
+  <!-- CARD 2: NeuraChat -->
+  <div class="tool-card" onclick="playAdVideo('VIDEO_SLOT_3')">
+    <div class="tool-icon"><i class="fas fa-comment-dots"></i></div>
+    <h3>NeuraChat</h3>
+    <div class="tool-desc">Encrypted chat with admin dashboard, user management, and live counts.</div>
+    <div class="tool-tags"><i class="fas fa-tag"></i> 0 online · super chat 🔒</div>
+  </div>
+
+  <!-- CARD 3: PICO‑8 Race -->
+  <div class="tool-card" onclick="playAdVideo('VIDEO_SLOT_4')">
+    <div class="tool-icon"><i class="fas fa-car"></i></div>
+    <h3>PICO‑8 Race</h3>
+    <div class="tool-desc">Retro-style racing cartridge – pure PICO‑8 vibes.</div>
+    <div class="tool-tags"><i class="fas fa-tag"></i> racing · 8‑bit</div>
+  </div>
+
+  <!-- CARD 4: Python IDE -->
+  <div class="tool-card" onclick="playAdVideo('VIDEO_SLOT_5')">
+    <div class="tool-icon"><i class="fab fa-python"></i></div>
+    <h3>Python IDE</h3>
+    <div class="tool-desc">Write and run Python code in your browser. Quick and lightweight.</div>
+    <div class="tool-tags"><i class="fas fa-tag"></i> ide · python</div>
+  </div>
+
+  <!-- CARD 5: about:blank -->
+  <div class="tool-card" onclick="playAdVideo('VIDEO_SLOT_6')">
+    <div class="tool-icon"><i class="fas fa-window-maximize"></i></div>
+    <h3>about:blank</h3>
+    <div class="tool-desc">Generate about:blank pages – simple, clean slates.</div>
+    <div class="tool-tags"><i class="fas fa-tag"></i> blank · utility</div>
+  </div>
+
+  <!-- CARD 6: AMC 8 master -->
+  <div class="tool-card" onclick="playAdVideo('VIDEO_SLOT_7')">
+    <div class="tool-icon"><i class="fas fa-calculator"></i></div>
+    <h3>AMC 8 master</h3>
+    <div class="tool-desc">Interactive practice: sequences, stars & bars, binomials, probability.</div>
+    <div class="tool-tags"><i class="fas fa-tag"></i> math · olympiad · drills</div>
+  </div>
+
+  <!-- CARD 7: CodeBusters -->
+  <div class="tool-card" onclick="playAdVideo('VIDEO_SLOT_8')">
+    <div class="tool-icon"><i class="fas fa-key"></i></div>
+    <h3>CodeBusters</h3>
+    <div class="tool-desc">Science Olympiad – practice ciphers, frequencies, and busting codes.</div>
+    <div class="tool-tags"><i class="fas fa-tag"></i> cipher · so</div>
+  </div>
+
+  <!-- CARD 8: HTML Editor -->
+  <div class="tool-card" onclick="playAdVideo('VIDEO_SLOT_9')">
+    <div class="tool-icon"><i class="fas fa-code"></i></div>
+    <h3>HTML editor</h3>
+    <div class="tool-desc">Live HTML/CSS preview – tinker and see results instantly.</div>
+    <div class="tool-tags"><i class="fas fa-tag"></i> frontend · sandbox</div>
+  </div>
+
+  <!-- CARD 9: HTML Minifier -->
+  <div class="tool-card" onclick="playAdVideo('VIDEO_SLOT_10')">
+    <div class="tool-icon"><i class="fas fa-compress-alt"></i></div>
+    <h3>HTML minifier</h3>
+    <div class="tool-desc">Compress your HTML – remove whitespace, optimize.</div>
+    <div class="tool-tags"><i class="fas fa-tag"></i> minify · tool</div>
+  </div>
+
+  <!-- CARD 10: Java IDE -->
+  <div class="tool-card" onclick="playAdVideo('VIDEO_SLOT_11')">
+    <div class="tool-icon"><i class="fab fa-java"></i></div>
+    <h3>Java IDE</h3>
+    <div class="tool-desc">Run Java with Scanner, real popup input. Example snippet ready.</div>
+    <div class="tool-tags"><i class="fas fa-tag"></i> java · scanner</div>
+  </div>
+
+  <!-- CARD 11: Code Obfuscator -->
+  <div class="tool-card" onclick="playAdVideo('VIDEO_SLOT_12')">
+    <div class="tool-icon"><i class="fas fa-mask"></i></div>
+    <h3>Code obfuscator</h3>
+    <div class="tool-desc">Obfuscate JavaScript, Python, or other – make code unreadable.</div>
+    <div class="tool-tags"><i class="fas fa-tag"></i> obfuscate · security</div>
+  </div>
+
+</div>
+
+<!-- FOOTER VIDEO AD -->
+<ins class="adsbygoogle"
+     style="display:block; text-align:center; margin:2rem 0;"
+     data-ad-client="ca-pub-YOUR_PUB_ID"
+     data-ad-slot="VIDEO_SLOT_13"
+     data-ad-format="autorelaxed"
+     data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="#"><i class="fas fa-lock"></i> Privacy</a>
+    <a href="#"><i class="fas fa-dragon"></i> About</a>
+    <a href="#"><i class="fas fa-envelope"></i> Contact</a>
+    <a href="#"><i class="fas fa-file-contract"></i> Terms</a>
+  </div>
+</footer>
+
+<!-- FLOATING VIDEO AD -->
+<ins class="adsbygoogle"
+     style="display:block; position:fixed; bottom:10px; right:10px; width:120px; height:240px; z-index:9999;"
+     data-ad-client="ca-pub-YOUR_PUB_ID"
+     data-ad-slot="VIDEO_SLOT_14"
+     data-ad-format="autorelaxed"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+<!-- VIDEO OVERLAY -->
+<div class="video-overlay" id="videoOverlay">
+  <span class="close-btn" onclick="closeVideo()">&times;</span>
+  <ins class="adsbygoogle" id="popupVideoAd"
+       style="display:block; width:80%; height:80%;"
+       data-ad-client="ca-pub-YOUR_PUB_ID"
+       data-ad-slot=""
+       data-ad-format="autorelaxed"></ins>
+</div>
+
+</div>
+
+<script>
+function playAdVideo(slotId){
+    const overlay = document.getElementById('videoOverlay');
+    const adFrame = document.getElementById('popupVideoAd');
+    adFrame.setAttribute('data-ad-slot', slotId); 
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    overlay.style.display = 'flex';
+}
+function closeVideo(){
+    const overlay = document.getElementById('videoOverlay');
+    overlay.style.display = 'none';
+}
+</script>
 </body>
 </html>
